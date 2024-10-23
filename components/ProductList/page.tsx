@@ -2,14 +2,14 @@ import './ProductList.css'
 import { IoMdSearch } from "react-icons/io";
 import ItemList from './ItemList/page';
 
-export default function ProductList(){
+interface Item {
+    id: number;
+    name: string;
+    value: number;
+    image: string;
+  }
 
-    interface Item {
-        id: number;
-        name: string;
-        value: number;
-        image: string;
-      }
+export default function ProductList(){
       
       const data: Item[] = [
         { id: 1, name: 'Apple iPhone 13', value: 799.99, image: 'https://images.app.goo.gl/dABttVzkbYf89uxU7' },
@@ -38,9 +38,21 @@ export default function ProductList(){
   return (
     <div>
         <h1>Lista de Produtos</h1>
-        <div className='lista-produtos'>
-            <div id='topo-lista'>
-                <input type="text" placeholder='Digite o produto...' />
+        <div 
+        className='
+        flex flex-col
+        w-[500px] h-[400px] rounded-md
+        bg-[#B8FFF7]
+        overflow-hidden
+        '>
+            <div id='topo-lista' className='flex'>
+                <input type="text" placeholder='Digite o produto...' 
+                className='
+                flex flex-grow
+                bg-[#198A83] placeholder-[#46b0a9]
+                text-white text-lg
+                h-8 pl-2 hover:bg-[#189890]
+                '/>
                 <button><IoMdSearch /></button>
             </div>
             <div>

@@ -1,18 +1,19 @@
-.lista-produtos{
+/* .lista-produtos{
     background-color: #B8FFF7;
     padding: 0;
     width: 500px;
     height: 400px;
     border-radius: 3px;
-    overflow: hidden; /* Garante que os filhos respeitem o border-radius */
+    overflow: hidden;  Garante que os filhos respeitem o border-radius 
     display: flex;
     flex-direction: column;
-}
-#topo-lista{
+} */
+ 
+/* #topo-lista{
     display: flex;
     width: 100%;
     box-sizing: border-box;
-}
+} */
 h1{
     margin: 0;
     padding: 0;
@@ -21,21 +22,22 @@ h1{
     color: #198A83;
 }
 
-#topo-lista input{
+/* #topo-lista input{
     display: flex;
     background-color: #198A83;
-    flex-grow: 1; /* Faz o input crescer para ocupar o máximo de espaço */
+    flex-grow: 1; Faz o input crescer para ocupar o máximo de espaço
     border: 0;
     height: 30px;
     font-size: 18px;
     color: white;
-}
-#topo-lista input::placeholder{
+} */
+
+/* #topo-lista input::placeholder{
     color: #46b0a9;
-}
-#topo-lista input:hover{
+} */
+/* #topo-lista input:hover{
     background-color: #189890;
-}
+} */
 #topo-lista button{
     background-color: #198A83;
     width: 30px;
