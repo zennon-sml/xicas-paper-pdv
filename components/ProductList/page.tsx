@@ -40,7 +40,7 @@ export default function ProductList(){
         <div 
         className='
         flex flex-col
-        w-[500px] h-[400px] rounded-md
+        max-w-[500px] max-h-[400px] rounded-md
         bg-[#B8FFF7]
         overflow-hidden
         '>
