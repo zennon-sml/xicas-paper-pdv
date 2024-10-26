@@ -33,49 +33,30 @@ interface Item {
   ];
 
 
-export default function ProductList(){
-  return (
-    <div>
-        <label className='text-sm text-[#198A83]'>Lista de Produtos</label>
-        <div 
-        className='
-        flex flex-col
-        max-w-[500px] max-h-[400px] rounded-md
-        bg-[#B8FFF7]
-        overflow-hidden
-        '>
-            <div className='flex'>
-                <input type="text" placeholder='Digite o produto...' 
-                className='
-                flex flex-grow
-                bg-[#198A83] placeholder-[#46b0a9]
-                text-white text-lg
-                h-8 pl-2 hover:bg-[#189890]
-                '/>
-                <button className='
-                flex flex-shrink cursor-pointer
-                w-8 bg-[#198A83] 
-                text-white text-xl items-center justify-center
-                hover:bg-[#19a097]
-                '>
-                  <IoMdSearch />
-                </button>
-            </div>
-            <div>
-                <ul className='
-                 p-2 h-[369px]
-                 overflow-auto
-                '>
-                    {data.map(prod => (
-                        <ItemList 
-                            key={prod.id}
-                            name={prod.name}
-                            value={prod.value}
-                        />
-                    ))}
-                </ul>
-            </div>
+  export default function ProductList() {
+    return (
+      <div className=" flex flex-col overflow-hidden max-w-[500px]">
+        <label className="text-sm text-[#198A83]">Lista de Produtos</label>
+        <div className="flex flex-col flex-grow bg-[#B8FFF7] rounded-md overflow-hidden">
+          <div className="flex">
+            <input
+              type="text"
+              placeholder="Digite o produto..."
+              className="flex-grow bg-[#198A83] placeholder-[#46b0a9] text-white text-lg h-8 pl-2 hover:bg-[#189890]"
+            />
+            <button className="w-8 bg-[#198A83] text-white text-xl flex items-center justify-center hover:bg-[#19a097]">
+              <IoMdSearch />
+            </button>
+          </div>
+          <div className="flex-grow overflow-auto">
+            <ul className="
+            p-2 space-y-2">
+              {data.map((prod) => (
+                <ItemList key={prod.id} name={prod.name} value={prod.value} />
+              ))}
+            </ul>
+          </div>
         </div>
-    </div>
-  )
-}
+      </div>
+    );
+  }

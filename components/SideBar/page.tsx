@@ -16,16 +16,19 @@ export default function SideBar() {
     	  items-center justify-center
         hover:bg-[#8BE8DC]
         '><IoMenu /></button>
+
         <button className='
         flex w-12 h-12 text-[#198A83]
         text-xl items-center justify-center
         hover:bg-[#8BE8DC]
         '><FaShoppingCart /></button>
+
         <button className='
         flex w-12 h-12 text-[#198A83]
         text-xl items-center justify-center
         hover:bg-[#8BE8DC]
         '><FaDatabase /></button>
+        
         <button className='
         flex w-12 h-12 text-[#198A83]
         text-xl items-center justify-center

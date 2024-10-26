@@ -2,8 +2,8 @@ import React from 'react'
 
 export default function ItemProperties(){
   return (
-    <div className='flex justify-between max-w-[500px] max-h-[250px]'>
-        <div className='flex flex-col justify-between w-44 mt-3'>
+    <div className='flex justify-between max-w-[500px] mt-3 mb-2'>
+        <div className='flex flex-col justify-between w-44'>
           <div>
             <label className='text-sm text-[#198A83]'>Valor Unit. Produto:</label>
             <input 
@@ -15,7 +15,7 @@ export default function ItemProperties(){
               />
           </div>
           <div>
-            <label className='text-sm text-[#198A83] mt-5'>Quantidade:</label>
+            <label className='text-sm text-[#198A83]'>Quantidade:</label>
             <input type="number" 
               className=' 
               w-44 h-9 p-2
@@ -24,7 +24,7 @@ export default function ItemProperties(){
               />
           </div>
           <div>
-            <label className='text-sm text-[#198A83] mt-5'>Valor Total. Produto:</label>
+            <label className='text-sm text-[#198A83]'>Valor Total. Produto:</label>
             <input type="text" disabled/* readOnly */
             className=' 
             w-44 h-11 p-2
@@ -38,7 +38,7 @@ export default function ItemProperties(){
             className='
             flex flex-col items-center
             border border-[#3BDCD2] bg-[#3BDCD2]
-            w-[185px] h-56 mt-3 pt-[4px] rounded-md
+            w-[185px] h-56 pt-[4px] rounded-md
             '>
               <img alt="img-vazia" 
               className='

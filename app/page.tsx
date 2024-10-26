@@ -4,10 +4,12 @@ import ItemProperties from '../components/ItemProperties/page';
 
 export default function Home() {
   return (
-    <div className="">
+    <div>
       <SideBar />
-      <ProductList />
-      <ItemProperties />
+      <div className='flex flex-col h-screen'>
+        <ProductList />
+        <ItemProperties />
+      </div>
     </div>
   );
 }
