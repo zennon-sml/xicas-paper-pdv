@@ -5,10 +5,10 @@ interface Item {
     id: number;
     name: string;
     value: number;
-    image: string;
+    image?: string;
   }
 
-const data: Item[] = [
+const products = [
   { id: 1, name: 'Apple iPhone 13', value: 799.99, image: 'https://images.app.goo.gl/dABttVzkbYf89uxU7' },
   { id: 2, name: 'Samsung Galaxy S21', value: 699.99, image: 'https://example.com/galaxys21.jpg' },
   { id: 3, name: 'Sony WH-1000XM4 Headphones', value: 349.99, image: 'https://example.com/sony-headphones.jpg' },
@@ -32,8 +32,11 @@ const data: Item[] = [
   { id: 21, name: 'Dyson V11 Vacuum Cleaner', value: 599.99, image: 'https://example.com/dyson-v11.jpg' }
 ];
 
+interface ProductListProps{
+  handleSelectProduct: (product: {name:string; value:number; image?:string}) => void
+}
 
-export default function ProductList(product:any) {
+export default function ProductList({handleSelectProduct}:ProductListProps) {
   return (
     <div className=" flex flex-col overflow-hidden max-w-[500px]">
       <label className="text-sm text-[#198A83]">Lista de Produtos</label>
@@ -50,8 +53,12 @@ export default function ProductList(product:any) {
         </div>
         <div className="flex-grow overflow-auto">
           <ul className=" ">
-            {data.map((prod) => (
-              <ItemList key={prod.id} name={prod.name} value={prod.value} />
+            {products.map((product) => (
+              <ItemList 
+                key={product.id} 
+                {...product} 
+                onSelect={() => handleSelectProduct(product)}
+              />
             ))}
           </ul>
         </div>
