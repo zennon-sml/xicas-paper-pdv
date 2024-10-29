@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 
 export default function ItemProperties({props}:any){
-/*   const [totalValue, setTotalValue] = useState<number>(0);
+  const [totalValue, setTotalValue] = useState<number>(0);
 
-  const handleTotalValue = (mult:number) => {
-    setTotalValue(totalValue*props.value)
-  }; */
+  const handleTotalValue = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const quantity = Number(event.target.value)
+    setTotalValue(quantity*props.value)
+  };
 
   return (
     <div className='flex justify-between max-w-[500px] mt-3 mb-2'>
@@ -18,7 +19,7 @@ export default function ItemProperties({props}:any){
               className=' 
               w-44 h-9 p-2
               bg-[#9efaf4] 
-              rounded-md'
+              rounded-md text-lg'
               value={props.value}  
               />
           </div>
@@ -30,6 +31,7 @@ export default function ItemProperties({props}:any){
               w-44 h-9 p-2
               bg-[#9efaf4]
               rounded-md text-lg'
+              onChange={handleTotalValue}
               />
           </div>
           <div>
@@ -38,9 +40,10 @@ export default function ItemProperties({props}:any){
             type="text" 
             disabled/* readOnly */
             className=' 
-            w-44 h-11 p-2
-            bg-[#3BDCD2] 
-            rounded-md'
+            w-44 h-11 p-2 font-bold
+            bg-[#46b0a9] text-white
+            rounded-md text-lg'
+            value={totalValue}
             />
           </div>
         </div>
@@ -58,7 +61,7 @@ export default function ItemProperties({props}:any){
               border border-[#81f7ef] bg-[#ffffff]
               w-44 h-44 rounded-md
               '/>
-              <p className='mt-1 text-xs text-[#198A83]'>{props.name}</p>
+              <p className='mt-1 pr-1 pl-1 text-xs text-[#198A83]'>{props.name}</p>
             </div>
         </div>
         <div className='flex items-end'>
