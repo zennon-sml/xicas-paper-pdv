@@ -1,28 +1,11 @@
-import mongoose from "mongoose";
+import { MongoClient } from 'mongodb'
+const dbURI = process.env.MONGODB_URI || ''
+const options = {}
 
-const MONGODB_URI = process.env.MONGODB_URI || ''
-
-if (!MONGODB_URI) {
+if (!dbURI) {
   throw new Error("MONGODB_URI not found")
 }
 
-let cached = global.mongoose
+const dbClient = new MongoClient(dbURI, options)
 
-if (!cached) {
-  cached = global.mongoose = {conn: null, promise: null}
-}
-
-export default async function connectToMongoDB() {
-  if (cached.conn) {
-    return cached.conn
-  }
-
-  if (!cached.promise) {
-    cached.promise = mongoose.connect(MONGODB_URI).then((mongoose) => {
-      return mongoose
-    })
-  }
-  cached.conn = await cached.promise
-  return cached.conn
-}
-
+export default dbClient
