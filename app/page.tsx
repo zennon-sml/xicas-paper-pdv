@@ -4,6 +4,7 @@ import { useState } from 'react';
 import SideBar from '../components/SideBar/page';
 import ProductList from '../components/ProductList/page';
 import ItemProperties from '../components/ItemProperties/page';
+import SaleList from '@/components/SaleList';
 
 interface IProduct{
     name: string;
@@ -19,11 +20,14 @@ export default function Home() {
   };
 
   return (
-    <div>
+    <div className='flex gap-2'>
       <SideBar />
-      <div className='flex flex-col h-screen'>
+      <div className='flex flex-col h-screen w-[500px]'>
         <ProductList handleSelectProduct={handleSelectProduct} />
         <ItemProperties props={selectedProduct} />
+      </div>
+      <div>
+        <SaleList />
       </div>
     </div>
   );
