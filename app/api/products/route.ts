@@ -10,11 +10,12 @@ import ProductModel from '../../models/product';
     //  return NextResponse.json({ message: 'no products :/' + error });
     //}
     try {
-      const client = await dbClient;
-      const db = client.db("products"); // Replace with your database name
+      const client = dbClient;
+      const db = client.db("xicasdb"); // Replace with your database name
 
       // Example query
       const products = await db.collection("products").find({}).toArray();
+      console.log(products) 
 
       return NextResponse.json({ products })
     } catch (error) {
