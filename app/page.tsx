@@ -5,6 +5,8 @@ import SideBar from '../components/SideBar/page';
 import ProductList from '../components/ProductList/page';
 import ItemProperties from '../components/ItemProperties/page';
 import SaleList from '@/components/SaleList';
+import QuickAddition from '@/components/QuickAddition';
+import SaleCompletion from '@/components/SaleCompletion';
 
 interface IProduct{
     name: string;
@@ -20,14 +22,16 @@ export default function Home() {
   };
 
   return (
-    <div className='flex gap-2'>
+    <div className='flex gap-4'>
       <SideBar />
       <div className='flex flex-col h-screen w-[500px]'>
         <ProductList handleSelectProduct={handleSelectProduct} />
         <ItemProperties props={selectedProduct} />
       </div>
-      <div>
+      <div className='flex flex-col h-screen gap-2'>
+        <QuickAddition />
         <SaleList />
+        <SaleCompletion />
       </div>
     </div>
   );
