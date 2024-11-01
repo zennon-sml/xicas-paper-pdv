@@ -7,6 +7,7 @@ import ItemProperties from '../components/ItemProperties/page';
 import SaleList from '@/components/SaleList';
 import QuickAddition from '@/components/QuickAddition';
 import SaleCompletion from '@/components/SaleCompletion';
+import CRUDButtons from '@/components/CRUDButtons';
 
 interface IProduct{
     name: string;
@@ -22,7 +23,7 @@ export default function Home() {
   };
 
   return (
-    <div className='flex gap-4'>
+    <div className='flex gap-2'>
       <SideBar />
       <div className='flex flex-col h-screen w-[500px]'>
         <ProductList handleSelectProduct={handleSelectProduct} />
@@ -33,6 +34,7 @@ export default function Home() {
         <SaleList />
         <SaleCompletion />
       </div>
+      <CRUDButtons />
     </div>
   );
 }

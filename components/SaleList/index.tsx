@@ -1,6 +1,6 @@
 const venda = [
     {item: 1, name: 'vagalume atômico', qtd: 10, pUnit: 10.00},
-    {item: 2, name: 'vagasssssssssslume ocimsssaaaaaa', qtd: 5, pUnit: 5.00},
+    {item: 2, name: 'vagalume ocimota', qtd: 5, pUnit: 5.00},
     {item: 3, name: 'besouro elétrico', qtd: 8, pUnit: 7.50},
     {item: 4, name: 'borboleta solar', qtd: 15, pUnit: 3.00},
     {item: 5, name: 'grilo gigante', qtd: 12, pUnit: 6.25},
@@ -44,30 +44,32 @@ const venda = [
 
 export default function SaleList(){
     return(
-        <div className='flex flex-col bg-[#D7F8F4] border border-[#5CC5BE] rounded-md overflow-hidden'>
+        <div className='flex flex-col w-full bg-[#B8FFF7] border border-[#5CC5BE] rounded-md overflow-hidden flex-grow'>
             <h2 className="bg-[#28A9A1] font-bold text-white text-center">LISTA DE VENDAS</h2>
-            <table className='w-[800px]'>
-                <thead className='bg-[#5CC5BE]'>
-                    <tr className="border-2 border-[#5CC5BE] text-xs text-white">
-                        <th className="">Item</th>
-                        <th className="">Produto</th>
-                        <th className="">Qtd</th>
-                        <th className="">P.Unit</th>
-                        <th className="">Total</th>
-                    </tr>
-                </thead>
-                <tbody className="bg-[#D7F8F4] text-xs">
-                    {venda.map((product) => (
-                        <tr className="border-b border-b-[#5CC5BE]" key={product.item}>
-                            <td className="border-r-2 border-r-[#5CC5BE] font-bold text-center">{product.item}</td>
-                            <td className="border-r-2 border-l-2 border-r-[#5CC5BE] border-l-[#5CC5BE]">{product.name}</td>
-                            <td className="border-r-2 border-l-2 border-r-[#5CC5BE] border-l-[#5CC5BE] text-center">{product.qtd}</td>
-                            <td className="border-r-2 border-l-2 border-r-[#5CC5BE] border-l-[#5CC5BE]">{"R$ "+(product.pUnit).toFixed(2)}</td>
-                            <td className="border-l-2 border-l-[#5CC5BE] font-bold">{"R$ "+(product.qtd*product.pUnit).toFixed(2)}</td>
+            <div className="overflow-auto">    
+                <table className='table-fixed w-full'>
+                    <thead className='bg-[#5CC5BE] border-0 sticky top-0'>
+                        <tr className="border-2 border-[#5CC5BE] text-xs text-white">
+                            <th className=" w-1/12">Item</th>
+                            <th className=" w-5/12">Produto</th>
+                            <th className=" w-1/12">Qtd</th>
+                            <th className=" w-2/12">P.Unit</th>
+                            <th className=" w-3/12">Total</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody className="bg-[#B8FFF7] text-xs flex-grow overflow-auto">
+                        {venda.map((product) => (
+                            <tr className="border-b border-b-[#5CC5BE]" key={product.item}>
+                                <td className="pl-1 pr-1 text-[#135550] border-r-2 border-r-[#5cc5be] font-bold text-center">{product.item}</td>
+                                <td className="pl-1 pr-1 text-[#135550] border-r-2 border-r-[#5CC5BE]">{product.name}</td>
+                                <td className="pl-1 pr-1 text-[#135550] border-r-2 border-r-[#5CC5BE] text-center">{product.qtd}</td>
+                                <td className="pl-1 pr-1 text-[#135550] border-r-2 border-r-[#5CC5BE]">{"R$ "+(product.pUnit).toFixed(2)}</td>
+                                <td className="pl-1 pr-1 text-[#135550] border-l-2 border-l-[#5CC5BE] font-bold">{"R$ "+(product.qtd*product.pUnit).toFixed(2)}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>            
         </div>
     )
 }

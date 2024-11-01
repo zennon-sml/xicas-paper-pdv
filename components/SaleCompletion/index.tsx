@@ -4,7 +4,7 @@ export default function SaleCompletion(){
             <div className="flex gap-2">
                 <div className="flex flex-col">
                     <label className="text-sm text-[#198A83]">Total Itens</label>
-                    <input type="text" placeholder="Tt. Itens" 
+                    <input disabled type="text" placeholder="Tt. Itens" 
                     className="
                     border-2 border-[#28A9A1] rounded-md 
                     w-28 h-12 text-center
@@ -13,7 +13,7 @@ export default function SaleCompletion(){
 
                 <div className="flex flex-col">
                 <label className="text-sm text-[#198A83]">Sub. Total</label>
-                    <input type="text" placeholder="Sub Total" 
+                    <input disabled type="text" placeholder="Sub Total" 
                     className="
                     border-2 border-[#28A9A1] rounded-md 
                     w-40 h-12 text-center
