@@ -45,7 +45,7 @@ export default function ProductList({handleSelectProduct}:ProductListProps) {
             <input
               type="text"
               placeholder="Digite o produto..."
-              className="flex-grow bg-[#198A83] placeholder-[#46b0a9] text-white text-lg h-8 pl-2 hover:bg-[#189890]"
+              className="flex-grow bg-[#198A83] placeholder-[#46b0a9] text-white text-lg h-10 pl-2 hover:bg-[#189890]"
             />
             <button className="w-8 bg-[#198A83] text-white text-xl flex items-center justify-center hover:bg-[#19a097]">
               <IoMdSearch />

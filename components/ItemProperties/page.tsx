@@ -18,9 +18,20 @@ export default function ItemProperties({props}:any){
               disabled/* readOnly */
               className=' 
               w-44 h-9 p-2
-              bg-[#9efaf4] 
+              bg-[#46b0a9] text-white 
               rounded-md text-lg'
               value={props.value}  
+              />
+          </div>
+          <div>
+            <label className='text-sm text-[#198A83]'>Desconto:</label>
+            <input 
+              type="number" 
+              className=' 
+              w-44 h-8 p-2
+              bg-[#9efaf4]
+              rounded-md text-lg'
+              onChange={handleTotalValue}
               />
           </div>
           <div>
@@ -28,7 +39,7 @@ export default function ItemProperties({props}:any){
             <input 
               type="number" 
               className=' 
-              w-44 h-9 p-2
+              w-44 h-8 p-2
               bg-[#9efaf4]
               rounded-md text-lg'
               onChange={handleTotalValue}
@@ -40,7 +51,7 @@ export default function ItemProperties({props}:any){
             type="text" 
             disabled/* readOnly */
             className=' 
-            w-44 h-11 p-2 font-bold
+            w-44 h-9 p-2 font-bold
             bg-[#46b0a9] text-white
             rounded-md text-lg'
             value={totalValue}
@@ -52,7 +63,7 @@ export default function ItemProperties({props}:any){
             className='
             flex flex-col items-center
             border border-[#3BDCD2] bg-[#3BDCD2]
-            w-[185px] h-56 pt-[4px] rounded-md
+            w-[185px] h-60 pt-[4px] rounded-md
             '>
               <img 
               alt="img-vazia" 
