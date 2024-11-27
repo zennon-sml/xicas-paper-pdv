@@ -9,7 +9,7 @@ interface Item {
   }
 
 const products = [
-  { id: 1, name: 'Apple iPhone 13', value: 799.99, image: 'https://images.app.goo.gl/dABttVzkbYf89uxU7' },
+  { id: 1, name: 'Apple iPhone 13', value: 10.00, image: 'https://images.app.goo.gl/dABttVzkbYf89uxU7' },
   { id: 2, name: 'Samsung Galaxy S21', value: 699.99, image: 'https://example.com/galaxys21.jpg' },
   { id: 3, name: 'Sony WH-1000XM4 Headphones', value: 349.99, image: 'https://example.com/sony-headphones.jpg' },
   { id: 4, name: 'Dell XPS 13 Laptop', value: 999.99, image: 'https://example.com/dellxps13.jpg' },
@@ -32,11 +32,7 @@ const products = [
   { id: 21, name: 'Dyson V11 Vacuum Cleaner', value: 599.99, image: 'https://example.com/dyson-v11.jpg' }
 ];
 
-interface ProductListProps{
-  handleSelectProduct: (product: {name:string; value:number; image?:string}) => void
-}
-
-export default function ProductList({handleSelectProduct}:ProductListProps) {
+export default function ProductList({handleSelectProduct}:any) {
   return (
       <div className=" flex flex-col overflow-hidden min-w-[500px]">
         <label className="text-sm text-[#198A83]">Lista de Produtos</label>

@@ -1,11 +1,24 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-export default function ItemProperties({props}:any){
-  const [totalValue, setTotalValue] = useState<number>(0);
+export default function ItemProperties({props, addProductList}:any){
+  const [totalValue, setTotalValue] = useState<number>(props.value);
+  const [quantity, setQuantity] = useState<number>(1);
+  const [discount, setDiscount] = useState<number>(0);
 
-  const handleTotalValue = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const quantity = Number(event.target.value)
-    setTotalValue(quantity*props.value)
+  useEffect(() => {
+    setTotalValue((props.value*quantity)-discount)
+  }, [props.value, quantity, discount])
+
+  const handleQuantity = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const quant = Number(event.target.value);
+    setQuantity(quant);
+    /* setTotalValue((props.value*quant)-discount) */
+  };
+
+  const handleDiscount = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const disc = Number(event.target.value)
+    setDiscount(disc);
+    /* setTotalValue((props.value*quantity)-disc) */
   };
 
   return (
@@ -16,70 +29,56 @@ export default function ItemProperties({props}:any){
             <input 
               type="text" 
               disabled/* readOnly */
-              className=' 
-              w-44 h-9 p-2
-              bg-[#46b0a9] text-white 
-              rounded-md text-lg'
-              value={props.value}  
+              className='w-44 h-9 p-2 bg-[#46b0a9] text-white  rounded-md text-lg'
+              value={'R$ '+props.value.toFixed(2)}  
               />
           </div>
           <div>
-            <label className='text-sm text-[#198A83]'>Desconto:</label>
+            <label className='text-sm text-[#198A83]'>Desconto (R$):</label>
             <input 
-              type="number" 
-              className=' 
-              w-44 h-8 p-2
-              bg-[#9efaf4]
-              rounded-md text-lg'
-              onChange={handleTotalValue}
-              />
+            type="number" 
+            className='w-44 h-8 p-2 bg-[#9efaf4] rounded-md text-lg'
+            min={0}
+            value={discount}
+            onChange={handleDiscount}
+            />
           </div>
           <div>
             <label className='text-sm text-[#198A83]'>Quantidade:</label>
             <input 
-              type="number" 
-              className=' 
-              w-44 h-8 p-2
-              bg-[#9efaf4]
-              rounded-md text-lg'
-              onChange={handleTotalValue}
-              />
+            type="number" 
+            className='w-44 h-8 p-2 bg-[#9efaf4] rounded-md text-lg'
+            value={quantity}
+            min={1}
+            onChange={handleQuantity}
+            />
           </div>
           <div>
             <label className='text-sm text-[#198A83]'>Valor Total. Produto:</label>
             <input 
             type="text" 
             disabled/* readOnly */
-            className=' 
-            w-44 h-9 p-2 font-bold
-            bg-[#46b0a9] text-white
-            rounded-md text-lg'
-            value={totalValue}
+            className='w-44 h-9 p-2 font-bold bg-[#46b0a9] text-white rounded-md text-lg'
+            value={'R$ '+totalValue.toFixed(2)}
             />
           </div>
         </div>
         <div>
-            <div 
-            className='
-            flex flex-col items-center
-            border border-[#3BDCD2] bg-[#3BDCD2]
-            w-[185px] h-60 pt-[4px] rounded-md
-            '>
+            <div className='flex flex-col items-center border border-[#3BDCD2] bg-[#3BDCD2] w-[185px] h-60 pt-[4px] rounded-md'>
               <img 
               alt="img-vazia" 
               src={props.image}
-              className='
-              border border-[#81f7ef] bg-[#ffffff]
-              w-44 h-44 rounded-md
-              '/>
+              className='border border-[#81f7ef] bg-[#ffffff] w-44 h-44 rounded-md'/>
               <p className='mt-1 pr-1 pl-1 text-xs text-[#198A83]'>{props.name}</p>
             </div>
         </div>
         <div className='flex items-end'>
-          <button className='
-          bg-[#1DB935] text-white font-bold
-          w-28 h-11 rounded-md
-          '>INSERIR</button>
+          <button 
+          onClick={() => addProductList({name:props.name, qtd:quantity, pUnit:props.value, desconto:discount})}
+          disabled={!props.value || props.value === 0}
+          className='bg-[#1DB935] hover:bg-[#269a38] text-white font-bold w-28 h-11 rounded-md'>
+          INSERIR
+          </button>
         </div>
     </div>
   )
