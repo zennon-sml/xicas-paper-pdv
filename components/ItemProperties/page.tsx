@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from 'react'
 
 export default function ItemProperties({props, addProductList}:any){
-  const [totalValue, setTotalValue] = useState<number>(props.value);
+  const [totalValue, setTotalValue] = useState<number>(0);
   const [quantity, setQuantity] = useState<number>(1);
-  const [discount, setDiscount] = useState<number>(0);
+  const [discount, setDiscount] = useState<string>("");
 
   useEffect(() => {
-    setTotalValue((props.value*quantity)-discount)
+    setTotalValue(0);
+    setQuantity(1);
+    setDiscount("");
+  }, [props])
+
+  useEffect(() => {
+    const discountValue = discount === "" ? 0 : Number(discount)
+    setTotalValue((props.value*quantity)-discountValue)
   }, [props.value, quantity, discount])
 
   const handleQuantity = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -16,7 +23,7 @@ export default function ItemProperties({props, addProductList}:any){
   };
 
   const handleDiscount = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const disc = Number(event.target.value)
+    const disc = event.target.value
     setDiscount(disc);
     /* setTotalValue((props.value*quantity)-disc) */
   };
@@ -74,7 +81,7 @@ export default function ItemProperties({props, addProductList}:any){
         </div>
         <div className='flex items-end'>
           <button 
-          onClick={() => addProductList({name:props.name, qtd:quantity, pUnit:props.value, desconto:discount})}
+          onClick={() => addProductList({name:props.name, qtd:quantity, pUnit:props.value, desconto:discount}, setTotalValue(0), setQuantity(1), setDiscount(""))}
           disabled={!props.value || props.value === 0}
           className='bg-[#1DB935] hover:bg-[#269a38] text-white font-bold w-28 h-11 rounded-md'>
           INSERIR

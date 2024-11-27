@@ -2,7 +2,7 @@ interface IItensList{
     name: string;
     qtd: number;
     pUnit: number;
-    desconto: number;
+    desconto: string;
   }
 
 export default function SaleList({saleList}:{ saleList: IItensList[] }){
@@ -24,13 +24,13 @@ export default function SaleList({saleList}:{ saleList: IItensList[] }){
                     <tbody className="bg-[#B8FFF7] text-xs flex-grow overflow-auto">
                         {saleList.map((product, i) => (
                             <tr className="border-b border-b-[#5CC5BE]" key={i}>
-                                <td className="pl-1 pr-1 text-[#135550] border-r-2 border-r-[#5cc5be] font-bold text-center">{i}</td>
+                                <td className="pl-1 pr-1 text-[#135550] border-r-2 border-r-[#5cc5be] font-bold text-center">{i+1}</td>
                                 <td className="pl-1 pr-1 text-[#135550] border-r-2 border-r-[#5CC5BE]">{product.name}</td>
                                 <td className="pl-1 pr-1 text-[#135550] border-r-2 border-r-[#5CC5BE] text-center">{product.qtd}</td>
-                                <td className="pl-1 pr-1 text-[#135550] border-r-2 border-r-[#5CC5BE] text-center">{"R$ "+(product.desconto).toFixed(2)}</td>
+                                <td className="pl-1 pr-1 text-[#135550] border-r-2 border-r-[#5CC5BE] text-center">{"R$ "+(product.desconto === "" ? 0 : Number(product.desconto)).toFixed(2)}</td>
                                 <td className="pl-1 pr-1 text-[#135550] border-r-2 border-r-[#5CC5BE]">{"R$ "+(product.pUnit).toFixed(2)}</td>
-                                <td className="pl-1 pr-1 text-[#135550] border-l-2 border-l-[#5CC5BE] font-bold">{"R$ "+((product.qtd*product.pUnit)-product.desconto).toFixed(2)}</td>
-                            </tr>
+                                <td className="pl-1 pr-1 text-[#135550] border-l-2 border-l-[#5CC5BE] font-bold">{"R$ "+((product.qtd*product.pUnit)-(product.desconto === "" ? 0 : Number(product.desconto))).toFixed(2)}</td>
+                            </tr> 
                         ))}
                     </tbody>
                 </table>

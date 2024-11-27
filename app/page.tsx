@@ -19,7 +19,7 @@ interface IItensList{
   name: string;
   qtd: number;
   pUnit: number;
-  desconto: number;
+  desconto: string;
 }
 
 export default function Home() {
