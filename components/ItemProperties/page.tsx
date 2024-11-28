@@ -74,8 +74,8 @@ export default function ItemProperties({props, addProductList}:any){
             <div className='flex flex-col items-center border border-[#3BDCD2] bg-[#3BDCD2] w-[185px] h-60 pt-[4px] rounded-md'>
               <img 
               alt="img-vazia" 
-              src={props.image}
-              className='border border-[#81f7ef] bg-[#ffffff] w-44 h-44 rounded-md'/>
+              src={props.image || "/img/sem-foto.jpg"}
+              className='border border-[#81f7ef] bg-[#ffffff] w-44 h-44 p-1 rounded-md object-contain object-center'/>
               <p className='mt-1 pr-1 pl-1 text-xs text-[#198A83]'>{props.name}</p>
             </div>
         </div>

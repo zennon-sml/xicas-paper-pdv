@@ -18,8 +18,10 @@ export default function ItemList({id, name, value, image, onSelect}:ItemListProp
         </div>
         <div>
           <div className=''>
-            <img alt="img" 
-            className='w-14 h-14 bg-[#ffffff] rounded-md'/>
+            <img 
+            src={image || "/img/sem-foto.jpg"}
+            alt="img" 
+            className='w-14 h-14 p-0.5 bg-[#ffffff] rounded-md object-contain object-center'/>
           </div>
         </div>
       </button>
