@@ -1,9 +1,9 @@
 "use client"
 import { useState } from 'react';
 
-import SideBar from '../components/SideBar/page';
-import ProductList from '../components/ProductList/page';
-import ItemProperties from '../components/ItemProperties/page';
+import SideBar from '@/components/SideBar/page';
+import ProductList from '@/components/ProductList/page';
+import ItemProperties from '@/components/ItemProperties/page';
 import SaleList from '@/components/SaleList';
 import QuickAddition from '@/components/QuickAddition';
 import SaleCompletion from '@/components/SaleCompletion';
@@ -33,6 +33,7 @@ export default function Home() {
   const addProductList = (item:IItensList) => {
     setItens((prevProducts) => [...prevProducts, item]);
     console.log(itens)
+    setSelectedProduct({name:"", value:0, image:""})
   }
 
   return (
@@ -47,7 +48,7 @@ export default function Home() {
       <div className='flex flex-col h-screen gap-2'>
         <QuickAddition />
         <SaleList saleList={itens}/>
-        <SaleCompletion />
+        <SaleCompletion props={itens} />
       </div>
 
       <CRUDButtons />

@@ -1,23 +1,67 @@
-export default function SaleCompletion(){
+import { useState, useEffect } from "react";
+
+interface ITotals{
+    qtd: number;
+    pUnit: number;
+    desconto: string;
+  }
+
+export default function SaleCompletion({props}:{ props: ITotals[] }){
+    const [totalValue, setTotalValue] = useState<number>(0)
+    const [totalQtd, setTotalQtd] = useState<number>(0)
+    const [totalDiscount, setTotalDiscount] = useState<number>(0)
+
+   /*  const addProductList = (item:IItensList) => {
+        setItens((prevProducts) => [...prevProducts, item]);
+        setSelectedProduct({name:"", value:0, image:""})
+      } */
+
+    useEffect(() => { // useEffect vai exectar  algoritmo sempre que "props" for atualizado, 
+        if (props.length > 0){
+            const prop = props[props.length-1] // Isolando o ultimo item adicionado
+
+            const qtd = prop.qtd
+            setTotalQtd(totalQtd + qtd) // atualiza a quantidade total
+
+            const discount = Number(prop.desconto)
+            setTotalDiscount(totalDiscount+discount) // atualiza o desconto total
+
+            const total = (qtd*prop.pUnit) - discount
+            setTotalValue(totalValue+total) // atualiza o valor total
+        }
+    }, [props])
+
     return(
         <div className="flex justify-between ml-7 mt-3 mb-7">
             <div className="flex gap-2">
                 <div className="flex flex-col">
                     <label className="text-sm text-[#198A83]">Total Itens</label>
-                    <input disabled type="text" placeholder="Tt. Itens" 
-                    className="
-                    border-2 border-[#28A9A1] rounded-md 
-                    w-28 h-12 text-center
-                    " />
+                    <input 
+                    disabled 
+                    value={totalQtd}
+                    type="text" 
+                    placeholder="Tt. Itens" 
+                    className="border-2 border-[#28A9A1] rounded-md w-28 h-12 text-center" />
                 </div>
 
                 <div className="flex flex-col">
-                <label className="text-sm text-[#198A83]">Sub. Total</label>
-                    <input disabled type="text" placeholder="Sub Total" 
-                    className="
-                    border-2 border-[#28A9A1] rounded-md 
-                    w-40 h-12 text-center
-                    "/>
+                    <label className="text-sm text-[#198A83]">Total Desconto</label>
+                    <input 
+                    disabled
+                    value={"R$ "+totalDiscount.toFixed(2)}
+                    type="text" 
+                    placeholder="Tt. Desconto" 
+                    className="border-2 border-[#28A9A1] rounded-md w-28 h-12 text-center" />
+                </div>
+
+                <div className="flex flex-col">
+                    <label className="text-sm text-[#198A83]">Sub. Total</label>
+                    <input 
+                    disabled 
+                    value = {"R$ "+totalValue.toFixed(2)}
+                    type="text" 
+                    placeholder="Sub Total" 
+                    className="border-2 border-[#28A9A1] rounded-md w-40 h-12 text-center"/>
                 </div>
             </div>
 
