@@ -1,5 +1,6 @@
 import React from 'react';
-import { FaShoppingCart, FaDatabase } from "react-icons/fa";
+import Link from 'next/link'
+import { FaShoppingCart, FaDatabase, FaDollarSign } from "react-icons/fa";
 import { IoMenu } from "react-icons/io5";
 
 export default function SideBar() {
@@ -17,23 +18,23 @@ export default function SideBar() {
         hover:bg-[#8BE8DC]
         '><IoMenu /></button>
 
-        <button className='
+        <Link href={"/pages/sales"}><button className='
         flex w-12 h-12 text-[#198A83]
         text-xl items-center justify-center
         hover:bg-[#8BE8DC]
-        '><FaShoppingCart /></button>
+        '><FaShoppingCart /></button></Link>
 
-        <button className='
+        <Link href={"/pages/stock"}><button className='
         flex w-12 h-12 text-[#198A83]
         text-xl items-center justify-center
         hover:bg-[#8BE8DC]
-        '><FaDatabase /></button>
+        '><FaDatabase /></button></Link>
         
-        <button className='
+        <Link href={"/pages/finances"}><button className='
         flex w-12 h-12 text-[#198A83]
         text-xl items-center justify-center
         hover:bg-[#8BE8DC]
-        '></button>
+        '><FaDollarSign /></button></Link>
     </div>
   )
 }
