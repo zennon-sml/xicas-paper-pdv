@@ -2,6 +2,56 @@
 import SideBar from '@/components/SideBar/page';
 import { useState } from 'react';
 
+
+const products = [
+  { id: 1, name: 'Apple iPhone 13', value: 10.00, image: "/img/iphone13.jpg" },
+  { id: 2, name: 'Samsung Galaxy S21', value: 699.99, image: '/img/galaxys21.webp' },
+  { id: 3, name: 'Sony WH-1000XM4 Headphones', value: 349.99, image: '/img/SonyWH1000XM4Headphones.webp' },
+  { id: 4, name: 'Dell XPS 13 Laptop', value: 999.99, image: '/img/DellXPS13Laptop.webp' },
+  { id: 5, name: 'Nintendo Switch', value: 299.99, image: '/img/NintendoSwitch.jpeg' },
+  { id: 6, name: 'Apple MacBook Air', value: 1099.99, image: '/img/AppleMacBookAir.jpeg' },
+  { id: 7, name: 'Sony PlayStation 5', value: 499.99, image: '/img/SonyPlayStation5.jpeg' },
+  { id: 8, name: 'Bose SoundLink Bluetooth Speaker', value: 129.99, image: '' },
+  { id: 9, name: 'Fitbit Charge 4', value: 149.99, image: '' },
+  { id: 10, name: 'Dyson V11 Vacuum Cleaner', value: 599.99, image: '' },
+  { id: 11, name: 'Apple iPhone 13', value: 799.99, image: '' },
+  { id: 12, name: 'Samsung Galaxy S21', value: 699.99, image: '' },
+  { id: 13, name: 'Sony WH-1000XM4 Headphones', value: 349.99, image: '' },
+  { id: 14, name: 'Dell XPS 13 Laptop', value: 999.99, image: '' },
+  { id: 15, name: 'Nintendo Switch', value: 299.99, image: '' },
+  { id: 16, name: 'Apple MacBook Air', value: 1099.99, image: '' },
+  { id: 17, name: 'Sony PlayStation 5', value: 499.99, image: '' },
+  { id: 18, name: 'Bose SoundLink Bluetooth Speaker', value: 129.99, image: '' },
+  { id: 19, name: 'Fitbit Charge 4', value: 149.99, image: '' },
+  { id: 20, name: 'Dyson V11 Vacuum Cleaner', value: 599.99, image: '' },
+  { id: 1, name: 'Apple iPhone 13', value: 10.00, image: "/img/iphone13.jpg" },
+  { id: 2, name: 'Samsung Galaxy S21', value: 699.99, image: '/img/galaxys21.webp' },
+  { id: 3, name: 'Sony WH-1000XM4 Headphones', value: 349.99, image: '/img/SonyWH1000XM4Headphones.webp' },
+  { id: 4, name: 'Dell XPS 13 Laptop', value: 999.99, image: '/img/DellXPS13Laptop.webp' },
+  { id: 5, name: 'Nintendo Switch', value: 299.99, image: '/img/NintendoSwitch.jpeg' },
+  { id: 6, name: 'Apple MacBook Air', value: 1099.99, image: '/img/AppleMacBookAir.jpeg' },
+  { id: 7, name: 'Sony PlayStation 5', value: 499.99, image: '/img/SonyPlayStation5.jpeg' },
+  { id: 8, name: 'Bose SoundLink Bluetooth Speaker', value: 129.99, image: '' },
+  { id: 9, name: 'Fitbit Charge 4', value: 149.99, image: '' },
+  { id: 10, name: 'Dyson V11 Vacuum Cleaner', value: 599.99, image: '' },
+  { id: 11, name: 'Apple iPhone 13', value: 799.99, image: '' },
+  { id: 12, name: 'Samsung Galaxy S21', value: 699.99, image: '' },
+  { id: 13, name: 'Sony WH-1000XM4 Headphones', value: 349.99, image: '' },
+  { id: 14, name: 'Dell XPS 13 Laptop', value: 999.99, image: '' },
+  { id: 15, name: 'Nintendo Switch', value: 299.99, image: '' },
+  { id: 16, name: 'Apple MacBook Air', value: 1099.99, image: '' },
+  { id: 17, name: 'Sony PlayStation 5', value: 499.99, image: '' },
+  { id: 18, name: 'Bose SoundLink Bluetooth Speaker', value: 129.99, image: '' },
+  { id: 19, name: 'Fitbit Charge 4', value: 149.99, image: '' },
+  { id: 20, name: 'Dyson V11 Vacuum Cleaner', value: 599.99, image: '' },
+  { id: 17, name: 'Sony PlayStation 5', value: 499.99, image: '' },
+  { id: 18, name: 'Bose SoundLink Bluetooth Speaker', value: 129.99, image: '' },
+  { id: 19, name: 'Fitbit Charge 4', value: 149.99, image: '' },
+  { id: 20, name: 'Dyson V11 Vacuum Cleaner', value: 599.99, image: '' },
+  { id: 21, name: 'Dyson V11 Vacuum Cleaner', value: 599.99, image: '' }
+];
+
+
 export default function Stock() {
   return (
     <div className='flex flex-col h-screen'>
@@ -32,35 +82,39 @@ export default function Stock() {
 
         <p className=' m-3'>0 produtos</p>
 
-        <div className='flex flex-col flex-grow rounded-md overflow-hidden bg-[#E4FFFC] m-2'>
+        <div className='flex flex-col flex-grow rounded-md overflow-auto bg-[#E4FFFC] m-2 border border-[#198A83]'>
           <table className='w-full'>
-            <thead className='bg-[#8BE8DC]'>
-                <tr className="text-sm text-[#397F7B]">
-                    <th className=" w-1/12">Item</th>
-                    <th className=" w-5/12">Produto</th>
-                    <th className=" w-1/12">Qtd</th>
-                    <th className=" w-2/12">Desconto</th>
-                    <th className=" w-2/12">P.Unit</th>
-                    <th className=" w-3/12">Total</th>
-                </tr>
+            <thead className='bg-[#8BE8DC] sticky top-0'>
+              <tr className="text-sm text-[#397F7B]">
+                <th className="w-2/6">Item</th>
+                <th className="w-1/6">Produto</th>
+                <th className="w-1/6">Qtd</th>
+                <th className="w-1/6">Desconto</th>
+                <th className="w-1/6">P.Unit</th>
+                <th className="w-1/6">Total</th>
+              </tr>
             </thead>
-            <tbody className="bg-[#B8FFF7] text-xs overflow-y-auto h-full">
-              <tr className="border border-[#198A83] bg-white">
-                <td className="pl-1 pr-1 text-[#135550] font-bold text-center">creu</td>
-                <td className="pl-1 pr-1 text-[#135550]"></td>
-                <td className="pl-1 pr-1 text-[#135550] text-center"></td>
-                <td className="pl-1 pr-1 text-[#135550] text-center"></td>
-                <td className="pl-1 pr-1 text-[#135550]"></td>
-                <td className="pl-1 pr-1 text-[#135550] font-bold"></td>
-              </tr>
-              <tr className="border border-[#198A83] bg-white">
-                <td className="pl-1 pr-1 text-[#135550] font-bold text-center">vrau</td>
-                <td className="pl-1 pr-1 text-[#135550]"></td>
-                <td className="pl-1 pr-1 text-[#135550] text-center"></td>
-                <td className="pl-1 pr-1 text-[#135550] text-center"></td>
-                <td className="pl-1 pr-1 text-[#135550]"></td>
-                <td className="pl-1 pr-1 text-[#135550] font-bold"></td>
-              </tr>
+            <tbody className="bg-[#B8FFF7] text-xs h-full">
+              {products.map((product, index) => (
+                <tr className="border-y border-[#198A83] bg-white">
+
+                  <td className="flex text-[#135550] font-bold text-center items-center h-12 w-full gap-3">
+                    <img 
+                    src={product.image || "/img/sem-foto.jpg"} 
+                    alt="" 
+                    className="className='mx-1 h-12 w-12 p-0.5 bg-[#ffffff] rounded-md object-contain object-center"
+                    />
+                    <p>{product.name}</p>
+                  </td>
+
+                  <td className="text-[#135550] text-center w-1/6">{product.value}</td>
+                  <td className="text-[#135550] text-center w-1/6">{product.value}</td>
+                  <td className="text-[#135550] text-center w-1/6">{product.value}</td>
+                  <td className="text-[#135550] text-center w-1/6">{product.value}</td>
+                  <td className="text-[#135550] text-center font-bold w-1/6">{product.value}</td>
+                </tr>
+              ))}
+              
             </tbody>
           </table>
         </div>
