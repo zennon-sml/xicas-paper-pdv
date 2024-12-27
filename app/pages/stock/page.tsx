@@ -82,7 +82,7 @@ export default function Stock() {
 
         <p className=' m-3'>0 produtos</p>
 
-        <div className='flex flex-col flex-grow rounded-md overflow-auto bg-[#E4FFFC] m-2 border border-[#198A83]'>
+        <div className='flex flex-col flex-grow rounded-md overflow-auto bg-[#E4FFFC] m-2 border-x-2 border-[#8BE8DC]'>
           <table className='w-full'>
             <thead className='bg-[#8BE8DC] sticky top-0'>
               <tr className="text-sm text-[#397F7B]">
