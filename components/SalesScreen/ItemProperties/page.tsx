@@ -37,7 +37,7 @@ export default function ItemProperties({props, addProductList}:any){
               type="text" 
               disabled/* readOnly */
               className='w-44 h-9 p-2 bg-[#46b0a9] text-white  rounded-md text-lg'
-              value={'R$ '+props.price}  
+              value={props.price || ""}  
               />
           </div>
           <div>
@@ -66,7 +66,7 @@ export default function ItemProperties({props, addProductList}:any){
             type="text" 
             disabled/* readOnly */
             className='w-44 h-9 p-2 font-bold bg-[#46b0a9] text-white rounded-md text-lg'
-            value={'R$ '+totalValue.toFixed(2)}
+            value={`R$ ${isNaN(totalValue) ? "0.00" : totalValue.toFixed(2) }`}
             />
           </div>
         </div>
@@ -81,7 +81,7 @@ export default function ItemProperties({props, addProductList}:any){
         </div>
         <div className='flex items-end'>
           <button 
-          onClick={() => addProductList({name:props.name, qtd:quantity, pUnit:props.price, desconto:discount}, setTotalValue(0), setQuantity(1), setDiscount(""))}
+          onClick={() => addProductList({id:props.id ,name:props.name, qtd:quantity, pUnit:props.price, desconto:discount}, setTotalValue(0), setQuantity(1), setDiscount(""))}
           disabled={!props.price || props.price === 0}
           className='bg-[#1DB935] hover:bg-[#269a38] text-white font-bold w-28 h-11 rounded-md'>
           INSERIR

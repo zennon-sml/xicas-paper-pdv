@@ -11,11 +11,12 @@ import CRUDButtons from '@/components/SalesScreen/CRUDButtons';
 
 interface IProduct{
   name: string;
-  value: number;
+  price: number;
   image?: string;
 }
 
 interface IItensList{
+  id: number;
   name: string;
   qtd: number;
   pUnit: number;
@@ -23,7 +24,7 @@ interface IItensList{
 }
 
 export default function Sales() {
-  const [selectedProduct, setSelectedProduct] = useState<IProduct>({name:"", value:0, image:""}); 
+  const [selectedProduct, setSelectedProduct] = useState<IProduct>({name:"", price:0, image:""}); 
   const [itens, setItens] = useState<IItensList[]>([]);
 
   const handleSelectProduct = (product:IProduct) => {
@@ -33,7 +34,7 @@ export default function Sales() {
   const addProductList = (item:IItensList) => {
     setItens((prevProducts) => [...prevProducts, item]);
     console.log(itens)
-    setSelectedProduct({name:"", value:0, image:""})
+    setSelectedProduct({name:"", price:0, image:""})
   }
 
   return (

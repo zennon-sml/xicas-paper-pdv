@@ -1,58 +1,38 @@
 "use client"
 import SideBar from '@/components/SideBar/page';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-
-const products = [
-  { id: 1, name: 'Apple iPhone 13', value: 10.00, image: "/img/iphone13.jpg" },
-  { id: 2, name: 'Samsung Galaxy S21', value: 699.99, image: '/img/galaxys21.webp' },
-  { id: 3, name: 'Sony WH-1000XM4 Headphones', value: 349.99, image: '/img/SonyWH1000XM4Headphones.webp' },
-  { id: 4, name: 'Dell XPS 13 Laptop', value: 999.99, image: '/img/DellXPS13Laptop.webp' },
-  { id: 5, name: 'Nintendo Switch', value: 299.99, image: '/img/NintendoSwitch.jpeg' },
-  { id: 6, name: 'Apple MacBook Air', value: 1099.99, image: '/img/AppleMacBookAir.jpeg' },
-  { id: 7, name: 'Sony PlayStation 5', value: 499.99, image: '/img/SonyPlayStation5.jpeg' },
-  { id: 8, name: 'Bose SoundLink Bluetooth Speaker', value: 129.99, image: '' },
-  { id: 9, name: 'Fitbit Charge 4', value: 149.99, image: '' },
-  { id: 10, name: 'Dyson V11 Vacuum Cleaner', value: 599.99, image: '' },
-  { id: 11, name: 'Apple iPhone 13', value: 799.99, image: '' },
-  { id: 12, name: 'Samsung Galaxy S21', value: 699.99, image: '' },
-  { id: 13, name: 'Sony WH-1000XM4 Headphones', value: 349.99, image: '' },
-  { id: 14, name: 'Dell XPS 13 Laptop', value: 999.99, image: '' },
-  { id: 15, name: 'Nintendo Switch', value: 299.99, image: '' },
-  { id: 16, name: 'Apple MacBook Air', value: 1099.99, image: '' },
-  { id: 17, name: 'Sony PlayStation 5', value: 499.99, image: '' },
-  { id: 18, name: 'Bose SoundLink Bluetooth Speaker', value: 129.99, image: '' },
-  { id: 19, name: 'Fitbit Charge 4', value: 149.99, image: '' },
-  { id: 20, name: 'Dyson V11 Vacuum Cleaner', value: 599.99, image: '' },
-  { id: 1, name: 'Apple iPhone 13', value: 10.00, image: "/img/iphone13.jpg" },
-  { id: 2, name: 'Samsung Galaxy S21', value: 699.99, image: '/img/galaxys21.webp' },
-  { id: 3, name: 'Sony WH-1000XM4 Headphones', value: 349.99, image: '/img/SonyWH1000XM4Headphones.webp' },
-  { id: 4, name: 'Dell XPS 13 Laptop', value: 999.99, image: '/img/DellXPS13Laptop.webp' },
-  { id: 5, name: 'Nintendo Switch', value: 299.99, image: '/img/NintendoSwitch.jpeg' },
-  { id: 6, name: 'Apple MacBook Air', value: 1099.99, image: '/img/AppleMacBookAir.jpeg' },
-  { id: 7, name: 'Sony PlayStation 5', value: 499.99, image: '/img/SonyPlayStation5.jpeg' },
-  { id: 8, name: 'Bose SoundLink Bluetooth Speaker', value: 129.99, image: '' },
-  { id: 9, name: 'Fitbit Charge 4', value: 149.99, image: '' },
-  { id: 10, name: 'Dyson V11 Vacuum Cleaner', value: 599.99, image: '' },
-  { id: 11, name: 'Apple iPhone 13', value: 799.99, image: '' },
-  { id: 12, name: 'Samsung Galaxy S21', value: 699.99, image: '' },
-  { id: 13, name: 'Sony WH-1000XM4 Headphones', value: 349.99, image: '' },
-  { id: 14, name: 'Dell XPS 13 Laptop', value: 999.99, image: '' },
-  { id: 15, name: 'Nintendo Switch', value: 299.99, image: '' },
-  { id: 16, name: 'Apple MacBook Air', value: 1099.99, image: '' },
-  { id: 17, name: 'Sony PlayStation 5', value: 499.99, image: '' },
-  { id: 18, name: 'Bose SoundLink Bluetooth Speaker', value: 129.99, image: '' },
-  { id: 19, name: 'Fitbit Charge 4', value: 149.99, image: '' },
-  { id: 20, name: 'Dyson V11 Vacuum Cleaner', value: 599.99, image: '' },
-  { id: 17, name: 'Sony PlayStation 5', value: 499.99, image: '' },
-  { id: 18, name: 'Bose SoundLink Bluetooth Speaker', value: 129.99, image: '' },
-  { id: 19, name: 'Fitbit Charge 4', value: 149.99, image: '' },
-  { id: 20, name: 'Dyson V11 Vacuum Cleaner', value: 599.99, image: '' },
-  { id: 21, name: 'Dyson V11 Vacuum Cleaner', value: 599.99, image: '' }
-];
-
+interface Item {
+  id: number;
+  type: string;
+  name: string;
+  barcode: string;
+  qtd: number;
+  cost: number;
+  description: string;
+  tags: string;
+  price: number;
+  image?: string;
+  cadCompleted: boolean;
+}
 
 export default function Stock() {
+  const [products, setProducts] = useState<Item[]>([])
+  
+    useEffect(() => {
+      const fetchProducts = async () => {
+        try{
+          const response = await fetch('/data/database.json').then() // Faz a requisição
+          const data = await response.json();  // Converte a resposta para JSON
+          setProducts(data.products)
+        } catch (error){
+          console.log("Erro na requisição:", error) // Trata erros
+        }
+      };
+      fetchProducts()
+    }, [])
+
+
   return (
     <div className='flex flex-col h-screen'>
       <SideBar />
@@ -86,17 +66,19 @@ export default function Stock() {
           <table className='w-full'>
             <thead className='bg-[#8BE8DC] sticky top-0'>
               <tr className="text-sm text-[#397F7B]">
-                <th className="w-2/6">Item</th>
-                <th className="w-1/6">Produto</th>
+                <th className="w-2/6">Produto</th>
+                <th className="w-1/6">ID</th>
                 <th className="w-1/6">Qtd</th>
-                <th className="w-1/6">Desconto</th>
-                <th className="w-1/6">P.Unit</th>
-                <th className="w-1/6">Total</th>
+                <th className="w-1/6">Custo</th>
+                <th className="w-1/6">Valor venda</th>
+                <th className='w-1/6'>Opçoes</th>
               </tr>
             </thead>
             <tbody className="bg-[#B8FFF7] text-xs h-full">
               {products.map((product, index) => (
-                <tr className="border-y border-[#198A83] bg-white">
+                
+                <tr key={product.id} className="border-y border-[#198A83] bg-white">
+
 
                   <td className="flex text-[#135550] font-bold text-center items-center h-12 w-full gap-3">
                     <img 
@@ -106,12 +88,14 @@ export default function Stock() {
                     />
                     <p>{product.name}</p>
                   </td>
-
-                  <td className="text-[#135550] text-center w-1/6">{product.value}</td>
-                  <td className="text-[#135550] text-center w-1/6">{product.value}</td>
-                  <td className="text-[#135550] text-center w-1/6">{product.value}</td>
-                  <td className="text-[#135550] text-center w-1/6">{product.value}</td>
-                  <td className="text-[#135550] text-center font-bold w-1/6">{product.value}</td>
+                  <td className="text-[#135550] text-center">{product.id}</td>
+                  <td className="text-[#135550] text-center">{product.qtd}</td>
+                  <td className="text-[#135550] text-center">{product.cost}</td>
+                  <td className="text-[#135550] text-center font-bold">{product.price}</td>
+                  <td className="flex gap-1 justify-center text-[#135550]">
+                    <button className=' bg-amber-300 hover:bg-amber-500'>ed</button>
+                    <button className=' bg-red-300 hover:bg-red-500'>ex</button>
+                  </td>
                 </tr>
               ))}
               

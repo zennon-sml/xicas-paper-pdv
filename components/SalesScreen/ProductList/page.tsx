@@ -14,6 +14,7 @@ interface Item {
   tags: string;
   price: number;
   image?: string;
+  cadCompleted: boolean;
 }
 
 export default function ProductList({handleSelectProduct}:any) {
