@@ -5,11 +5,11 @@ export default function ItemProperties({props, addProductList}:any){
   const [quantity, setQuantity] = useState<number>(1);
   const [discount, setDiscount] = useState<string>("");
 
- /*  useEffect(() => { //Deixar valores padrão nos campos
+    useEffect(() => { //Deixar valores padrão nos campos
     setTotalValue(0);
     setQuantity(1);
     setDiscount("");
-  }, [props]) */
+  }, [props])
 
   useEffect(() => {
     const discountValue = discount === "" ? 0 : Number(discount) //Converte a variavel disconto que está como string para number
