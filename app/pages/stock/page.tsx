@@ -1,5 +1,6 @@
 "use client"
 import SideBar from '@/components/SideBar/page';
+import ItemStock from '@/components/StockScreen/ItemStock';
 import { useState, useEffect } from 'react';
 
 interface Item {
@@ -18,20 +19,24 @@ interface Item {
 
 export default function Stock() {
   const [products, setProducts] = useState<Item[]>([])
+  const [selectedButton, setSelectedButton] = useState<string>('TODOS')
   
-    useEffect(() => {
-      const fetchProducts = async () => {
-        try{
-          const response = await fetch('/data/database.json').then() // Faz a requisição
-          const data = await response.json();  // Converte a resposta para JSON
-          setProducts(data.products)
-        } catch (error){
-          console.log("Erro na requisição:", error) // Trata erros
-        }
-      };
-      fetchProducts()
-    }, [])
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try{
+        const response = await fetch('/data/database.json').then() // Faz a requisição
+        const data = await response.json();  // Converte a resposta para JSON
+        setProducts(data.products)
+      } catch (error){
+        console.log("Erro na requisição:", error) // Trata erros
+      }
+    };
+    fetchProducts()
+  }, [])
 
+  const handleButtonClick = (buttonName:string) => {
+    setSelectedButton(buttonName)
+  }
 
   return (
     <div className='flex flex-col h-screen'>
@@ -44,10 +49,19 @@ export default function Stock() {
       <hr className='flex fixed top-11 left-12 border-[1px] border-[#0B625D] w-[calc(100%-3rem)]'></hr>
       
       <div className='flex mt-11'>
-        <button className='pr-3 pl-3 pt-1 pb-1 text-[#0B625D] border-t-[2px] hover:border-t-[#4DC5BD] hover:bg-[#CBFCF6] hover:z-10 hover:font-bold'>TODOS</button>
-        <button className='pr-3 pl-3 pt-1 pb-1 text-[#0B625D] border-t-[2px] hover:border-t-[#4DC5BD] hover:bg-[#CBFCF6] hover:z-10 hover:font-bold'>CADASTRO PENDENTE</button>
-        <button className='pr-3 pl-3 pt-1 pb-1 text-[#0B625D] border-t-[2px] hover:border-t-[#4DC5BD] hover:bg-[#CBFCF6] hover:z-10 hover:font-bold'>ESTOQUE BAIXO</button>
-        <button className='pr-3 pl-3 pt-1 pb-1 text-[#0B625D] border-t-[2px] hover:border-t-[#4DC5BD] hover:bg-[#CBFCF6] hover:z-10 hover:font-bold'>LIXEIRA</button>
+        {['TODOS', 'CADASTRO PENDENTE', 'ESTOQUE BAIXO', 'LIXEIRA'].map((button) => (
+          <button
+            key={button}
+            onClick={() => handleButtonClick(button)}
+            className={`pr-3 pl-3 pt-1 pb-1 text-[#0B625D] border-t-[2px] ${
+              selectedButton === button
+                ? 'border-t-[#4DC5BD] bg-[#CBFCF6] z-10 font-bold'
+                : 'hover:bg-[#d5fffa] hover:font-semibold'
+            }`}
+          >
+            {button}
+          </button>
+        ))}
       </div>
 
       <div className='flex flex-col flex-grow bg-[#CBFCF6] overflow-hidden'>
@@ -60,7 +74,7 @@ export default function Stock() {
           </select>
         </div>
 
-        <p className=' m-3'>0 produtos</p>
+        <p className='m-3 text-[#0B625D] font-semibold'>{products.length +" produtos"}</p>
 
         <div className='flex flex-col flex-grow rounded-md overflow-auto bg-[#E4FFFC] m-2 border-x-2 border-[#8BE8DC]'>
           <table className='w-full'>
@@ -76,27 +90,10 @@ export default function Stock() {
             </thead>
             <tbody className="bg-[#B8FFF7] text-xs h-full">
               {products.map((product, index) => (
-                
-                <tr key={product.id} className="border-y border-[#198A83] bg-white">
-
-
-                  <td className="flex text-[#135550] font-bold text-center items-center h-12 w-full gap-3">
-                    <img 
-                    src={product.image || "/img/sem-foto.jpg"} 
-                    alt="" 
-                    className="className='mx-1 h-12 w-12 p-0.5 bg-[#ffffff] rounded-md object-contain object-center"
-                    />
-                    <p>{product.name}</p>
-                  </td>
-                  <td className="text-[#135550] text-center">{product.id}</td>
-                  <td className="text-[#135550] text-center">{product.qtd}</td>
-                  <td className="text-[#135550] text-center">{product.cost}</td>
-                  <td className="text-[#135550] text-center font-bold">{product.price}</td>
-                  <td className="flex gap-1 justify-center text-[#135550]">
-                    <button className=' bg-amber-300 hover:bg-amber-500'>ed</button>
-                    <button className=' bg-red-300 hover:bg-red-500'>ex</button>
-                  </td>
-                </tr>
+                <ItemStock 
+                  key={product.id} 
+                  {...product} 
+                />
               ))}
               
             </tbody>

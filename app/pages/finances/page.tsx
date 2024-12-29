@@ -5,6 +5,12 @@ import SideBar from '@/components/SideBar/page';
 import { useState } from 'react';
 
 export default function Stock() {
+  const [selectedButton, setSelectedButton] = useState<string>('DIA')
+  
+  const handleButtonClick = (buttonName:string) => {
+    setSelectedButton(buttonName)
+  } 
+  
   return (
       <div className='flex flex-col h-screen'>
         <SideBar />
@@ -15,12 +21,21 @@ export default function Stock() {
   
         <hr className='flex fixed top-11 left-12 border-[1px] border-[#0B625D] w-[calc(100%-3rem)]'></hr>
         
+
         <div className='flex mt-11 gap-7'>
-          <button className='pr-3 pl-3 pt-1 pb-1 text-[#0B625D] border-t-[2px] hover:border-t-[#4DC5BD] hover:bg-[#CBFCF6] hover:z-10 hover:font-bold'>DIA</button>
-          <button className='pr-3 pl-3 pt-1 pb-1 text-[#0B625D] border-t-[2px] hover:border-t-[#4DC5BD] hover:bg-[#CBFCF6] hover:z-10 hover:font-bold'>SEMANA</button>
-          <button className='pr-3 pl-3 pt-1 pb-1 text-[#0B625D] border-t-[2px] hover:border-t-[#4DC5BD] hover:bg-[#CBFCF6] hover:z-10 hover:font-bold'>MÊS</button>
-          <button className='pr-3 pl-3 pt-1 pb-1 text-[#0B625D] border-t-[2px] hover:border-t-[#4DC5BD] hover:bg-[#CBFCF6] hover:z-10 hover:font-bold'>ANO</button>
-          <button className='pr-3 pl-3 pt-1 pb-1 text-[#0B625D] border-t-[2px] font-bold hover:border-t-[#4DC5BD] hover:bg-[#CBFCF6] hover:z-10 hover:font-bold'>TUDO</button>
+          {['DIA', 'SEMANA', 'MÊS', 'ANO'].map((button) => (
+            <button
+              key={button}
+              onClick={() => handleButtonClick(button)}
+              className={`pr-3 pl-3 pt-1 pb-1 text-[#0B625D] border-t-[2px] ${
+                selectedButton === button
+                  ? 'border-t-[#4DC5BD] bg-[#CBFCF6] z-10 font-bold'
+                  : 'hover:bg-[#d5fffa] hover:font-semibold'
+              }`}
+            >
+              {button}
+            </button>
+          ))}
         </div>
   
         <div className='flex flex-col flex-grow bg-[#CBFCF6] overflow-hidden'>
