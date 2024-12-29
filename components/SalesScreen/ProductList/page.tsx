@@ -1,38 +1,37 @@
+import { useState, useEffect } from "react";
+
 import { IoMdSearch } from "react-icons/io";
 import ItemList from './ItemList/page';
 
 interface Item {
-    id: number;
-    name: string;
-    value: number;
-    image?: string;
-  }
-
-const products = [
-  { id: 1, name: 'Apple iPhone 13', value: 10.00, image: "/img/iphone13.jpg" },
-  { id: 2, name: 'Samsung Galaxy S21', value: 699.99, image: '/img/galaxys21.webp' },
-  { id: 3, name: 'Sony WH-1000XM4 Headphones', value: 349.99, image: '/img/SonyWH1000XM4Headphones.webp' },
-  { id: 4, name: 'Dell XPS 13 Laptop', value: 999.99, image: '/img/DellXPS13Laptop.webp' },
-  { id: 5, name: 'Nintendo Switch', value: 299.99, image: '/img/NintendoSwitch.jpeg' },
-  { id: 6, name: 'Apple MacBook Air', value: 1099.99, image: '/img/AppleMacBookAir.jpeg' },
-  { id: 7, name: 'Sony PlayStation 5', value: 499.99, image: '/img/SonyPlayStation5.jpeg' },
-  { id: 8, name: 'Bose SoundLink Bluetooth Speaker', value: 129.99, image: '' },
-  { id: 9, name: 'Fitbit Charge 4', value: 149.99, image: '' },
-  { id: 10, name: 'Dyson V11 Vacuum Cleaner', value: 599.99, image: '' },
-  { id: 11, name: 'Apple iPhone 13', value: 799.99, image: '' },
-  { id: 12, name: 'Samsung Galaxy S21', value: 699.99, image: '' },
-  { id: 13, name: 'Sony WH-1000XM4 Headphones', value: 349.99, image: '' },
-  { id: 14, name: 'Dell XPS 13 Laptop', value: 999.99, image: '' },
-  { id: 15, name: 'Nintendo Switch', value: 299.99, image: '' },
-  { id: 16, name: 'Apple MacBook Air', value: 1099.99, image: '' },
-  { id: 17, name: 'Sony PlayStation 5', value: 499.99, image: '' },
-  { id: 18, name: 'Bose SoundLink Bluetooth Speaker', value: 129.99, image: '' },
-  { id: 19, name: 'Fitbit Charge 4', value: 149.99, image: '' },
-  { id: 20, name: 'Dyson V11 Vacuum Cleaner', value: 599.99, image: '' },
-  { id: 21, name: 'Dyson V11 Vacuum Cleaner', value: 599.99, image: '' }
-];
+  id: number;
+  type: string;
+  name: string;
+  barcode: string;
+  qtd: number;
+  cost: number;
+  description: string;
+  tags: string;
+  price: number;
+  image?: string;
+}
 
 export default function ProductList({handleSelectProduct}:any) {
+  const [products, setProducts] = useState<Item[]>([])
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try{
+        const response = await fetch('/data/database.json').then() // Faz a requisição
+        const data = await response.json();  // Converte a resposta para JSON
+        setProducts(data.products)
+      } catch (error){
+        console.log("Erro na requisição:", error) // Trata erros
+      }
+    };
+    fetchProducts()
+  }, [])
+
   return (
       <div className=" flex flex-col overflow-hidden min-w-[500px]">
         <label className="text-sm text-[#198A83]">Lista de Produtos</label>

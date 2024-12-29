@@ -5,16 +5,16 @@ export default function ItemProperties({props, addProductList}:any){
   const [quantity, setQuantity] = useState<number>(1);
   const [discount, setDiscount] = useState<string>("");
 
-  useEffect(() => {
+ /*  useEffect(() => { //Deixar valores padrão nos campos
     setTotalValue(0);
     setQuantity(1);
     setDiscount("");
-  }, [props])
+  }, [props]) */
 
   useEffect(() => {
-    const discountValue = discount === "" ? 0 : Number(discount)
-    setTotalValue((props.value*quantity)-discountValue)
-  }, [props.value, quantity, discount])
+    const discountValue = discount === "" ? 0 : Number(discount) //Converte a variavel disconto que está como string para number
+    setTotalValue((props.price*quantity)-discountValue) //Calculo para definir o valor total
+  }, [props.price, quantity, discount]) //O calculo vai ser atualizado sempre que props.price ou quantity ou discount forem atualizados
 
   const handleQuantity = (event: React.ChangeEvent<HTMLInputElement>) => {
     const quant = Number(event.target.value);
@@ -37,7 +37,7 @@ export default function ItemProperties({props, addProductList}:any){
               type="text" 
               disabled/* readOnly */
               className='w-44 h-9 p-2 bg-[#46b0a9] text-white  rounded-md text-lg'
-              value={'R$ '+props.value.toFixed(2)}  
+              value={'R$ '+props.price}  
               />
           </div>
           <div>
@@ -81,8 +81,8 @@ export default function ItemProperties({props, addProductList}:any){
         </div>
         <div className='flex items-end'>
           <button 
-          onClick={() => addProductList({name:props.name, qtd:quantity, pUnit:props.value, desconto:discount}, setTotalValue(0), setQuantity(1), setDiscount(""))}
-          disabled={!props.value || props.value === 0}
+          onClick={() => addProductList({name:props.name, qtd:quantity, pUnit:props.price, desconto:discount}, setTotalValue(0), setQuantity(1), setDiscount(""))}
+          disabled={!props.price || props.price === 0}
           className='bg-[#1DB935] hover:bg-[#269a38] text-white font-bold w-28 h-11 rounded-md'>
           INSERIR
           </button>

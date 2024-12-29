@@ -3,18 +3,18 @@ import React from 'react'
 interface ItemListProps {
   id: number;
   name: string;
-  value: number;
+  price: number;
   image?: string;
   onSelect: () => void;
 }
 
-export default function ItemList({id, name, value, image, onSelect}:ItemListProps){
+export default function ItemList({id, name, price, image, onSelect}:ItemListProps){
   return (
     <li className='flex flex-col '>
       <button onClick={onSelect} className='flex justify-between ml-1 p-1 border-[#48dad1] border-t-[0.01px] hover:bg-[#48dad1]'>
         <div className='text-start'>
           <div className='text-[#155b56]'>{id} - {name}</div>
-          <div className=' font-bold text-[#164542]'>R${value}</div> 
+          <div className=' font-bold text-[#164542]'>R${price}</div> 
         </div>
         <div>
           <div className=''>
