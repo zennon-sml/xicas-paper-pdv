@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import ModalEndSale from "./ModalEndSale/page";
 
 interface ITotals{
     qtd: number;
@@ -92,7 +93,9 @@ export default function SaleCompletion({props}:{ props: ITotals[] }){
                 >FINALIZAR VENDA</button>
 
                 {/* Modal */}
-                {showModal && (
+                <ModalEndSale showModal={showModal} totalValue={totalValue} closeModal={closeModal} />
+
+                {/* {showModal && (
                     <div
                     className="
                         fixed inset-0 flex items-center justify-center
@@ -108,7 +111,7 @@ export default function SaleCompletion({props}:{ props: ITotals[] }){
                                     <label className='text-sm text-[#198A83]'>Venda Total:</label>
                                         <input 
                                         type="text" 
-                                        disabled/* readOnly */
+                                        disabled
                                         className='w-60 h-9 p-2 bg-[#46b0a9] text-white  rounded-md text-lg'
                                         value={totalValue.toFixed(2)}  
                                         />
@@ -136,7 +139,7 @@ export default function SaleCompletion({props}:{ props: ITotals[] }){
                                     <label className='text-sm text-[#198A83]'>Valor Final:</label>
                                         <input 
                                         type="text" 
-                                        disabled/* readOnly */
+                                        disabled
                                         className='w-60 h-9 p-2 bg-[#46b0a9] text-white  rounded-md text-lg'
                                         value={""}  
                                         />
@@ -174,7 +177,7 @@ export default function SaleCompletion({props}:{ props: ITotals[] }){
                                     <label className='text-sm text-[#198A83]'>Troco:</label>
                                         <input 
                                         type="text" 
-                                        disabled/* readOnly */
+                                        disabled
                                         className='w-60 h-9 p-2 bg-[#46b0a9] text-white  rounded-md text-lg'
                                         value={""}  
                                         />
@@ -204,33 +207,10 @@ export default function SaleCompletion({props}:{ props: ITotals[] }){
                             
                             
                             
-                            {/* <h2 className="text-lg font-bold text-[#198A83] mb-4">
-                            Confirmação
-                            </h2>
-                            <p className="text-gray-700 text-center mb-4">
-                            Deseja realmente finalizar a venda no valor de{" "}
-                            <span className="font-bold">R$ {totalValue.toFixed(2)}</span>?
-                            </p>
-                            <div className="flex gap-4">
-                            <button
-                                onClick={closeModal} // Fecha o modal
-                                className="bg-red-500 text-white py-2 px-4 rounded-md"
-                            >
-                                Cancelar
-                            </button>
-                            <button
-                                onClick={() => {
-                                closeModal();
-                                alert("Venda finalizada com sucesso!"); // Exemplo de ação final
-                                }}
-                                className="bg-green-500 text-white py-2 px-4 rounded-md"
-                            >
-                                Confirmar
-                            </button>
-                            </div> */}
+                            
                         </div>
                     </div>
-                )}
+                )} */}
             </div>
         </div>
     )
