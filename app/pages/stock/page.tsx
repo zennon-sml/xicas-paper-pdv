@@ -1,5 +1,5 @@
 "use client"
-import SideBar from '@/components/SideBar/page';
+import SideBar from '@/components/SideBar';
 import ItemStock from '@/components/StockScreen/ItemStock';
 import { useState, useEffect } from 'react';
 

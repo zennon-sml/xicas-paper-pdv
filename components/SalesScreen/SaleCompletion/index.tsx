@@ -11,6 +11,8 @@ export default function SaleCompletion({props}:{ props: ITotals[] }){
     const [totalQtd, setTotalQtd] = useState<number>(0)
     const [totalDiscount, setTotalDiscount] = useState<number>(0)
 
+    const [showModal, setShowModal] = useState<boolean>(false);
+
    /*  const addProductList = (item:IItensList) => {
         setItens((prevProducts) => [...prevProducts, item]);
         setSelectedProduct({name:"", value:0, image:""})
@@ -30,6 +32,16 @@ export default function SaleCompletion({props}:{ props: ITotals[] }){
             setTotalValue(totalValue+total) // atualiza o valor total
         }
     }, [props])
+
+    //Para finalizar venda
+    const handleFinalizeSale = () => { 
+        setShowModal(true); //Exibe o modal
+    }
+
+    // Função para fechar o modal
+    const closeModal = () => {
+        setShowModal(false); //Felha modal
+    }
 
     return(
         <div className="flex justify-between ml-7 mt-3 mb-7">
@@ -73,10 +85,152 @@ export default function SaleCompletion({props}:{ props: ITotals[] }){
                 >CANCELAR</button>
 
                 <button 
+                onClick={handleFinalizeSale}
                 className=" 
                 bg-[#1DB935] text-white font-bold
                 w-40 h-12 rounded-md"
                 >FINALIZAR VENDA</button>
+
+                {/* Modal */}
+                {showModal && (
+                    <div
+                    className="
+                        fixed inset-0 flex items-center justify-center
+                        bg-black bg-opacity-50 z-50"
+                    >
+                        <div
+                            className="
+                            bg-white rounded-lg p-6 gap-4 w-auto
+                            flex justify-between"
+                        >
+                            <div className="flex flex-col p-2 gap-3 bg-[#CBFCF6] rounded-md">
+                                <div className="flex flex-col">
+                                    <label className='text-sm text-[#198A83]'>Venda Total:</label>
+                                        <input 
+                                        type="text" 
+                                        disabled/* readOnly */
+                                        className='w-60 h-9 p-2 bg-[#46b0a9] text-white  rounded-md text-lg'
+                                        value={totalValue.toFixed(2)}  
+                                        />
+                                </div>
+                                <div className="flex flex-col">
+                                    <label className='text-sm text-[#198A83]'>Tipo Desconto:</label>
+                                    <select 
+                                    id='tags' 
+                                    name='tags' 
+                                    className="w-60 h-9 p-1 bg-[#3BDCD2] text-[#198A83] rounded-md">
+                                        <option value="valor">Valor (R$)</option>
+                                        <option value="porcentagem">Porcentagem (%)</option>
+                                    </select>
+                                </div>
+
+                                <div className="flex flex-col">
+                                    <label className='text-sm text-[#198A83]'>Total Desconto:</label>
+                                        <input 
+                                        type="number" 
+                                        className='w-60 h-9 p-2 bg-[#3BDCD2] text-[#198A83]  rounded-md'
+                                        min={0}
+                                        />
+                                </div>
+                                <div className="flex flex-col">
+                                    <label className='text-sm text-[#198A83]'>Valor Final:</label>
+                                        <input 
+                                        type="text" 
+                                        disabled/* readOnly */
+                                        className='w-60 h-9 p-2 bg-[#46b0a9] text-white  rounded-md text-lg'
+                                        value={""}  
+                                        />
+                                </div>
+                                
+                            </div>
+
+
+                            <div className="flex flex-col gap-4">
+                                <div className="flex flex-col">
+                                    <label className='text-sm text-[#198A83]'>Tipo de Pagamento:</label>
+                                    <select 
+                                    id='tags' 
+                                    name='tags' 
+                                    className="w-60 h-9 p-1 bg-[#3BDCD2] text-[#198A83] rounded-md">
+                                        <option value="money">Dinheiro</option>
+                                        <option value="pix">PIX</option>
+                                        <option value="debito">Debito</option>
+                                        <option value="credito">Credito</option>
+                                        <option value="outro">Outro</option>
+                                    </select>
+                                </div>
+
+                                <div className="flex flex-col p-2 gap-3 bg-[#CBFCF6] rounded-md">
+                                    <div className="flex flex-col">
+                                        <label className='text-sm text-[#198A83]'>Valor Recebido:</label>
+                                            <input 
+                                            type="number" 
+                                            className='w-60 h-9 p-2 bg-[#3BDCD2] text-[#198A83]  rounded-md'
+                                            min={0}
+                                            />
+                                    </div>
+
+                                    <div className="flex flex-col">
+                                    <label className='text-sm text-[#198A83]'>Troco:</label>
+                                        <input 
+                                        type="text" 
+                                        disabled/* readOnly */
+                                        className='w-60 h-9 p-2 bg-[#46b0a9] text-white  rounded-md text-lg'
+                                        value={""}  
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="flex justify-between gap-2">
+                                    <button
+                                    onClick={closeModal} // Fecha o modal
+                                    className="bg-red-500 text-white py-2 px-4 rounded-md"
+                                    >
+                                        Cancelar
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                        closeModal();
+                                        alert("Venda finalizada com sucesso!"); // Exemplo de ação final
+                                        }}
+                                        className="bg-green-500 text-white py-2 px-4 rounded-md w-full"
+                                    >
+                                        Confirmar
+                                    </button>
+                                </div>
+
+                            </div>
+                            
+                            
+                            
+                            
+                            {/* <h2 className="text-lg font-bold text-[#198A83] mb-4">
+                            Confirmação
+                            </h2>
+                            <p className="text-gray-700 text-center mb-4">
+                            Deseja realmente finalizar a venda no valor de{" "}
+                            <span className="font-bold">R$ {totalValue.toFixed(2)}</span>?
+                            </p>
+                            <div className="flex gap-4">
+                            <button
+                                onClick={closeModal} // Fecha o modal
+                                className="bg-red-500 text-white py-2 px-4 rounded-md"
+                            >
+                                Cancelar
+                            </button>
+                            <button
+                                onClick={() => {
+                                closeModal();
+                                alert("Venda finalizada com sucesso!"); // Exemplo de ação final
+                                }}
+                                className="bg-green-500 text-white py-2 px-4 rounded-md"
+                            >
+                                Confirmar
+                            </button>
+                            </div> */}
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     )

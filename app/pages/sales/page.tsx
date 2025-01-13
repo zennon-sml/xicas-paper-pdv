@@ -1,7 +1,7 @@
 "use client"
 import { useState } from 'react';
 
-import SideBar from '@/components/SideBar/page';
+import SideBar from '@/components/SideBar';
 import ProductList from '@/components/SalesScreen/ProductList/page';
 import ItemProperties from '@/components/SalesScreen/ItemProperties/page';
 import SaleList from '@/components/SalesScreen/SaleList';
