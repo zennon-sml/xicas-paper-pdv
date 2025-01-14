@@ -1,6 +1,7 @@
 "use client"
 import SideBar from '@/components/SideBar';
 import ItemStock from '@/components/StockScreen/ItemStock';
+import ModalItemScreen from '@/components/StockScreen/ModalItemScreen';
 import { useState, useEffect } from 'react';
 
 interface Item {
@@ -20,6 +21,7 @@ interface Item {
 export default function Stock() {
   const [products, setProducts] = useState<Item[]>([])
   const [selectedButton, setSelectedButton] = useState<string>('TODOS')
+  const [showModal, setShowModal] = useState<boolean>(false);
   
   useEffect(() => {
     const fetchProducts = async () => {
@@ -34,6 +36,16 @@ export default function Stock() {
     fetchProducts()
   }, [])
 
+  //Para finalizar venda
+  const handleFinalizeSale = () => { 
+    setShowModal(true); //Exibe o modal
+  }
+
+  // Função para fechar o modal
+  const closeModal = () => {
+      setShowModal(false); //Fecha modal
+  }
+
   const handleButtonClick = (buttonName:string) => {
     setSelectedButton(buttonName)
   }
@@ -43,7 +55,18 @@ export default function Stock() {
       <SideBar />
 
       <div className=' flex fixed left-12 bg-[#8BE8DC] w-[calc(100%-3rem)] h-11 pr-3 pb-1 pt-1 '>
-        <button className=' flex ml-auto w-24 rounded-md items-center bg-[#1DB935] text-[11px] font-bold text-white'>ADICIONAR PRODUTOS</button>
+        <button 
+          className=' flex ml-auto w-24 rounded-md items-center bg-[#23b7bc] text-[11px] font-bold text-white'
+          >ADICIONAR ESTOQUE</button>
+
+        <button className=' flex ml-1 w-24 rounded-md items-center bg-[#e0a92a] text-[11px] font-bold text-white'>RETIRAR ESTOQUE</button>
+        
+        <button 
+        className=' flex ml-1 w-28 rounded-md items-center bg-[#1DB935] text-[11px] font-bold text-white'
+        onClick={handleFinalizeSale}
+        >ADICIONAR PRODUTO NOVO</button>
+        <ModalItemScreen showModal={showModal} closeModal={closeModal} />
+      
       </div>
 
       <hr className='flex fixed top-11 left-12 border-[1px] border-[#0B625D] w-[calc(100%-3rem)]'></hr>
@@ -78,7 +101,7 @@ export default function Stock() {
 
         <div className='flex flex-col flex-grow rounded-md overflow-auto bg-[#E4FFFC] m-2 border-x-2 border-[#8BE8DC]'>
           <table className='w-full'>
-            <thead className='bg-[#8BE8DC] sticky top-0'>
+            <thead className={`bg-[#8BE8DC] sticky top-0 ${showModal ? 'opacity-0 pointer-events-none' : ''}`}>
               <tr className="text-sm text-[#397F7B]">
                 <th className="w-2/6">Produto</th>
                 <th className="w-1/6">ID</th>
