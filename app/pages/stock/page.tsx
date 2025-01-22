@@ -3,7 +3,6 @@ import SideBar from '@/components/SideBar';
 import ItemStock from '@/components/StockScreen/ItemStock';
 import ModalItemScreen from '@/components/StockScreen/ModalItemScreen';
 
-
 import { useState, useEffect } from 'react';
 
 interface Item {
@@ -24,6 +23,7 @@ export default function Stock() {
   const [products, setProducts] = useState<Item[]>([])
   const [selectedButton, setSelectedButton] = useState<string>('TODOS')
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [productIdSelect, setProductIdSelect] = useState<number>(0);
   
   useEffect(() => {
     const fetchProducts = async () => {
@@ -39,8 +39,9 @@ export default function Stock() {
   }, [])
 
   //Para finalizar venda
-  const handleProduct = () => { 
+  const handleProduct = (id: number) => { 
     setShowModal(true); //Exibe o modal
+    setProductIdSelect(id);
   }
 
   // Função para fechar o modal
@@ -65,9 +66,9 @@ export default function Stock() {
         
         <button 
         className=' flex ml-1 w-28 rounded-md items-center bg-[#1DB935] text-[11px] font-bold text-white'
-        onClick={handleProduct}
+        onClick={() => handleProduct}
         >ADICIONAR PRODUTO NOVO</button>
-        <ModalItemScreen showModal={showModal} closeModal={closeModal} />
+        <ModalItemScreen showModal={showModal} idProduct={productIdSelect} closeModal={closeModal} />
       
       </div>
 

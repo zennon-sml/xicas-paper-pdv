@@ -8,7 +8,7 @@ interface IItemStock {
     cost: number;
     price: number;
     image?: string;
-    handleProduct: () => void;
+    handleProduct: (id: number) => void;
   }
 
 export default function ItemStock ({id, name, qtd, cost, price, image, handleProduct}:IItemStock){
@@ -28,7 +28,7 @@ export default function ItemStock ({id, name, qtd, cost, price, image, handlePro
             <td className="text-[#135550] text-center font-semibold">{"R$ "+cost.toFixed(2)}</td>
             <td className="text-[#135550] text-center font-bold">{"R$ "+price.toFixed(2)}</td>
             <td className="text-center text-[#135550] text-[15px]">
-                <button onClick={handleProduct} className=' m-1 hover:text-amber-500'><BiSolidPencil/></button>
+                <button onClick={() => handleProduct(id)} className=' m-1 hover:text-amber-500'><BiSolidPencil/></button>
                 <button className=' m-1 hover:text-red-500'><FaTrash /></button>
             </td>
         </tr>
