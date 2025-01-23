@@ -16,15 +16,14 @@ export default function ItemProperties({props, addProductList}:any){
     setTotalValue((props.price*quantity)-discountValue) //Calculo para definir o valor total
   }, [props.price, quantity, discount]) //O calculo vai ser atualizado sempre que props.price ou quantity ou discount forem atualizados
 
-  const handleQuantity = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const quant = Number(event.target.value);
+  const handleQuantity = (value:string) => {
+    const quant = Number(value);
     setQuantity(quant);
     /* setTotalValue((props.value*quant)-discount) */
   };
 
-  const handleDiscount = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const disc = event.target.value
-    setDiscount(disc);
+  const handleDiscount = (value: string) => {
+    setDiscount(value);
     /* setTotalValue((props.value*quantity)-disc) */
   };
 
@@ -47,7 +46,7 @@ export default function ItemProperties({props, addProductList}:any){
             className='w-44 h-8 p-2 bg-[#9efaf4] rounded-md text-lg'
             min={0}
             value={discount}
-            onChange={handleDiscount}
+            onChange={(e) => handleDiscount(e.target.value)}
             />
           </div>
           <div>
@@ -57,7 +56,7 @@ export default function ItemProperties({props, addProductList}:any){
             className='w-44 h-8 p-2 bg-[#9efaf4] rounded-md text-lg'
             value={quantity}
             min={1}
-            onChange={handleQuantity}
+            onChange={(e) => handleQuantity(e.target.value)}
             />
           </div>
           <div>

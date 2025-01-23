@@ -25,10 +25,6 @@ const lista = [
     "/img/iphone13.jpg",
     "/img/iphone13.jpg",
     "/img/iphone13.jpg",
-    "/img/iphone13.jpg",
-    "/img/iphone13.jpg",
-    "/img/iphone13.jpg",
-    "/img/iphone13.jpg",
     "/img/iphone13.jpg"
 ]
 export default function ModalItemScreen({idProduct, showModal, closeModal}:ModalItemProps) {
@@ -51,6 +47,13 @@ export default function ModalItemScreen({idProduct, showModal, closeModal}:Modal
         };
         fetchProductById(idProduct)
     }, [idProduct])
+
+    const updateProduct = (key: keyof Product, value: string | number) => {
+        setProduct({
+            ...product,
+            [key]: value
+        } as Product)
+    }
     
     return(
         <div>
@@ -89,6 +92,7 @@ export default function ModalItemScreen({idProduct, showModal, closeModal}:Modal
                                             <input 
                                             type="text" 
                                             value={product?.name}
+                                            onChange={(e) => updateProduct("name", e.target.value)}
                                             className='w-96 h-8 p-2 bg-[#b8f5ee] text-[#198A83]  rounded-md text-sm'
                                             />
                                         </div>
@@ -96,7 +100,7 @@ export default function ModalItemScreen({idProduct, showModal, closeModal}:Modal
                                             <label className='text-xs text-[#198A83]'>ID:</label>
                                             <input 
                                             type="text" 
-                                            value={idProduct}
+                                            value={idProduct === 0 ? "" : idProduct}
                                             disabled
                                             className='w-28 h-8 p-2 bg-[#46b0a9] text-white  rounded-md text-sm'
                                             />
@@ -108,6 +112,7 @@ export default function ModalItemScreen({idProduct, showModal, closeModal}:Modal
                                         <input 
                                         type="text" 
                                         value={product?.barcode}
+                                        onChange={(e) => updateProduct("barcode", e.target.value)}
                                         className='h-8 p-2 bg-[#b8f5ee] text-[#198A83] rounded-md text-sm'
                                         />
                                     </div>
@@ -118,6 +123,7 @@ export default function ModalItemScreen({idProduct, showModal, closeModal}:Modal
                                                 <input 
                                                 type="number" 
                                                 value={product?.qtd}
+                                                onChange={(e) => updateProduct("qtd", e.target.value)}
                                                 className='max-w-40 h-8 p-2 bg-[#b8f5ee] text-[#198A83] text-sm rounded-md'
                                                 min={0}
                                                 />
@@ -127,6 +133,7 @@ export default function ModalItemScreen({idProduct, showModal, closeModal}:Modal
                                                 <input 
                                                 type="number" 
                                                 value={product?.cost}
+                                                onChange={(e) => updateProduct("cost", e.target.value)}
                                                 className='min-w-40 h-8 p-2 bg-[#b8f5ee] text-[#198A83] text-sm rounded-md'
                                                 min={0}
                                                 />
@@ -149,6 +156,7 @@ export default function ModalItemScreen({idProduct, showModal, closeModal}:Modal
                                     <label className='text-xs text-[#198A83]'>Descrição:</label>
                                     <textarea 
                                     value={product?.description}
+                                    onChange={(e) => updateProduct("description", e.target.value)}
                                     className='flex min-w-[554px] h-16 p-2 bg-[#b8f5ee] text-[#198A83] rounded-md text-sm'
                                     />
                                 </div>
@@ -156,6 +164,7 @@ export default function ModalItemScreen({idProduct, showModal, closeModal}:Modal
                                     <label className='text-xs text-[#198A83]'>Tags:</label>
                                     <textarea 
                                     value={product?.tags}
+                                    onChange={(e) => updateProduct("tags", e.target.value)}
                                     className='h-16 max-w-44 p-2 bg-[#b8f5ee] text-[#198A83] rounded-md text-sm'
                                     />
                                 </div>
@@ -167,6 +176,7 @@ export default function ModalItemScreen({idProduct, showModal, closeModal}:Modal
                                     min={0}
                                     type="number"
                                     value={product?.price}
+                                    onChange={(e) => updateProduct("price", e.target.value)}
                                     className='h-10 max-w-44 p-2 bg-[#61e0d8] text-[#198A83] rounded-md text-sm'
                                     />
                                 </div>
