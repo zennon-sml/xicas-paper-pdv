@@ -11,8 +11,10 @@ CREATE TABLE admins (
 CREATE TABLE products (
     id SERIAL PRIMARY KEY,
     name VARCHAR(150) NOT NULL,
+    barcode TEXT,
     description TEXT,
     price NUMERIC(10, 2) NOT NULL,
+    cost NUMERIC(10, 2) NOT NULL,
     image TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
