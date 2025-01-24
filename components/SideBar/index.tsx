@@ -44,9 +44,8 @@ export default function SideBar() {
       '><IoMenu /></button>
 
       {buttons.map((button) => (
-        <Link href={`/pages/${button.id}`}>
+        <Link key={button.id} href={`/pages/${button.id}`}>
           <button
-            key={button.id}
             onClick={() => handleButtonClick(button.id)}
             className={`flex w-12 h-12 text-[#198A83]
             text-xl items-center justify-center

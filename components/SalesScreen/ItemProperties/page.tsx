@@ -34,7 +34,7 @@ export default function ItemProperties({props, addProductList}:any){
             <label className='text-sm text-[#198A83]'>Valor Unit. Produto:</label>
             <input 
               type="text" 
-              disabled/* readOnly */
+              disabled
               className='w-44 h-9 p-2 bg-[#46b0a9] text-white  rounded-md text-lg'
               value={props.price || ""}  
               />

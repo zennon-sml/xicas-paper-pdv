@@ -2,7 +2,6 @@
 import SideBar from '@/components/SideBar';
 import ItemStock from '@/components/StockScreen/ItemStock';
 import ModalItemScreen from '@/components/StockScreen/ModalItemScreen';
-import { isNumberObject } from 'node:util/types';
 
 import { useState, useEffect } from 'react';
 
@@ -40,11 +39,9 @@ export default function Stock() {
   }, [])
 
   //Para finalizar venda
-  const handleProduct = (id?: number) => { 
-    setShowModal(true); //Exibe o modal
-    if (id) {
-      setProductIdSelect(id);
-    }
+  const handleProduct = (id: number) => { 
+    setShowModal(true); //Exibe o modal   
+    setProductIdSelect(id);
   }
 
   // Função para fechar o modal
@@ -59,6 +56,7 @@ export default function Stock() {
   return (
     <div className='flex flex-col h-screen'>
       <SideBar />
+      <ModalItemScreen showModal={showModal} idProduct={productIdSelect} closeModal={closeModal} />
 
       <div className=' flex fixed left-12 bg-[#8BE8DC] w-[calc(100%-3rem)] h-11 pr-3 pb-1 pt-1 '>
         <button 
@@ -69,9 +67,8 @@ export default function Stock() {
         
         <button 
         className=' flex ml-1 w-28 rounded-md items-center bg-[#1DB935] text-[11px] font-bold text-white'
-        onClick={() => handleProduct()}
+        onClick={() => handleProduct(0)}
         >ADICIONAR PRODUTO NOVO</button>
-        <ModalItemScreen showModal={showModal} idProduct={productIdSelect} closeModal={closeModal} />
       
       </div>
 
@@ -122,7 +119,7 @@ export default function Stock() {
               {products.map((product, index) => (
                 <ItemStock 
                   key={product.id} 
-                  handleProduct={handleProduct}
+                  handleProduct={() => handleProduct(product.id)}
                   {...product} 
                 />
               ))}

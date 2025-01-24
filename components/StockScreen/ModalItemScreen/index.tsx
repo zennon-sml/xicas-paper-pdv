@@ -28,25 +28,39 @@ const lista = [
     "/img/iphone13.jpg"
 ]
 export default function ModalItemScreen({idProduct, showModal, closeModal}:ModalItemProps) {
-    const [product, setProduct] = useState<Product>()
+    const [product, setProduct] = useState<Product | undefined>(undefined)
 
     useEffect(() => {
         const fetchProductById = async (id:number) => {
-        try{
-            const response = await fetch('/data/database.json').then() // Faz a requisição
-            const data = await response.json();  // Converte a resposta para JSON
-            const product = data.products.find((item:Product) => item.id === id);
+            try{
+                const response = await fetch('/data/database.json').then() // Faz a requisição
+                const data = await response.json();  // Converte a resposta para JSON
+                const productData = data.products.find((item:Product) => item.id === id);
 
-            if (product) {
-                console.log("Produto encontrado", product);
-                setProduct(product)
+                if (productData) {
+                    //console.log("Produto encontrado", productData);
+                    setProduct(productData)
+                }
+                
+            } catch (error){
+                console.log("Erro na requisição:", error) // Trata erros
             }
-        } catch (error){
-            console.log("Erro na requisição:", error) // Trata erros
-        }
         };
         fetchProductById(idProduct)
     }, [idProduct])
+
+    const completionModal = (value:string) => {
+        if (value === "confirmar"){
+            if (idProduct === 0){ // Produto Novo
+                alert("Produto cadastrado com sucesso!"); // Exemplo de ação final
+            }
+            else{ // Atualização
+                alert("Produto atualizado com sucesso!")
+            }
+        }
+        closeModal();
+        setProduct(undefined)
+    }
 
     const updateProduct = (key: keyof Product, value: string | number) => {
         setProduct({
@@ -182,17 +196,14 @@ export default function ModalItemScreen({idProduct, showModal, closeModal}:Modal
                                 </div>
                                 
                                 <button
-                                onClick={closeModal} // Fecha o modal
+                                onClick={() => completionModal("cancelar")} // Fecha o modal
                                 className="bg-red-500 text-white py-2 px-4 rounded-md"
                                 >
                                     Cancelar
                                 </button>
 
                                 <button
-                                    onClick={() => {
-                                    closeModal();
-                                    alert("Produto cadastrado co sucesso!"); // Exemplo de ação final
-                                    }}
+                                    onClick={() => completionModal("confirmar")}
                                     className="bg-green-500 text-white py-2 px-4 rounded-md w-full"
                                 >
                                     Confirmar
