@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { useState } from 'react';
-import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation'; // usado para obter o caminho atual da URL no lado do cliente
 
 import { FaShoppingCart, FaDatabase, FaDollarSign } from "react-icons/fa";
 import { IoMenu } from "react-icons/io5";
@@ -13,16 +13,14 @@ import { IoMenu } from "react-icons/io5";
 export default function SideBar() {
     const [selectedButton, setSelectedButton] = useState<string>('sales') //Botão de periodo selecionado
     //const router = useRouter();
+    const pathname = usePathname();
 
     const buttons = [
-      {id: "sales", icon: <FaShoppingCart />},
-      {id: "stock", icon: <FaDatabase />},
-      {id: "finances", icon: <FaDollarSign />}
+      {id: "sales", route: "/pages/sales", icon: <FaShoppingCart />},
+      {id: "stock", route: "/pages/stock", icon: <FaDatabase />},
+      {id: "finances", route: "/pages/finances", icon: <FaDollarSign />}
     ];
 
-    /* if (!router.isReady){
-      return null;
-    } */
 
     const handleButtonClick = (buttonId:any) => { //Muda botão selecionado
       setSelectedButton(buttonId)
@@ -44,15 +42,15 @@ export default function SideBar() {
       '><IoMenu /></button>
 
       {buttons.map((button) => (
-        <Link key={button.id} href={`/pages/${button.id}`}>
+        <Link key={button.id} href={button.route}>
           <button
             onClick={() => handleButtonClick(button.id)}
             className={`flex w-12 h-12 text-[#198A83]
             text-xl items-center justify-center
+            
             ${
-              selectedButton === button.id
-              /* router.pathname === `/pages/${button.id}` */
-              ? `bg-[#2ba098] text-[#8BE8DC] z-10`
+              pathname === button.route
+              ?`bg-[#2ba098] text-[#8BE8DC] z-10`
               : `hover:bg-[#8BE8DC]`
             }`}
           >
@@ -61,25 +59,6 @@ export default function SideBar() {
         </Link>
       ))}
 
-
-
-       {/*  <Link href={"/pages/sales"}><button className='
-        flex w-12 h-12 text-[#198A83]
-        text-xl items-center justify-center
-        hover:bg-[#8BE8DC]
-        '><FaShoppingCart /></button></Link>
-
-        <Link href={"/pages/stock"}><button className='
-        flex w-12 h-12 text-[#198A83]
-        text-xl items-center justify-center
-        hover:bg-[#8BE8DC]
-        '><FaDatabase /></button></Link>
-        
-        <Link href={"/pages/finances"}><button className='
-        flex w-12 h-12 text-[#198A83]
-        text-xl items-center justify-center
-        hover:bg-[#8BE8DC]
-        '><FaDollarSign /></button></Link> */}
     </div>
   )
 }
