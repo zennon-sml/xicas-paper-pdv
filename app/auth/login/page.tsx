@@ -29,23 +29,29 @@ export default function Login() {
   };
 
   return (
-    <div>
-      <h1>Form Test</h1>
-      <form onSubmit={handleSubmit} className="flex gap-2 p-2">
-        <input
-          type="text"
-          className="bg-zinc-500"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          className="bg-zinc-500"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit" className="flex p-2 align-middle bg-zinc-800">
-          send
+    <div className=" flex fixed bg-[#ccfffc] justify-center items-center left-0 w-screen h-screen">
+      <form onSubmit={handleSubmit} className="flex flex-col bg-[#3BDCD2] gap-3 py-7 px-11 w-96 items-center rounded-md">
+        <h1 className=" text-4xl font-semibold text-[#ccfffc]">LOGIN</h1> 
+        <div className="flex flex-col">
+          <label className="text-[#1e6762]">E-mail</label>
+          <input
+            type="email"
+            className="bg-[#6CE9E2] p-2 rounded-md w-72 text-xs text-[#185c57]"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div className="flex flex-col">
+          <label className="text-[#1e6762]">Senha</label>
+          <input
+            type="password"
+            className="bg-[#6CE9E2] p-2 rounded-md w-72 text-xs text-[#185c57]"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <button type="submit" className="flex justify-center p-2 bg-[#ccfffc] w-28 rounded-xl mt-3 text-[#30bab1]">
+          Entrar
         </button>
       </form>
     </div>

@@ -5,6 +5,10 @@ interface ModalEndSaleProps {
 }
 
 export default function ModalEndSale({showModal, totalValue, closeModal}:ModalEndSaleProps){
+    const discountTotal = () => {
+
+    }
+
     return(
         <div>
             {showModal && (
