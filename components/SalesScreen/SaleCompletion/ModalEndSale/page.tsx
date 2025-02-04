@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 interface ModalEndSaleProps {
     showModal: boolean;
     totalValue: number;
@@ -5,8 +7,20 @@ interface ModalEndSaleProps {
 }
 
 export default function ModalEndSale({showModal, totalValue, closeModal}:ModalEndSaleProps){
-    const discountTotal = () => {
+    const [discountType, setDiscountType] = useState<string>("valor") // tipo de desconto "valor" ou "porcentagem"
+    const [discountTotal, setDiscountTotal] = useState<number>(0) // Valor de desconto calculado
+    const [discountValue, setDiscountValue] = useState<number>(0) // Valor digitado no campo de desconto
 
+    const handleDiscount = (e:number) => { // Calcula o valor de desconto e "zera" os campos caso o tipo de desconto seja alterado
+        let discount = 0;
+        if (discountType === "valor"){
+            discount = e;
+        }
+        else {
+            discount = ((totalValue*e)/100)
+        }
+        setDiscountTotal(discount) 
+        setDiscountValue(e)
     }
 
     return(
@@ -35,6 +49,10 @@ export default function ModalEndSale({showModal, totalValue, closeModal}:ModalEn
                             <div className="flex flex-col">
                                 <label className='text-sm text-[#198A83]'>Tipo Desconto:</label>
                                 <select 
+                                onChange={(e) => {
+                                    setDiscountType(e.target.value)                                   
+                                    handleDiscount(0)
+                                }}
                                 id='tags' 
                                 name='tags' 
                                 className="w-60 h-9 p-1 bg-[#3BDCD2] text-[#198A83] rounded-md">
@@ -44,8 +62,10 @@ export default function ModalEndSale({showModal, totalValue, closeModal}:ModalEn
                             </div>
 
                             <div className="flex flex-col">
-                                <label className='text-sm text-[#198A83]'>Total Desconto:</label>
+                                <label className='text-sm text-[#198A83]'>Total Desconto: {(discountTotal).toFixed(2)}</label>
                                     <input 
+                                    onChange={(e) => handleDiscount(Number(e.target.value))}
+                                    value={discountValue}
                                     type="number" 
                                     className='w-60 h-9 p-2 bg-[#3BDCD2] text-[#198A83]  rounded-md'
                                     min={0}
@@ -57,7 +77,7 @@ export default function ModalEndSale({showModal, totalValue, closeModal}:ModalEn
                                     type="text" 
                                     disabled/* readOnly */
                                     className='w-60 h-9 p-2 bg-[#46b0a9] text-white  rounded-md text-lg'
-                                    value={""}  
+                                    value={(totalValue-discountTotal).toFixed(2)}  
                                     />
                             </div>
                             

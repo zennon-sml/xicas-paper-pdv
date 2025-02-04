@@ -50,7 +50,7 @@ export default function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <button type="submit" className="flex justify-center p-2 bg-[#ccfffc] w-28 rounded-xl mt-3 text-[#30bab1]">
+        <button type="submit" className="flex justify-center p-2 bg-[#ccfffc] w-28 rounded-xl mt-3 text-[#30bab1] hover:bg-[#30bab1] hover:text-[#ccfffc]">
           Entrar
         </button>
       </form>
