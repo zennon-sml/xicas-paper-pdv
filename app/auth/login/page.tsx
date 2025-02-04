@@ -1,37 +1,45 @@
-"use client"
+"use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Login() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
     try {
       const response = await fetch("http://localhost:5000/api/admins/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include", // Important to allow cookies from the API
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ email, password }),
       });
 
-      if (!response.ok) {
-        throw new Error("Login failed");
-      }
+      const data = await response.json();
 
-      console.log("Login successful");
+      if (!response.ok) {
+        toast.error(data.message || "Erro ao fazer login ❌");
+      } else {
+        toast.success("Login bem-sucedido! ✅");
+        router.push("/"); // Redirect to home page
+      }
     } catch (error) {
+      toast.error("Erro de rede. Tente novamente ❌");
       console.error("Error:", error);
     }
   };
 
   return (
-    <div className=" flex fixed bg-[#ccfffc] justify-center items-center left-0 w-screen h-screen">
+    <div className="flex flex-col gap-2 fixed bg-[#ccfffc] justify-center items-center left-0 w-screen h-screen">
+      <Toaster position="top-center" /> {/* Toast container */}
+      
       <form onSubmit={handleSubmit} className="flex flex-col bg-[#3BDCD2] gap-3 py-7 px-11 w-96 items-center rounded-md">
-        <h1 className=" text-4xl font-semibold text-[#ccfffc]">LOGIN</h1> 
+        <h1 className="text-4xl font-semibold text-[#ccfffc]">LOGIN</h1> 
+
         <div className="flex flex-col">
           <label className="text-[#1e6762]">E-mail</label>
           <input
@@ -41,6 +49,7 @@ export default function Login() {
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
+
         <div className="flex flex-col">
           <label className="text-[#1e6762]">Senha</label>
           <input
