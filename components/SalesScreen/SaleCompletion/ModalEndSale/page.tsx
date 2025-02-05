@@ -10,6 +10,7 @@ export default function ModalEndSale({showModal, totalValue, closeModal}:ModalEn
     const [discountType, setDiscountType] = useState<string>("valor") // tipo de desconto "valor" ou "porcentagem"
     const [discountTotal, setDiscountTotal] = useState<number>(0) // Valor de desconto calculado
     const [discountValue, setDiscountValue] = useState<number>(0) // Valor digitado no campo de desconto
+    const [moneyReceived, setMoneyReceived] = useState<number>(0) // Valor em dinheiro pago
 
     const handleDiscount = (e:number) => { // Calcula o valor de desconto e "zera" os campos caso o tipo de desconto seja alterado
         let discount = 0;
@@ -62,10 +63,14 @@ export default function ModalEndSale({showModal, totalValue, closeModal}:ModalEn
                             </div>
 
                             <div className="flex flex-col">
-                                <label className='text-sm text-[#198A83]'>Total Desconto: {(discountTotal).toFixed(2)}</label>
+                                <label className='text-sm text-[#198A83]'>Total Desconto: <text className="font-semibold">{(discountTotal).toFixed(2)}</text></label>
                                     <input 
                                     onChange={(e) => handleDiscount(Number(e.target.value))}
-                                    value={discountValue}
+                                    value={
+                                        discountValue === 0
+                                        ? ""
+                                        : discountValue
+                                    }
                                     type="number" 
                                     className='w-60 h-9 p-2 bg-[#3BDCD2] text-[#198A83]  rounded-md'
                                     min={0}
@@ -92,10 +97,10 @@ export default function ModalEndSale({showModal, totalValue, closeModal}:ModalEn
                                 name='tags' 
                                 className="w-60 h-9 p-1 bg-[#3BDCD2] text-[#198A83] rounded-md">
                                     <option value="money">Dinheiro</option>
-                                    <option value="pix">PIX</option>
+                                    {/* <option value="pix">PIX</option>
                                     <option value="debito">Debito</option>
                                     <option value="credito">Credito</option>
-                                    <option value="outro">Outro</option>
+                                    <option value="outro">Outro</option> */}
                                 </select>
                             </div>
 
@@ -104,11 +109,12 @@ export default function ModalEndSale({showModal, totalValue, closeModal}:ModalEn
                             <div className="flex flex-col p-2 gap-3 bg-[#CBFCF6] rounded-md">
                                 <div className="flex flex-col">
                                     <label className='text-sm text-[#198A83]'>Valor Recebido:</label>
-                                        <input 
-                                        type="number" 
-                                        className='w-60 h-9 p-2 bg-[#3BDCD2] text-[#198A83]  rounded-md'
-                                        min={0}
-                                        />
+                                    <input 
+                                    onChange={(e) => setMoneyReceived(Number(e.target.value))}
+                                    type="number" 
+                                    className='w-60 h-9 p-2 bg-[#3BDCD2] text-[#198A83]  rounded-md'
+                                    min={0}
+                                    />
                                 </div>
                                 <div className="flex flex-col">
                                 <label className='text-sm text-[#198A83]'>Troco:</label>
@@ -116,7 +122,7 @@ export default function ModalEndSale({showModal, totalValue, closeModal}:ModalEn
                                     type="text" 
                                     disabled/* readOnly */
                                     className='w-60 h-9 p-2 bg-[#46b0a9] text-white  rounded-md text-lg'
-                                    value={""}  
+                                    value={(moneyReceived-totalValue-discountTotal).toFixed(2)}  
                                     />
                                 </div>
                             </div>
@@ -130,8 +136,8 @@ export default function ModalEndSale({showModal, totalValue, closeModal}:ModalEn
                                 </button>
                                 <button
                                     onClick={() => {
-                                    closeModal();
-                                    alert("Venda finalizada com sucesso!"); // Exemplo de ação final
+                                        closeModal();
+                                        alert("Venda finalizada com sucesso!"); // Exemplo de ação final
                                     }}
                                     className="bg-green-500 text-white py-2 px-4 rounded-md w-full"
                                 >
