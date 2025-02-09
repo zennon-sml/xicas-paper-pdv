@@ -7,7 +7,7 @@ interface ITotals{
     desconto: string;
   }
 
-export default function SaleCompletion({props}:{ props: ITotals[] }){
+export default function SaleCompletion({props, resetProps}:{ props: ITotals[]; resetProps: () => void }){
     const [totalValue, setTotalValue] = useState<number>(0)
     const [totalQtd, setTotalQtd] = useState<number>(0)
     const [totalDiscount, setTotalDiscount] = useState<number>(0)
@@ -41,6 +41,12 @@ export default function SaleCompletion({props}:{ props: ITotals[] }){
 
     // Função para fechar o modal
     const closeModal = () => {
+        
+        setTotalValue(0)
+        setTotalQtd(0)
+        setTotalDiscount(0)
+        resetProps()
+        
         setShowModal(false); //Fecha modal
     }
 

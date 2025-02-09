@@ -37,6 +37,11 @@ export default function Sales() {
     setSelectedProduct({name:"", price:0, image:""})
   }
 
+  const resetProps = () => {
+    console.log(itens)
+    setItens([])
+  }
+
   return (
     <div className='flex gap-2'>
       <SideBar />
@@ -49,7 +54,7 @@ export default function Sales() {
       <div className='flex flex-col h-screen gap-2'>
         <QuickAddition />
         <SaleList saleList={itens}/>
-        <SaleCompletion props={itens} />
+        <SaleCompletion props={itens} resetProps={resetProps} />
       </div>
 
       <CRUDButtons />

@@ -24,6 +24,17 @@ export default function ModalEndSale({showModal, totalValue, closeModal}:ModalEn
         setDiscountValue(e)
     }
 
+    const closeSale = (event:string) => {
+        if (event === "confirm"){
+            alert("Venda finalizada com sucesso!");
+        }
+        setDiscountType("valor")
+        setDiscountTotal(0)
+        setDiscountValue(0)
+        setMoneyReceived(0)
+        closeModal()
+    }
+
     return(
         <div>
             {showModal && (
@@ -44,7 +55,7 @@ export default function ModalEndSale({showModal, totalValue, closeModal}:ModalEn
                                     type="text" 
                                     disabled/* readOnly */
                                     className='w-60 h-9 p-2 bg-[#46b0a9] text-white  rounded-md text-lg'
-                                    value={totalValue}  
+                                    value={totalValue.toFixed(2)}  
                                     />
                             </div>
                             <div className="flex flex-col">
@@ -122,22 +133,25 @@ export default function ModalEndSale({showModal, totalValue, closeModal}:ModalEn
                                     type="text" 
                                     disabled/* readOnly */
                                     className='w-60 h-9 p-2 bg-[#46b0a9] text-white  rounded-md text-lg'
-                                    value={(moneyReceived-totalValue-discountTotal).toFixed(2)}  
+                                    value={
+                                        moneyReceived-(totalValue-discountTotal) <= 0
+                                        ? ""
+                                        : (moneyReceived-(totalValue-discountTotal)).toFixed(2)
+                                    }  
                                     />
                                 </div>
                             </div>
 
                             <div className="flex justify-between gap-2">
                                 <button
-                                onClick={closeModal} // Fecha o modal
+                                onClick={() => closeSale("cancel")} // Fecha o modal
                                 className="bg-red-500 text-white py-2 px-4 rounded-md"
                                 >
                                     Cancelar
                                 </button>
                                 <button
                                     onClick={() => {
-                                        closeModal();
-                                        alert("Venda finalizada com sucesso!"); // Exemplo de ação final
+                                        closeSale("confirm")
                                     }}
                                     className="bg-green-500 text-white py-2 px-4 rounded-md w-full"
                                 >
