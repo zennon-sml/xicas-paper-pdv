@@ -24,7 +24,7 @@ export default function SaleList({saleList}:{ saleList: IItensList[] }){
                     </thead>
                     <tbody className="bg-[#B8FFF7] text-xs flex-grow overflow-auto">
                         {saleList.map((product, i) => (
-                            <tr className="border-b border-b-[#5CC5BE]">
+                            <tr className="border-b border-b-[#5CC5BE]" key={i}>
                                 <td className="pl-1 pr-1 text-[#135550] text-center font-bold">{i+1}</td>
                                 <td className="pl-1 pr-1 text-[#135550] text-center">{product.name}</td>
                                 <td className="pl-1 pr-1 text-[#135550] text-center">{product.qtd}</td>

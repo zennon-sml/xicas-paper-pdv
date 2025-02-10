@@ -33,12 +33,10 @@ export default function Sales() {
 
   const addProductList = (item:IItensList) => {
     setItens((prevProducts) => [...prevProducts, item]);
-    console.log(itens)
     setSelectedProduct({name:"", price:0, image:""})
   }
 
   const resetProps = () => {
-    console.log(itens)
     setItens([])
   }
 

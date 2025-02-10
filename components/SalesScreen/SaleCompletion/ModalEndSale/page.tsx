@@ -74,7 +74,7 @@ export default function ModalEndSale({showModal, totalValue, closeModal}:ModalEn
                             </div>
 
                             <div className="flex flex-col">
-                                <label className='text-sm text-[#198A83]'>Total Desconto: <text className="font-semibold">{(discountTotal).toFixed(2)}</text></label>
+                                <label className='text-sm text-[#198A83]'>Total Desconto: <label className="font-semibold">{(discountTotal).toFixed(2)}</label></label>
                                     <input 
                                     onChange={(e) => handleDiscount(Number(e.target.value))}
                                     value={
@@ -145,7 +145,8 @@ export default function ModalEndSale({showModal, totalValue, closeModal}:ModalEn
                             <div className="flex justify-between gap-2">
                                 <button
                                 onClick={() => closeSale("cancel")} // Fecha o modal
-                                className="bg-red-500 text-white py-2 px-4 rounded-md"
+                                className="bg-[#FE3F3F] text-white py-2 px-4 rounded-md
+                                hover:bg-[#a12828]"
                                 >
                                     Cancelar
                                 </button>
@@ -153,12 +154,12 @@ export default function ModalEndSale({showModal, totalValue, closeModal}:ModalEn
                                     onClick={() => {
                                         closeSale("confirm")
                                     }}
-                                    className="bg-green-500 text-white py-2 px-4 rounded-md w-full"
+                                    className="bg-[#59cf5d] text-white py-2 px-4 rounded-md w-full
+                                    hover:bg-[#319034]"
                                 >
                                     Confirmar
                                 </button>
                             </div>
-
                         </div>
                         
                         
