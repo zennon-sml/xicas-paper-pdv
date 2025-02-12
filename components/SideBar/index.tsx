@@ -7,24 +7,29 @@ import { usePathname } from 'next/navigation'; // usado para obter o caminho atu
 
 import { FaShoppingCart, FaDatabase, FaDollarSign } from "react-icons/fa";
 import { IoMenu } from "react-icons/io5";
+import LoadingScreen from '../LoadingScreen';
 
 
 
 export default function SideBar() {
-    const [selectedButton, setSelectedButton] = useState<string>('sales') //Botão de periodo selecionado
-    //const router = useRouter();
-    const pathname = usePathname();
+  const [selectedButton, setSelectedButton] = useState<string>('sales') //Botão de periodo selecionado
+  const [isLoading, setIsLoading] = useState(false)
+  const pathname = usePathname();
 
-    const buttons = [
-      {id: "sales", route: "/pages/sales", icon: <FaShoppingCart />},
-      {id: "stock", route: "/pages/stock", icon: <FaDatabase />},
-      {id: "finances", route: "/pages/finances", icon: <FaDollarSign />}
-    ];
+  const buttons = [
+    {id: "sales", route: "/pages/sales", icon: <FaShoppingCart />},
+    {id: "stock", route: "/pages/stock", icon: <FaDatabase />},
+    {id: "finances", route: "/pages/finances", icon: <FaDollarSign />}
+  ];
 
 
-    const handleButtonClick = (buttonId:any) => { //Muda botão selecionado
-      setSelectedButton(buttonId)
-    }
+  const handleButtonClick = (buttonId:any) => { //Muda botão selecionado
+    setSelectedButton(buttonId)
+  }
+
+  const handleClick = () => {
+    setIsLoading(true);
+  };
 
   return (
     <div className='
@@ -32,6 +37,8 @@ export default function SideBar() {
     top-0 left-0 bottom-0 w-12
     bg-[#77CFC4]
     '>
+
+      {isLoading && <LoadingScreen />}
 
       <button className='
       flex w-12 h-12
@@ -42,11 +49,11 @@ export default function SideBar() {
       '><IoMenu /></button>
 
       {buttons.map((button) => (
-        <Link key={button.id} href={button.route}>
+        <Link key={button.id} href={button.route} onClick={handleClick}>
           <button
             onClick={() => handleButtonClick(button.id)}
             className={`flex w-12 h-12 text-[#198A83]
-            text-xl items-center justify-center
+            text-xl items-center justify-center transition duration-300
             
             ${
               pathname === button.route
