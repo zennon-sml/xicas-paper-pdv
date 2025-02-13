@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { createProduct } from "@/app/services/productService";
 
 interface ModalItemProps {
     idProduct: number;
@@ -52,6 +53,7 @@ export default function ModalItemScreen({idProduct, showModal, closeModal}:Modal
     const completionModal = (value:string) => {
         if (value === "confirmar"){
             if (idProduct === 0){ // Produto Novo
+                createProduct(product)
                 alert("Produto cadastrado com sucesso!"); // Exemplo de ação final
             }
             else{ // Atualização

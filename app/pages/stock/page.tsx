@@ -2,6 +2,7 @@
 import SideBar from '@/components/SideBar';
 import ItemStock from '@/components/StockScreen/ItemStock';
 import ModalItemScreen from '@/components/StockScreen/ModalItemScreen';
+import { getAllProducts } from '@/app/services/productService';
 
 import { useState, useEffect } from 'react';
 
@@ -53,6 +54,8 @@ export default function Stock() {
     setSelectedButton(buttonName)
   }
 
+
+
   return (
     <div className='flex flex-col h-screen'>
       <SideBar />
@@ -101,7 +104,7 @@ export default function Stock() {
           </select>
         </div>
 
-        <p className='m-3 text-[#0B625D] font-semibold'>{products.length +" produtos"}</p>
+        <p className='m-3 text-[#0B625D] font-semibold'>{(products.length) +" produtos"}</p>
 
         <div className='flex flex-col flex-grow rounded-md overflow-auto bg-[#E4FFFC] m-2 border-x-2 border-[#8BE8DC]'>
           <table className='w-full'>
