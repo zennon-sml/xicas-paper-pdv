@@ -6,7 +6,6 @@ export const createProduct = async (productData: any) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(productData)
     })
-    console.log(response)
     return await response.json()
 }
 
@@ -14,3 +13,17 @@ export const getAllProducts = async () => {
     const response = await fetch(API_URL, {method: 'GET'})
     return await response.json()
 } 
+
+export const getProductById = async (productID: number) => {
+    const response = await fetch(API_URL+`/`+productID)
+    return await response.json()
+}
+
+export const updateProductById = async (productID: any, updatedData: any) => {
+    const response = await fetch(API_URL+`/`+productID,{
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedData)
+    })
+    return await response.json()
+}

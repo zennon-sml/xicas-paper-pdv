@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createProduct } from "@/app/services/productService";
+import { createProduct, getProductById, updateProductById } from "@/app/services/productService";
 
 interface ModalItemProps {
     idProduct: number;
@@ -34,13 +34,14 @@ export default function ModalItemScreen({idProduct, showModal, closeModal}:Modal
     useEffect(() => {
         const fetchProductById = async (id:number) => {
             try{
-                const response = await fetch('/data/database.json').then() // Faz a requisição
-                const data = await response.json();  // Converte a resposta para JSON
-                const productData = data.products.find((item:Product) => item.id === id);
+                //const response = await fetch('/data/database.json').then() // Faz a requisição
+                const productData = await getProductById(id);  // Converte a resposta para JSON
+                //const productData = data.products.find((item:Product) => item.id === id);
 
                 if (productData) {
                     //console.log("Produto encontrado", productData);
                     setProduct(productData)
+                    console.log(productData)
                 }
                 
             } catch (error){
@@ -57,6 +58,7 @@ export default function ModalItemScreen({idProduct, showModal, closeModal}:Modal
                 alert("Produto cadastrado com sucesso!"); // Exemplo de ação final
             }
             else{ // Atualização
+                updateProductById(product?.id, product)
                 alert("Produto atualizado com sucesso!")
             }
         }
@@ -69,6 +71,7 @@ export default function ModalItemScreen({idProduct, showModal, closeModal}:Modal
             ...product,
             [key]: value
         } as Product)
+        console.log(product)
     }
     
     return(

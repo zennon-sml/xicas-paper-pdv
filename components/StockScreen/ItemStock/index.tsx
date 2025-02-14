@@ -25,8 +25,8 @@ export default function ItemStock ({id, name, qtd, cost, price, image, handlePro
             </td>
             <td className="text-[#135550] text-center font-semibold">{id}</td>
             <td className="text-[#135550] text-center font-semibold">{qtd}</td>
-            <td className="text-[#135550] text-center font-semibold">{"R$ "+cost.toFixed(2)}</td>
-            <td className="text-[#135550] text-center font-bold">{"R$ "+price.toFixed(2)}</td>
+            <td className="text-[#135550] text-center font-semibold">{"R$ "+cost}</td>
+            <td className="text-[#135550] text-center font-bold">{"R$ "+price}</td>
             <td className="text-center text-[#135550] text-[15px]">
                 <button onClick={() => handleProduct(id)} className=' m-1 hover:text-amber-500'><BiSolidPencil/></button>
                 <button className=' m-1 hover:text-red-500'><FaTrash /></button>

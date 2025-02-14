@@ -29,15 +29,20 @@ export default function Stock() {
   useEffect(() => {
     const fetchProducts = async () => {
       try{
-        const response = await fetch('/data/database.json').then() // Faz a requisição
-        const data = await response.json();  // Converte a resposta para JSON
-        setProducts(data.products)
+        // const response = await fetch('/data/database.json').then() // Faz a requisição
+        // const data = await response.json();  // Converte a resposta para JSON
+        
+        const data2 = await getAllProducts()
+        console.log(data2)
+        // console.log(data.products)
+        
+        setProducts(data2)
       } catch (error){
         console.log("Erro na requisição:", error) // Trata erros
       }
     };
     fetchProducts()
-  }, [])
+  }, [showModal])
 
   //Para finalizar venda
   const handleProduct = (id: number) => { 
