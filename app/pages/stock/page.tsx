@@ -2,7 +2,7 @@
 import SideBar from '@/components/SideBar';
 import ItemStock from '@/components/StockScreen/ItemStock';
 import ModalItemScreen from '@/components/StockScreen/ModalItemScreen';
-import { getAllProducts } from '@/app/services/productService';
+import { getAllProducts, deleteProductById } from '@/app/services/productService';
 
 import { useState, useEffect } from 'react';
 
@@ -25,6 +25,7 @@ export default function Stock() {
   const [selectedButton, setSelectedButton] = useState<string>('TODOS')
   const [showModal, setShowModal] = useState<boolean>(false);
   const [productIdSelect, setProductIdSelect] = useState<number>(0);
+  const [updateTrigger, setUpdateTrigger] = useState<boolean>(false);
   
   useEffect(() => {
     const fetchProducts = async () => {
@@ -32,17 +33,17 @@ export default function Stock() {
         // const response = await fetch('/data/database.json').then() // Faz a requisição
         // const data = await response.json();  // Converte a resposta para JSON
         
-        const data2 = await getAllProducts()
-        console.log(data2)
+        const data = await getAllProducts()
+        console.log(data)
         // console.log(data.products)
         
-        setProducts(data2)
+        setProducts(data)
       } catch (error){
         console.log("Erro na requisição:", error) // Trata erros
       }
     };
     fetchProducts()
-  }, [showModal])
+  }, [showModal, updateTrigger])
 
   //Para finalizar venda
   const handleProduct = (id: number) => { 
@@ -50,16 +51,23 @@ export default function Stock() {
     setProductIdSelect(id);
   }
 
+  const deleteProduct = async (id: number) => {
+    try {
+      await deleteProductById(id);
+      setUpdateTrigger((prev) => !prev); // Altera o valor para disparar o useEffect
+    } catch (error) {
+      console.error('Erro ao deletar o produto:', error);
+    }
+  };
+
   // Função para fechar o modal
   const closeModal = () => {
-      setShowModal(false); //Fecha modal
+    setShowModal(false); //Fecha modal
   }
 
   const handleButtonClick = (buttonName:string) => {
     setSelectedButton(buttonName)
   }
-
-
 
   return (
     <div className='flex flex-col h-screen'>
@@ -128,6 +136,7 @@ export default function Stock() {
                 <ItemStock 
                   key={product.id} 
                   handleProduct={() => handleProduct(product.id)}
+                  deleteProduct={() => deleteProduct(product.id)}
                   {...product} 
                 />
               ))}

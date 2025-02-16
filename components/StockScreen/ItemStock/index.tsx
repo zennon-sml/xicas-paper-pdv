@@ -1,5 +1,6 @@
 import { FaTrash } from "react-icons/fa";
 import { BiSolidPencil } from "react-icons/bi";
+import { deleteProductById } from "@/app/services/productService";
 
 interface IItemStock {
     id: number;
@@ -9,9 +10,10 @@ interface IItemStock {
     price: number;
     image?: string;
     handleProduct: (id: number) => void;
+    deleteProduct: (id: number) => void;
   }
 
-export default function ItemStock ({id, name, qtd, cost, price, image, handleProduct}:IItemStock){
+export default function ItemStock ({id, name, qtd, cost, price, image, handleProduct, deleteProduct}:IItemStock){
     return(
         <tr key={id} className="border-y border-[#198A83] bg-white">
 
@@ -29,7 +31,7 @@ export default function ItemStock ({id, name, qtd, cost, price, image, handlePro
             <td className="text-[#135550] text-center font-bold">{"R$ "+price}</td>
             <td className="text-center text-[#135550] text-[15px]">
                 <button onClick={() => handleProduct(id)} className=' m-1 hover:text-amber-500'><BiSolidPencil/></button>
-                <button className=' m-1 hover:text-red-500'><FaTrash /></button>
+                <button onClick={() => deleteProduct(id)} className=' m-1 hover:text-red-500'><FaTrash /></button>
             </td>
         </tr>
     )

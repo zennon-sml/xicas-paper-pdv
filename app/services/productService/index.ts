@@ -27,3 +27,8 @@ export const updateProductById = async (productID: any, updatedData: any) => {
     })
     return await response.json()
 }
+
+export const deleteProductById = async (productID: number) => {
+    const response = await fetch(API_URL+`/`+productID, {method: 'DELETE'})
+    if (!response.ok) throw new Error('Erro ao deletar produto');   
+}

@@ -9,60 +9,57 @@ interface ModalItemProps {
 
 interface Product {
     id: number;
-    type: string;
-    name: string;
-    barcode: string;
-    qtd: number;
-    cost: number;
-    description: string;
-    tags: string;
-    price: number;
-    image?: string;
+    type: string|undefined;
+    name: string|undefined;
+    barcode: string|undefined;
+    qtd: number|undefined;
+    cost: number|undefined;
+    description: string|undefined;
+    tags: string|undefined;
+    price: number|undefined;
+    image?: string|undefined;
     cadCompleted: boolean;
 }
 
 const lista = [
-    "/img/iphone13.jpg",
-    "/img/iphone13.jpg",
-    "/img/iphone13.jpg",
-    "/img/iphone13.jpg",
-    "/img/iphone13.jpg"
+    ""
 ]
 export default function ModalItemScreen({idProduct, showModal, closeModal}:ModalItemProps) {
     const [product, setProduct] = useState<Product | undefined>(undefined)
 
     useEffect(() => {
         const fetchProductById = async (id:number) => {
-            try{
-                //const response = await fetch('/data/database.json').then() // Faz a requisição
-                const productData = await getProductById(id);  // Converte a resposta para JSON
-                //const productData = data.products.find((item:Product) => item.id === id);
 
-                if (productData) {
-                    //console.log("Produto encontrado", productData);
-                    setProduct(productData)
-                    console.log(productData)
+            try{
+                if (id !== 0){
+                    const productData = await getProductById(id);
+                    if (productData) {
+                        //console.log("Produto encontrado", productData);
+                        setProduct(productData)
+                    }
                 }
-                
+ 
             } catch (error){
                 console.log("Erro na requisição:", error) // Trata erros
             }
         };
         fetchProductById(idProduct)
-    }, [idProduct])
+    }, [showModal])
 
-    const completionModal = (value:string) => {
+    const completionModal = async (value:string) => {
+        console.log(idProduct)
         if (value === "confirmar"){
             if (idProduct === 0){ // Produto Novo
-                createProduct(product)
+                await createProduct(product)
                 alert("Produto cadastrado com sucesso!"); // Exemplo de ação final
             }
             else{ // Atualização
-                updateProductById(product?.id, product)
+                await updateProductById(product?.id, product)
                 alert("Produto atualizado com sucesso!")
             }
         }
         closeModal();
+        await new Promise((resolve) => setTimeout(resolve, 100));
         setProduct(undefined)
     }
 
@@ -71,7 +68,20 @@ export default function ModalItemScreen({idProduct, showModal, closeModal}:Modal
             ...product,
             [key]: value
         } as Product)
-        console.log(product)
+        //console.log(product)
+    }
+
+    const handleImageChange = (type:string, file: any) => {
+        if (file) {
+            const reader = new FileReader()
+            // Quando a leitura da imagem estiver concluída, armazenamos o resultado
+            reader.onloadend = () => {
+                updateProduct("image", reader.result as string)
+                console.log(reader.result) // Atualiza o estado com a URL da imagem
+            }
+            reader.readAsDataURL(file) // Converte a imagem para uma URL
+        }
+        
     }
     
     return(
@@ -98,8 +108,28 @@ export default function ModalItemScreen({idProduct, showModal, closeModal}:Modal
                                     </div>
 
                                     <div className="flex flex-col overflow-auto h-36 border border-l-[#81f7ef]">
+                                        <button 
+                                            className=" flex w-10 h-10 bg-lime-500 items-center justify-center hover:bg-lime-700"
+                                            onClick={() => document.getElementById('image-upload')?.click()}
+                                        >
+                                            +
+                                        </button>
+
+                                        {/* Input de arquivo escondido */}
+                                        <input
+                                            id="image-upload"
+                                            type="file"
+                                            accept="image/*" // Aceita apenas imagens
+                                            style={{ display: "none" }} // Esconde o input
+                                            onChange={(e) => handleImageChange("image" ,e.target.files?.[0])}
+                                        />
+
                                         {lista.map((image, i) =>
-                                            <img className="bg-[#ffffff] w-10 h-10 p-1 object-contain object-center" src={image} key={i} alt={`imagem ${i}`} />
+                                            <img 
+                                                className="bg-[#ffffff] w-10 h-10 p-1 object-contain object-center" 
+                                                src={image} 
+                                                key={i} 
+                                                alt={`imagem ${i}`} />
                                         )}
                                     </div>
                                 </div>
