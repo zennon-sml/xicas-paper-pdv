@@ -2,6 +2,7 @@
 import SideBar from '@/components/SideBar';
 import ItemStock from '@/components/StockScreen/ItemStock';
 import ModalItemScreen from '@/components/StockScreen/ModalItemScreen';
+import { getAllProducts, deleteProductById } from '@/app/services/productService';
 
 import { useState, useEffect } from 'react';
 
@@ -24,19 +25,25 @@ export default function Stock() {
   const [selectedButton, setSelectedButton] = useState<string>('TODOS')
   const [showModal, setShowModal] = useState<boolean>(false);
   const [productIdSelect, setProductIdSelect] = useState<number>(0);
+  const [updateTrigger, setUpdateTrigger] = useState<boolean>(false);
   
   useEffect(() => {
     const fetchProducts = async () => {
       try{
-        const response = await fetch('/data/database.json').then() // Faz a requisição
-        const data = await response.json();  // Converte a resposta para JSON
-        setProducts(data.products)
+        // const response = await fetch('/data/database.json').then() // Faz a requisição
+        // const data = await response.json();  // Converte a resposta para JSON
+        
+        const data = await getAllProducts()
+        console.log(data)
+        // console.log(data.products)
+        
+        setProducts(data)
       } catch (error){
         console.log("Erro na requisição:", error) // Trata erros
       }
     };
     fetchProducts()
-  }, [])
+  }, [showModal, updateTrigger])
 
   //Para finalizar venda
   const handleProduct = (id: number) => { 
@@ -44,9 +51,18 @@ export default function Stock() {
     setProductIdSelect(id);
   }
 
+  const deleteProduct = async (id: number) => {
+    try {
+      await deleteProductById(id);
+      setUpdateTrigger((prev) => !prev); // Altera o valor para disparar o useEffect
+    } catch (error) {
+      console.error('Erro ao deletar o produto:', error);
+    }
+  };
+
   // Função para fechar o modal
   const closeModal = () => {
-      setShowModal(false); //Fecha modal
+    setShowModal(false); //Fecha modal
   }
 
   const handleButtonClick = (buttonName:string) => {
@@ -101,7 +117,7 @@ export default function Stock() {
           </select>
         </div>
 
-        <p className='m-3 text-[#0B625D] font-semibold'>{products.length +" produtos"}</p>
+        <p className='m-3 text-[#0B625D] font-semibold'>{(products.length) +" produtos"}</p>
 
         <div className='flex flex-col flex-grow rounded-md overflow-auto bg-[#E4FFFC] m-2 border-x-2 border-[#8BE8DC]'>
           <table className='w-full'>
@@ -120,6 +136,7 @@ export default function Stock() {
                 <ItemStock 
                   key={product.id} 
                   handleProduct={() => handleProduct(product.id)}
+                  deleteProduct={() => deleteProduct(product.id)}
                   {...product} 
                 />
               ))}

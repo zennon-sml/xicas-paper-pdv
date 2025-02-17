@@ -82,7 +82,7 @@ export default function ItemProperties({props, addProductList}:any){
           <button 
           onClick={() => addProductList({id:props.id ,name:props.name, qtd:quantity, pUnit:props.price, desconto:discount}, setTotalValue(0), setQuantity(1), setDiscount(""))}
           disabled={!props.price || props.price === 0}
-          className='bg-[#1DB935] hover:bg-[#269a38] text-white font-bold w-28 h-11 rounded-md'>
+          className='bg-[#59cf5d] hover:bg-[#238526] text-white font-bold w-28 h-11 rounded-md'>
           INSERIR
           </button>
         </div>

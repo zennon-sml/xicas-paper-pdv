@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 interface ModalEndSaleProps {
     showModal: boolean;
     totalValue: number;
@@ -5,8 +7,32 @@ interface ModalEndSaleProps {
 }
 
 export default function ModalEndSale({showModal, totalValue, closeModal}:ModalEndSaleProps){
-    const discountTotal = () => {
+    const [discountType, setDiscountType] = useState<string>("valor") // tipo de desconto "valor" ou "porcentagem"
+    const [discountTotal, setDiscountTotal] = useState<number>(0) // Valor de desconto calculado
+    const [discountValue, setDiscountValue] = useState<number>(0) // Valor digitado no campo de desconto
+    const [moneyReceived, setMoneyReceived] = useState<number>(0) // Valor em dinheiro pago
 
+    const handleDiscount = (e:number) => { // Calcula o valor de desconto e "zera" os campos caso o tipo de desconto seja alterado
+        let discount = 0;
+        if (discountType === "valor"){
+            discount = e;
+        }
+        else {
+            discount = ((totalValue*e)/100)
+        }
+        setDiscountTotal(discount) 
+        setDiscountValue(e)
+    }
+
+    const closeSale = (event:string) => {
+        if (event === "confirm"){
+            alert("Venda finalizada com sucesso!");
+        }
+        setDiscountType("valor")
+        setDiscountTotal(0)
+        setDiscountValue(0)
+        setMoneyReceived(0)
+        closeModal()
     }
 
     return(
@@ -29,12 +55,16 @@ export default function ModalEndSale({showModal, totalValue, closeModal}:ModalEn
                                     type="text" 
                                     disabled/* readOnly */
                                     className='w-60 h-9 p-2 bg-[#46b0a9] text-white  rounded-md text-lg'
-                                    value={totalValue}  
+                                    value={totalValue.toFixed(2)}  
                                     />
                             </div>
                             <div className="flex flex-col">
                                 <label className='text-sm text-[#198A83]'>Tipo Desconto:</label>
                                 <select 
+                                onChange={(e) => {
+                                    setDiscountType(e.target.value)                                   
+                                    handleDiscount(0)
+                                }}
                                 id='tags' 
                                 name='tags' 
                                 className="w-60 h-9 p-1 bg-[#3BDCD2] text-[#198A83] rounded-md">
@@ -44,8 +74,14 @@ export default function ModalEndSale({showModal, totalValue, closeModal}:ModalEn
                             </div>
 
                             <div className="flex flex-col">
-                                <label className='text-sm text-[#198A83]'>Total Desconto:</label>
+                                <label className='text-sm text-[#198A83]'>Total Desconto: <label className="font-semibold">{(discountTotal).toFixed(2)}</label></label>
                                     <input 
+                                    onChange={(e) => handleDiscount(Number(e.target.value))}
+                                    value={
+                                        discountValue === 0
+                                        ? ""
+                                        : discountValue
+                                    }
                                     type="number" 
                                     className='w-60 h-9 p-2 bg-[#3BDCD2] text-[#198A83]  rounded-md'
                                     min={0}
@@ -57,7 +93,7 @@ export default function ModalEndSale({showModal, totalValue, closeModal}:ModalEn
                                     type="text" 
                                     disabled/* readOnly */
                                     className='w-60 h-9 p-2 bg-[#46b0a9] text-white  rounded-md text-lg'
-                                    value={""}  
+                                    value={(totalValue-discountTotal).toFixed(2)}  
                                     />
                             </div>
                             
@@ -72,10 +108,10 @@ export default function ModalEndSale({showModal, totalValue, closeModal}:ModalEn
                                 name='tags' 
                                 className="w-60 h-9 p-1 bg-[#3BDCD2] text-[#198A83] rounded-md">
                                     <option value="money">Dinheiro</option>
-                                    <option value="pix">PIX</option>
+                                    {/* <option value="pix">PIX</option>
                                     <option value="debito">Debito</option>
                                     <option value="credito">Credito</option>
-                                    <option value="outro">Outro</option>
+                                    <option value="outro">Outro</option> */}
                                 </select>
                             </div>
 
@@ -84,11 +120,12 @@ export default function ModalEndSale({showModal, totalValue, closeModal}:ModalEn
                             <div className="flex flex-col p-2 gap-3 bg-[#CBFCF6] rounded-md">
                                 <div className="flex flex-col">
                                     <label className='text-sm text-[#198A83]'>Valor Recebido:</label>
-                                        <input 
-                                        type="number" 
-                                        className='w-60 h-9 p-2 bg-[#3BDCD2] text-[#198A83]  rounded-md'
-                                        min={0}
-                                        />
+                                    <input 
+                                    onChange={(e) => setMoneyReceived(Number(e.target.value))}
+                                    type="number" 
+                                    className='w-60 h-9 p-2 bg-[#3BDCD2] text-[#198A83]  rounded-md'
+                                    min={0}
+                                    />
                                 </div>
                                 <div className="flex flex-col">
                                 <label className='text-sm text-[#198A83]'>Troco:</label>
@@ -96,29 +133,33 @@ export default function ModalEndSale({showModal, totalValue, closeModal}:ModalEn
                                     type="text" 
                                     disabled/* readOnly */
                                     className='w-60 h-9 p-2 bg-[#46b0a9] text-white  rounded-md text-lg'
-                                    value={""}  
+                                    value={
+                                        moneyReceived-(totalValue-discountTotal) <= 0
+                                        ? ""
+                                        : (moneyReceived-(totalValue-discountTotal)).toFixed(2)
+                                    }  
                                     />
                                 </div>
                             </div>
 
                             <div className="flex justify-between gap-2">
                                 <button
-                                onClick={closeModal} // Fecha o modal
-                                className="bg-red-500 text-white py-2 px-4 rounded-md"
+                                onClick={() => closeSale("cancel")} // Fecha o modal
+                                className="bg-[#FE3F3F] text-white py-2 px-4 rounded-md
+                                hover:bg-[#a12828]"
                                 >
                                     Cancelar
                                 </button>
                                 <button
                                     onClick={() => {
-                                    closeModal();
-                                    alert("Venda finalizada com sucesso!"); // Exemplo de ação final
+                                        closeSale("confirm")
                                     }}
-                                    className="bg-green-500 text-white py-2 px-4 rounded-md w-full"
+                                    className="bg-[#59cf5d] text-white py-2 px-4 rounded-md w-full
+                                    hover:bg-[#319034]"
                                 >
                                     Confirmar
                                 </button>
                             </div>
-
                         </div>
                         
                         

@@ -33,8 +33,11 @@ export default function Sales() {
 
   const addProductList = (item:IItensList) => {
     setItens((prevProducts) => [...prevProducts, item]);
-    console.log(itens)
     setSelectedProduct({name:"", price:0, image:""})
+  }
+
+  const resetProps = () => {
+    setItens([])
   }
 
   return (
@@ -49,7 +52,7 @@ export default function Sales() {
       <div className='flex flex-col h-screen gap-2'>
         <QuickAddition />
         <SaleList saleList={itens}/>
-        <SaleCompletion props={itens} />
+        <SaleCompletion props={itens} resetProps={resetProps} />
       </div>
 
       <CRUDButtons />

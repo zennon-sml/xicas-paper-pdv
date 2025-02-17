@@ -7,7 +7,7 @@ interface ITotals{
     desconto: string;
   }
 
-export default function SaleCompletion({props}:{ props: ITotals[] }){
+export default function SaleCompletion({props, resetProps}:{ props: ITotals[]; resetProps: () => void }){
     const [totalValue, setTotalValue] = useState<number>(0)
     const [totalQtd, setTotalQtd] = useState<number>(0)
     const [totalDiscount, setTotalDiscount] = useState<number>(0)
@@ -35,12 +35,24 @@ export default function SaleCompletion({props}:{ props: ITotals[] }){
     }, [props])
 
     //Para finalizar venda
-    const handleFinalizeSale = () => { 
-        setShowModal(true); //Exibe o modal
+    const handleFinalizeSale = () => {
+        if (props.length === 0){
+            alert("Sua venda está vazia")
+        }
+        else{
+            setShowModal(true); //Exibe o modal
+        }
     }
 
     // Função para fechar o modal
     const closeModal = () => {
+        console.log()
+        
+        setTotalValue(0)
+        setTotalQtd(0)
+        setTotalDiscount(0)
+        resetProps()
+        
         setShowModal(false); //Fecha modal
     }
 
@@ -80,17 +92,22 @@ export default function SaleCompletion({props}:{ props: ITotals[] }){
 
             <div className="flex gap-2 items-center">
                 <button 
-                className="
-                bg-[#FE3F3F] text-white font-bold
-                w-28 h-9 rounded-md"
-                >CANCELAR</button>
+                    onClick={closeModal}
+                    className="
+                    bg-[#FE3F3F] text-white font-bold w-28 h-12 rounded-md
+                    hover:bg-[#af2c2c]"
+                >
+                    CANCELAR
+                </button>
 
                 <button 
-                onClick={handleFinalizeSale}
-                className=" 
-                bg-[#1DB935] text-white font-bold
-                w-40 h-12 rounded-md"
-                >FINALIZAR VENDA</button>
+                    onClick={handleFinalizeSale}
+                    className=" 
+                    bg-[#59cf5d] text-white font-bold w-40 h-12 rounded-md
+                    hover:bg-[#29782c]"
+                >
+                    FINALIZAR VENDA
+                </button>
 
                 {/* Modal */}
                 <ModalEndSale showModal={showModal} totalValue={totalValue} closeModal={closeModal} />
