@@ -32,11 +32,7 @@ export default function Stock() {
       try{
         // const response = await fetch('/data/database.json').then() // Faz a requisição
         // const data = await response.json();  // Converte a resposta para JSON
-        
         const data = await getAllProducts()
-        console.log(data)
-        // console.log(data.products)
-        
         setProducts(data)
       } catch (error){
         console.log("Erro na requisição:", error) // Trata erros

@@ -18,7 +18,7 @@ interface Product {
     tags: string|undefined;
     price: number|undefined;
     image?: string|undefined;
-    cadCompleted: boolean;
+    cadCompleted: boolean|undefined;
 }
 
 const lista = [
@@ -46,7 +46,7 @@ export default function ModalItemScreen({idProduct, showModal, closeModal}:Modal
         fetchProductById(idProduct)
     }, [showModal])
 
-    const completionModal = async (value:string) => {
+    const completionModal = async (value:string) => { // O que vai acontecer quando clicar em conluir
         console.log(idProduct)
         if (value === "confirmar"){
             if (idProduct === 0){ // Produto Novo
@@ -63,7 +63,7 @@ export default function ModalItemScreen({idProduct, showModal, closeModal}:Modal
         setProduct(undefined)
     }
 
-    const updateProduct = (key: keyof Product, value: string | number) => {
+    const updateProduct = (key: keyof Product, value: string | number) => { // Atualiza o UseState do produto, com as atualizações feitas pelo usuario
         setProduct({
             ...product,
             [key]: value
@@ -77,7 +77,7 @@ export default function ModalItemScreen({idProduct, showModal, closeModal}:Modal
             // Quando a leitura da imagem estiver concluída, armazenamos o resultado
             reader.onloadend = () => {
                 updateProduct("image", reader.result as string)
-                console.log(reader.result) // Atualiza o estado com a URL da imagem
+                // console.log(reader.result) // Atualiza o estado com a URL da imagem
             }
             reader.readAsDataURL(file) // Converte a imagem para uma URL
         }

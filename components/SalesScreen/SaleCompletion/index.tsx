@@ -46,7 +46,7 @@ export default function SaleCompletion({props, resetProps}:{ props: ITotals[]; r
 
     // Função para fechar o modal
     const closeModal = () => {
-        console.log()
+        console.log(props)
         
         setTotalValue(0)
         setTotalQtd(0)

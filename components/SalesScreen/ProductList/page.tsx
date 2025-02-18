@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 import { IoMdSearch } from "react-icons/io";
 import ItemList from './ItemList/page';
+import { getAllProducts } from "@/app/services/productService";
 
 interface Item {
   id: number;
@@ -23,9 +24,11 @@ export default function ProductList({handleSelectProduct}:any) {
   useEffect(() => {
     const fetchProducts = async () => {
       try{
-        const response = await fetch('/data/database.json').then() // Faz a requisição
-        const data = await response.json();  // Converte a resposta para JSON
-        setProducts(data.products)
+        //const response = await fetch('/data/database.json').then() // Faz a requisição
+        //const data = await response.json();  // Converte a resposta para JSON
+        const data = await getAllProducts()
+
+        setProducts(data)
       } catch (error){
         console.log("Erro na requisição:", error) // Trata erros
       }

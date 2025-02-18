@@ -28,8 +28,8 @@ export default function SaleList({saleList}:{ saleList: IItensList[] }){
                                 <td className="pl-1 pr-1 text-[#135550] text-center font-bold">{i+1}</td>
                                 <td className="pl-1 pr-1 text-[#135550] text-center">{product.name}</td>
                                 <td className="pl-1 pr-1 text-[#135550] text-center">{product.qtd}</td>
-                                <td className="pl-1 pr-1 text-[#135550] text-center">{"R$ "+(product.desconto === "" ? 0 : Number(product.desconto)).toFixed(2)}</td>
-                                <td className="pl-1 pr-1 text-[#135550] text-center">{"R$ "+(product.pUnit).toFixed(2)}</td>
+                                <td className="pl-1 pr-1 text-[#135550] text-center">{"R$ "+(product.desconto === "" ? 0 : Number(product.desconto))}</td>
+                                <td className="pl-1 pr-1 text-[#135550] text-center">{"R$ "+(product.pUnit)}</td>
                                 <td className="pl-1 pr-1 text-[#135550] text-center font-bold">{"R$ "+((product.qtd*product.pUnit)-(product.desconto === "" ? 0 : Number(product.desconto))).toFixed(2)}</td>
                             </tr> 
                         ))}
