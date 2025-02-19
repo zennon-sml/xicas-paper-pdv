@@ -40,3 +40,33 @@ CREATE TABLE sales (
     CONSTRAINT fk_product_sale FOREIGN KEY (product_id) REFERENCES products (id),
     CONSTRAINT fk_admin_sale FOREIGN KEY (admin_id) REFERENCES admins (id)
 );
+
+-- create inventory on new product
+CREATE FUNCTION create_inventory_entry() RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO inventory (product_id, quantity) VALUES (NEW.id, 0);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER after_product_insert
+AFTER INSERT ON products
+FOR EACH ROW
+EXECUTE FUNCTION create_inventory_entry();
+
+-- subtract invetory size on sale
+CREATE FUNCTION update_inventory_on_sale() RETURNS TRIGGER AS $$
+BEGIN
+    UPDATE inventory
+    SET quantity = quantity - NEW.quantity, updated_at = CURRENT_TIMESTAMP
+    WHERE product_id = NEW.product_id;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER after_sale_insert
+AFTER INSERT ON sales
+FOR EACH ROW
+EXECUTE FUNCTION update_inventory_on_sale();
+
+ALTER TABLE inventory ADD CONSTRAINT check_positive_quantity CHECK (quantity >= 0);
