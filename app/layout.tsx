@@ -14,7 +14,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "XICAS PAPAER",
+  title: "XICAS PAPER",
   description: "papelaria xicas paper",
 };
 
