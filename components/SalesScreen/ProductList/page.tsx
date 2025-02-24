@@ -25,7 +25,7 @@ export default function ProductList({handleSelectProduct}:any) {
 
   // Configurando o Fuse.js
   const fuse = new Fuse(products, {
-    keys: ['name', 'id'],       // Quais campos buscar
+    keys: ['name', 'id', 'barcode'],       // Quais campos buscar
     threshold: 1.0,       // Sensibilidade da busca (0 = precisa ser igual, 1 = tudo é parecido)
     distance: 100         // Máxima distância permitida entre os caracteres
   })

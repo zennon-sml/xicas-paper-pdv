@@ -19,6 +19,11 @@ export const getProductById = async (productID: number) => {
     return await response.json()
 }
 
+export const getProductByBarcode = async (productBarcode: string) => {
+    const response = await fetch(API_URL+`/barcode/`+productBarcode)
+    return await response.json()
+}
+
 export const updateProductById = async (productID: any, updatedData: any) => {
     const response = await fetch(API_URL+`/`+productID,{
         method: 'PUT',

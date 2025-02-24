@@ -2,6 +2,7 @@
 import SideBar from '@/components/SideBar';
 import ItemStock from '@/components/StockScreen/ItemStock';
 import ModalItemScreen from '@/components/StockScreen/ModalItemScreen';
+import Fuse from 'fuse.js';
 import { getAllProducts, deleteProductById } from '@/app/services/productService';
 
 import { useState, useEffect } from 'react';
@@ -26,20 +27,41 @@ export default function Stock() {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [productIdSelect, setProductIdSelect] = useState<number>(0);
   const [updateTrigger, setUpdateTrigger] = useState<boolean>(false);
-  
+  const [query, setQuery] = useState<string>("")
+
+  // Configurando o Fuse.js
+  const fuse = new Fuse(products, {
+    keys: ['name', 'id', 'barcode'],       // Quais campos buscar
+    threshold: 1.0,       // Sensibilidade da busca (0 = precisa ser igual, 1 = tudo é parecido)
+    distance: 100         // Máxima distância permitida entre os caracteres
+  })
+
+  // Função de pesquisa
+  const handleSearch = (input: string) => {
+    setQuery(input)
+    if (input.trim() === '') {
+      setProducts(products)
+    } else{
+      const result = fuse.search(input).map((res) => res.item)
+      setProducts(result)
+    }
+  }
+
   useEffect(() => {
-    const fetchProducts = async () => {
-      try{
-        // const response = await fetch('/data/database.json').then() // Faz a requisição
-        // const data = await response.json();  // Converte a resposta para JSON
-        const data = await getAllProducts()
-        setProducts(data)
-      } catch (error){
-        console.log("Erro na requisição:", error) // Trata erros
-      }
-    };
-    fetchProducts()
-  }, [showModal, updateTrigger])
+    if (query.trim() === ""){
+      const fetchProducts = async () => {
+        try{
+          // const response = await fetch('/data/database.json').then() // Faz a requisição
+          // const data = await response.json();  // Converte a resposta para JSON
+          const data = await getAllProducts()
+          setProducts(data)
+        } catch (error){
+          console.log("Erro na requisição:", error) // Trata erros
+        }
+      };
+      fetchProducts()
+    }
+  }, [showModal, updateTrigger, query])
 
   //Para finalizar venda
   const handleProduct = (id: number) => { 
@@ -105,7 +127,7 @@ export default function Stock() {
 
       <div className='flex flex-col flex-grow bg-[#CBFCF6] overflow-hidden'>
         <div className='flex pt-6 pl-5 gap-2'>
-          <input type="search" placeholder="Pesquisar por nome, codigo de barras..." className="flex bg-[#8BE8DC] placeholder-[#46b0a9] text-[#0B625D] text-sm h-7 w-80 pl-2 hover:bg-[#68dbcb]"/>
+          <input type="search" onChange={(e) => handleSearch(e.target.value)} placeholder="Pesquisar por nome, codigo de barras..." className="flex bg-[#8BE8DC] placeholder-[#46b0a9] text-[#0B625D] text-sm h-7 w-80 pl-2 hover:bg-[#68dbcb]"/>
           <select id='tags' name='tags' className="flex bg-[#8BE8DC] placeholder-[#46b0a9] text-[#0B625D] text-sm h-7 w-40 pl-2 hover:bg-[#68dbcb]">
             <option value="todos">Todos</option>
             <option value="todos">#creu</option>
