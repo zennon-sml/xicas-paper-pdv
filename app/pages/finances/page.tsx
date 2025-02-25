@@ -1,78 +1,97 @@
 "use client"
-import Card from '@/components/FinaceScreen/Card';
-import SideBar from '@/components/SideBar';
 
-import { useState } from 'react';
+import { useEffect, useState } from "react";
+import SideBar from "@/components/SideBar";
 
-export default function Stock() {
-  const [selectedButton, setSelectedButton] = useState<string>('DIA') //Botão de periodo selecionado
-  
-  const handleButtonClick = (buttonName:string) => { //Muda botão selecionado
-    setSelectedButton(buttonName)
-  } 
-  
+interface Sale {
+  id: number;
+  product_id: number;
+  admin_id: number;
+  quantity: number;
+  total: string;
+  sale_date: string;
+}
+
+export default function SalesHistory() {
+  const [selectedButton, setSelectedButton] = useState<string>("DIA");
+  const [sales, setSales] = useState<Sale[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchSales = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/sales");
+        if (!response.ok) {
+          throw new Error("Erro ao buscar vendas");
+        }
+        const data: Sale[] = await response.json();
+        setSales(data);
+      } catch (err) {
+        setError((err as Error).message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSales();
+  }, []);
+
   return (
-      <div className='flex flex-col h-screen'>
-        <SideBar />
-  
-        <div className=' flex fixed left-12 bg-[#8BE8DC] w-[calc(100%-3rem)] h-11 pr-3 pb-1 pt-1 '>
-          {/*<button className=' flex ml-auto w-24 rounded-md items-center bg-[#1DB935] text-[11px] font-bold text-white'>ADICIONAR PRODUTOS</button>  */}
-        </div>
-  
-        <hr className='flex fixed top-11 left-12 border-[1px] border-[#0B625D] w-[calc(100%-3rem)]'></hr>
-        
+    <div className="flex flex-col h-screen">
+      <SideBar />
 
-        <div className='flex mt-11 gap-7'>
-          {['DIA', 'SEMANA', 'MÊS', 'ANO'].map((button) => (
-            <button
-              key={button}
-              onClick={() => handleButtonClick(button)}
-              className={`pr-3 pl-3 pt-1 pb-1 text-[#0B625D] border-t-[2px] ${
-                selectedButton === button
-                  ? 'border-t-[#4DC5BD] bg-[#CBFCF6] z-10 font-bold'
-                  : 'hover:bg-[#d5fffa] hover:font-semibold'
-              }`}
-            >
-              {button}
-            </button>
-          ))}
-        </div>
-  
-        <div className='flex flex-col flex-grow bg-[#CBFCF6] overflow-hidden'>
-          <div className='flex pt-4 pl-6 gap-2'>
-            <div className='flex flex-col'>
-              <label className="text-sm text-[#198A83]">De:</label>
-              <input type="date" className="flex bg-[#8BE8DC] placeholder-[#46b0a9] text-[#0B625D] text-sm h-7 w-auto pl-2 hover:bg-[#68dbcb]"/>
-            </div>
-            <div className='flex flex-col'>
-              <label className="text-sm text-[#198A83]">Até:</label>
-              <input type="date" className="flex bg-[#8BE8DC] placeholder-[#46b0a9] text-[#0B625D] text-sm h-7 w-auto pl-2 hover:bg-[#68dbcb]"/>
-            </div>
-            <div className='flex flex-col ml-10'>
-              <label className="text-sm text-[#198A83]">Tipo de Exibição:</label>
-              <select id='type' name='type' className="flex bg-[#8BE8DC] placeholder-[#46b0a9] text-[#0B625D] text-sm h-7 w-auto pl-1 hover:bg-[#68dbcb]">
-                <option value="todos">Cards</option>
-                <option value="cards"></option>
-                <option value="cards"></option>
-              </select>
-            </div>
-          </div>
+      <div className="flex fixed left-12 bg-[#8BE8DC] w-[calc(100%-3rem)] h-11 pr-3 pb-1 pt-1 "></div>
+      <hr className="flex fixed top-11 left-12 border-[1px] border-[#0B625D] w-[calc(100%-3rem)]" />
 
-          <div className=' flex flex-nowrap bg-[#E4FFFC] h-full w-full mx-2 mt-4 rounded-md p-3 gap-2 overflow-x-auto'>
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-          </div>
-        </div>
+      <div className="flex mt-11 gap-7">
+        {["DIA", "SEMANA", "MÊS", "ANO"].map((button) => (
+          <button
+            key={button}
+            onClick={() => setSelectedButton(button)}
+            className={`pr-3 pl-3 pt-1 pb-1 text-[#0B625D] border-t-[2px] ${
+              selectedButton === button
+                ? "border-t-[#4DC5BD] bg-[#CBFCF6] z-10 font-bold"
+                : "hover:bg-[#d5fffa] hover:font-semibold"
+            }`}
+          >
+            {button}
+          </button>
+        ))}
       </div>
-    );
+
+      <div className="flex flex-col flex-grow bg-[#CBFCF6] overflow-hidden p-4">
+        {loading ? (
+          <p>Carregando vendas...</p>
+        ) : error ? (
+          <p className="text-red-500">Erro: {error}</p>
+        ) : (
+          <div className="bg-[#E4FFFC] h-full w-full rounded-md p-3 overflow-y-auto">
+            <table className="w-full border-collapse border border-[#0B625D]">
+              <thead>
+                <tr className="bg-[#8BE8DC] text-[#0B625D]">
+                  <th className="border border-[#0B625D] p-2">ID</th>
+                  <th className="border border-[#0B625D] p-2">Produto</th>
+                  <th className="border border-[#0B625D] p-2">Quantidade</th>
+                  <th className="border border-[#0B625D] p-2">Total</th>
+                  <th className="border border-[#0B625D] p-2">Data</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sales.map((sale) => (
+                  <tr key={sale.id} className="text-center">
+                    <td className="border border-[#0B625D] p-2">{sale.id}</td>
+                    <td className="border border-[#0B625D] p-2">{sale.product_id}</td>
+                    <td className="border border-[#0B625D] p-2">{sale.quantity}</td>
+                    <td className="border border-[#0B625D] p-2">R$ {sale.total}</td>
+                    <td className="border border-[#0B625D] p-2">{new Date(sale.sale_date).toLocaleString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }

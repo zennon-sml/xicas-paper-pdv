@@ -1,118 +1,134 @@
 import { useState, useEffect } from "react";
 import ModalEndSale from "./ModalEndSale/page";
 
-interface ITotals{
-    qtd: number;
-    pUnit: number;
-    desconto: string;
-  }
+interface IItensList {
+  id: number;
+  name: string;
+  qtd: number;
+  pUnit: number;
+  desconto: string;
+}
 
-export default function SaleCompletion({props, resetProps}:{ props: ITotals[]; resetProps: () => void }){
-    const [totalValue, setTotalValue] = useState<number>(0)
-    const [totalQtd, setTotalQtd] = useState<number>(0)
-    const [totalDiscount, setTotalDiscount] = useState<number>(0)
+export default function SaleCompletion({
+  props,
+  resetProps,
+}: {
+  props: IItensList[];
+  resetProps: () => void;
+}) {
+  const [totalValue, setTotalValue] = useState<number>(0);
+  const [totalQtd, setTotalQtd] = useState<number>(0);
+  const [totalDiscount, setTotalDiscount] = useState<number>(0);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
-    const [showModal, setShowModal] = useState<boolean>(false);
+  console.log(props);
 
-   /*  const addProductList = (item:IItensList) => {
-        setItens((prevProducts) => [...prevProducts, item]);
-        setSelectedProduct({name:"", value:0, image:""})
-      } */
+  useEffect(() => {
+    if (props.length > 0) {
+      const prop = props[props.length - 1];
 
-    useEffect(() => { // useEffect vai exectar  algoritmo sempre que "props" for atualizado, 
-        if (props.length > 0){
-            const prop = props[props.length-1] // Isolando o ultimo item adicionado
+      setTotalQtd((prev) => prev + prop.qtd);
+      setTotalDiscount((prev) => prev + Number(prop.desconto));
+      setTotalValue((prev) => prev + (prop.qtd * prop.pUnit - Number(prop.desconto)));
+    }
+  }, [props]);
 
-            const qtd = prop.qtd
-            setTotalQtd(totalQtd + qtd) // atualiza a quantidade total
-
-            const discount = Number(prop.desconto)
-            setTotalDiscount(totalDiscount+discount) // atualiza o desconto total
-
-            const total = (qtd*prop.pUnit) - discount
-            setTotalValue(totalValue+total) // atualiza o valor total
-        }
-    }, [props])
-
-    //Para finalizar venda
-    const handleFinalizeSale = () => {
-        if (props.length === 0){
-            alert("Sua venda está vazia")
-        }
-        else{
-            setShowModal(true); //Exibe o modal
-        }
+  const handleFinalizeSale = async () => {
+    if (props.length === 0) {
+      alert("Sua venda está vazia");
+      return;
     }
 
-    // Função para fechar o modal
-    const closeModal = () => {
-        console.log(props)
-        
-        setTotalValue(0)
-        setTotalQtd(0)
-        setTotalDiscount(0)
-        resetProps()
-        
-        setShowModal(false); //Fecha modal
+    try {
+      const admin_id = 1; // admin padrão
+
+      await Promise.all(
+        props.map(async (item) => {
+          const saleData = {
+            product_id: item.id,
+            admin_id,
+            quantity: item.qtd,
+          };
+
+          const response = await fetch("http://localhost:5000/api/sales", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(saleData),
+          });
+
+          if (!response.ok) {
+            throw new Error(`Erro ao vender ${item.name}`);
+          }
+        })
+      );
+
+      setShowModal(true);
+    } catch (error) {
+      alert(error.message || "Erro ao finalizar venda");
     }
+  };
 
-    return(
-        <div className="flex justify-between ml-7 mt-3 mb-7">
-            <div className="flex gap-2">
-                <div className="flex flex-col">
-                    <label className="text-sm text-[#198A83]">Total Itens</label>
-                    <input 
-                    disabled 
-                    value={totalQtd}
-                    type="text" 
-                    placeholder="Tt. Itens" 
-                    className="border-2 border-[#28A9A1] rounded-md w-28 h-12 text-center" />
-                </div>
+  const closeModal = () => {
+    setTotalValue(0);
+    setTotalQtd(0);
+    setTotalDiscount(0);
+    resetProps();
+    setShowModal(false);
+  };
 
-                <div className="flex flex-col">
-                    <label className="text-sm text-[#198A83]">Total Desconto</label>
-                    <input 
-                    disabled
-                    value={"R$ "+totalDiscount.toFixed(2)}
-                    type="text" 
-                    placeholder="Tt. Desconto" 
-                    className="border-2 border-[#28A9A1] rounded-md w-28 h-12 text-center" />
-                </div>
-
-                <div className="flex flex-col">
-                    <label className="text-sm text-[#198A83]">Sub. Total</label>
-                    <input 
-                    disabled 
-                    value = {"R$ "+totalValue.toFixed(2)}
-                    type="text" 
-                    placeholder="Sub Total" 
-                    className="border-2 border-[#28A9A1] rounded-md w-40 h-12 text-center"/>
-                </div>
-            </div>
-
-            <div className="flex gap-2 items-center">
-                <button 
-                    onClick={closeModal}
-                    className="
-                    bg-[#FE3F3F] text-white font-bold w-28 h-12 rounded-md
-                    hover:bg-[#af2c2c]"
-                >
-                    CANCELAR
-                </button>
-
-                <button 
-                    onClick={handleFinalizeSale}
-                    className=" 
-                    bg-[#59cf5d] text-white font-bold w-40 h-12 rounded-md
-                    hover:bg-[#29782c]"
-                >
-                    FINALIZAR VENDA
-                </button>
-
-                {/* Modal */}
-                <ModalEndSale showModal={showModal} totalValue={totalValue} closeModal={closeModal} />
-
-            </div>
+  return (
+    <div className="flex justify-between ml-7 mt-3 mb-7">
+      <div className="flex gap-2">
+        <div className="flex flex-col">
+          <label className="text-sm text-[#198A83]">Total Itens</label>
+          <input
+            disabled
+            value={totalQtd}
+            type="text"
+            className="border-2 border-[#28A9A1] rounded-md w-28 h-12 text-center"
+          />
         </div>
-    )
+
+        <div className="flex flex-col">
+          <label className="text-sm text-[#198A83]">Total Desconto</label>
+          <input
+            disabled
+            value={"R$ " + totalDiscount.toFixed(2)}
+            type="text"
+            className="border-2 border-[#28A9A1] rounded-md w-28 h-12 text-center"
+          />
+        </div>
+
+        <div className="flex flex-col">
+          <label className="text-sm text-[#198A83]">Sub. Total</label>
+          <input
+            disabled
+            value={"R$ " + totalValue.toFixed(2)}
+            type="text"
+            className="border-2 border-[#28A9A1] rounded-md w-40 h-12 text-center"
+          />
+        </div>
+      </div>
+
+      <div className="flex gap-2 items-center">
+        <button
+          onClick={closeModal}
+          className="bg-[#FE3F3F] text-white font-bold w-28 h-12 rounded-md hover:bg-[#af2c2c]"
+        >
+          CANCELAR
+        </button>
+
+        <button
+          onClick={handleFinalizeSale}
+          className="bg-[#59cf5d] text-white font-bold w-40 h-12 rounded-md hover:bg-[#29782c]"
+        >
+          FINALIZAR VENDA
+        </button>
+
+        <ModalEndSale showModal={showModal} totalValue={totalValue} closeModal={closeModal} />
+      </div>
+    </div>
+  );
 }

@@ -12,7 +12,7 @@ interface Item {
   type: string;
   name: string;
   barcode: string;
-  qtd: number;
+  quantity: number;
   cost: number;
   description: string;
   tags: string;

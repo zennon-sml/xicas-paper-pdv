@@ -26,7 +26,7 @@ export default function ModalEndSale({showModal, totalValue, closeModal}:ModalEn
 
     const closeSale = (event:string) => {
         if (event === "confirm"){
-            alert("Venda finalizada com sucesso!");
+            console.log()
         }
         setDiscountType("valor")
         setDiscountTotal(0)

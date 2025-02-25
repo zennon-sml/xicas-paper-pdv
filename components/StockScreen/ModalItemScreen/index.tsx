@@ -12,7 +12,7 @@ interface Product {
     type: string|undefined;
     name: string|undefined;
     barcode: string|undefined;
-    qtd: number|undefined;
+    quantity: number|undefined;
     cost: number|undefined;
     description: string|undefined;
     tags: string|undefined;
@@ -171,8 +171,8 @@ export default function ModalItemScreen({idProduct, showModal, closeModal}:Modal
                                             <label className='text-xs text-[#198A83]'>Quantidade:</label>
                                                 <input 
                                                 type="number" 
-                                                value={product?.qtd}
-                                                onChange={(e) => updateProduct("qtd", e.target.value)}
+                                                value={product?.quantity}
+                                                onChange={(e) => updateProduct("quantity", e.target.value)}
                                                 className='max-w-40 h-8 p-2 bg-[#b8f5ee] text-[#198A83] text-sm rounded-md'
                                                 min={0}
                                                 />
