@@ -36,8 +36,6 @@ export default function Sales() {
     setSelectedProduct({name:"", price:0, image:""})
   }
 
-  // {() => addProductList({id:props.id ,name:props.name, qtd:quantity, pUnit:props.price, desconto:discount}, setTotalValue(0), setQuantity(1), setDiscount(""))}
-
   const resetProps = () => {
     setItens([])
   }
