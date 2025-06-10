@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React, { useEffect, useState } from 'react'
 
 export default function ItemProperties({props, addProductList}:any){
@@ -71,7 +72,9 @@ export default function ItemProperties({props, addProductList}:any){
         </div>
         <div>
             <div className='flex flex-col items-center border border-[#3BDCD2] bg-[#3BDCD2] w-[185px] h-60 pt-[4px] rounded-md'>
-              <img 
+              <Image 
+              width={174}
+              height={174}
               alt="img-vazia" 
               src={props.image || "/img/sem-foto.jpg"}
               className='border border-[#81f7ef] bg-[#ffffff] w-44 h-44 p-1 rounded-md object-contain object-center'/>
