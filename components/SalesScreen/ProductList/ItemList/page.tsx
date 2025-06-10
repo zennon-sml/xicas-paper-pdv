@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react'
 
 interface ItemListProps {
@@ -18,7 +19,9 @@ export default function ItemList({id, name, price, image, onSelect}:ItemListProp
         </div>
         <div>
           <div className=''>
-            <img 
+            <Image
+            width={56}
+            height={56} 
             src={image || "/img/sem-foto.jpg"}
             alt="img" 
             className='w-14 h-14 p-0.5 bg-[#ffffff] rounded-md object-contain object-center'/>

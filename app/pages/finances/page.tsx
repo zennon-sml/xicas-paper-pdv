@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import SideBar from "@/components/SideBar";
+import { getAllSales } from "@/app/services/salesService";
+import { getProductById } from "@/app/services/productService";
 
 interface Sale {
   id: number;
@@ -10,25 +12,49 @@ interface Sale {
   quantity: number;
   total: string;
   sale_date: string;
+  creu: number;
+}
+
+interface SaleWithProduct extends Sale {
+  productName: string;
 }
 
 export default function SalesHistory() {
   const [selectedButton, setSelectedButton] = useState<string>("DIA");
-  const [sales, setSales] = useState<Sale[]>([]);
+  const [sales, setSales] = useState<SaleWithProduct[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchSales = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/sales");
-        if (!response.ok) {
-          throw new Error("Erro ao buscar vendas");
+        const data = await getAllSales();
+        if (!data || data.length === 0) {
+          throw new Error("Nenhuma venda encontrada.");
         }
-        const data: Sale[] = await response.json();
-        setSales(data);
+
+        // Para cada venda, buscar o nome do produto correspondente
+        const salesWithProducts: SaleWithProduct[] = await Promise.all(
+          data.map(async (sale:Sale) => {
+            try {
+              const product = await getProductById(sale.product_id);
+              return {
+                ...sale,
+                productName: product?.name || "Produto desconhecido",
+              };
+            } catch {
+              return {
+                ...sale,
+                productName: "Erro ao buscar produto",
+              };
+            }
+          })
+        );
+
+        setSales(salesWithProducts);
       } catch (err) {
         setError((err as Error).message);
+        console.log("Erro na requisição:", err);
       } finally {
         setLoading(false);
       }
@@ -71,6 +97,7 @@ export default function SalesHistory() {
               <thead>
                 <tr className="bg-[#8BE8DC] text-[#0B625D]">
                   <th className="border border-[#0B625D] p-2">ID</th>
+                  <th className="border border-[#0B625D] p-2">Teste</th>
                   <th className="border border-[#0B625D] p-2">Produto</th>
                   <th className="border border-[#0B625D] p-2">Quantidade</th>
                   <th className="border border-[#0B625D] p-2">Total</th>
@@ -81,10 +108,13 @@ export default function SalesHistory() {
                 {sales.map((sale) => (
                   <tr key={sale.id} className="text-center">
                     <td className="border border-[#0B625D] p-2">{sale.id}</td>
+                    <td className="border border-[#0B625D] p-2">{sale.creu}</td>
                     <td className="border border-[#0B625D] p-2">{sale.product_id}</td>
                     <td className="border border-[#0B625D] p-2">{sale.quantity}</td>
                     <td className="border border-[#0B625D] p-2">R$ {sale.total}</td>
-                    <td className="border border-[#0B625D] p-2">{new Date(sale.sale_date).toLocaleString()}</td>
+                    <td className="border border-[#0B625D] p-2">
+                      {new Date(sale.sale_date).toLocaleString()}
+                    </td>
                   </tr>
                 ))}
               </tbody>
