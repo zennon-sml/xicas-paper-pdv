@@ -37,37 +37,39 @@ export default function SaleCompletion({
     if (props.length === 0) {
       alert("Sua venda está vazia");
       return;
-    }
-
-    try {
-      const admin_id = 1; // admin padrão
-
-      await Promise.all(
-        props.map(async (item) => {
-          const saleData = {
-            product_id: item.id,
-            admin_id,
-            quantity: item.qtd,
-          };
-
-          const response = await fetch("http://localhost:5000/api/sales", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(saleData),
-          });
-
-          if (!response.ok) {
-            throw new Error(`Erro ao vender ${item.name}`);
-          }
-        })
-      );
-
+    }else{
       setShowModal(true);
-    } catch (error) {
-      alert(error.message || "Erro ao finalizar venda");
     }
+
+    // try {
+    //   const admin_id = 1; // admin padrão
+
+    //   await Promise.all(
+    //     props.map(async (item) => {
+    //       const saleData = {
+    //         product_id: item.id,
+    //         admin_id,
+    //         quantity: item.qtd,
+    //       };
+
+    //       const response = await fetch("http://localhost:5000/api/sales", {
+    //         method: "POST",
+    //         headers: {
+    //           "Content-Type": "application/json",
+    //         },
+    //         body: JSON.stringify(saleData),
+    //       });
+
+    //       if (!response.ok) {
+    //         throw new Error(`Erro ao vender ${item.name}`);
+    //       }
+    //     })
+    //   );
+
+    //   setShowModal(true);
+    // } catch (error: any) {
+    //   alert(error.message || "Erro ao finalizar venda");
+    // }
   };
 
   const closeModal = () => {
@@ -127,7 +129,7 @@ export default function SaleCompletion({
           FINALIZAR VENDA
         </button>
 
-        <ModalEndSale showModal={showModal} totalValue={totalValue} closeModal={closeModal} />
+        <ModalEndSale showModal={showModal} totalValue={totalValue} productsList={props} closeModal={closeModal} />
       </div>
     </div>
   );

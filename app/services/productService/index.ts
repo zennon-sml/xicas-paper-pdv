@@ -6,6 +6,7 @@ export const createProduct = async (productData: any) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(productData)
     })
+    console.log("Response: ",JSON.stringify(productData))
     return await response.json()
 }
 

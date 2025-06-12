@@ -1,12 +1,21 @@
 import { useState } from "react";
+import { createSale } from "@/app/services/salesService";
 
+interface IItensList {
+  id: number;
+  name: string;
+  qtd: number;
+  pUnit: number;
+  desconto: string;
+}
 interface ModalEndSaleProps {
     showModal: boolean;
     totalValue: number;
+    productsList: IItensList[];
     closeModal: () => void;
 }
 
-export default function ModalEndSale({showModal, totalValue, closeModal}:ModalEndSaleProps){
+export default function ModalEndSale({showModal, totalValue, productsList, closeModal}:ModalEndSaleProps){
     const [discountType, setDiscountType] = useState<string>("valor") // tipo de desconto "valor" ou "porcentagem"
     const [discountTotal, setDiscountTotal] = useState<number>(0) // Valor de desconto calculado
     const [discountValue, setDiscountValue] = useState<number>(0) // Valor digitado no campo de desconto
@@ -24,9 +33,14 @@ export default function ModalEndSale({showModal, totalValue, closeModal}:ModalEn
         setDiscountValue(e)
     }
 
-    const closeSale = (event:string) => {
+    const closeSale = async (event:string) => {
         if (event === "confirm"){
-            console.log()
+            try {
+                await createSale(productsList)
+                console.log("Vendeu:", productsList);
+            } catch (error) {
+                console.error("Erro ao finalizar a venda:", error);
+            }
         }
         setDiscountType("valor")
         setDiscountTotal(0)

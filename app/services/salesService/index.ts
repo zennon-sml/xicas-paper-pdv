@@ -2,17 +2,19 @@ const API_URL = 'http://localhost:5000/api/sales'
 
 export const createSale = async (saleData: any) => {
   try {
+    
     const response = await fetch(API_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(saleData)
+      body: JSON.stringify({products: saleData})
     });
+    //console.log("Response: ",JSON.stringify(saleData))
 
     if (!response.ok) {
       const errorData = await response.json();
       throw new Error(errorData.error || 'Erro ao criar venda');
     }
-
+    
     return await response.json();
   } catch (err: any) {
     console.error('Erro ao enviar venda:', err.message);
