@@ -1,14 +1,21 @@
 const API_URL = 'http://localhost:5000/api/sales'
 
-export const createSale = async (saleData: any) => {
+export const createSale = async (saleData: any) => { // prepara saleData para enviar ao backend
   try {
+    const productsToSend = saleData.map((product: any) => ({
+      product_id: product.id,
+      qtd: product.qtd,
+      pUnit: product.pUnit,
+      descount: product.desconto || 0
+    })); 
+
     
     const response = await fetch(API_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({products: saleData})
+      body: JSON.stringify({products: productsToSend})
     });
-    //console.log("Response: ",JSON.stringify(saleData))
+    console.log("Response: ",JSON.stringify(productsToSend))
 
     if (!response.ok) {
       const errorData = await response.json();
@@ -28,20 +35,10 @@ export const getAllSales = async () => {
     return response.json()
 }
 
-
-// export const createProduct = async (productData: any) => {
-//     const response = await fetch(API_URL, {
-//         method: 'POST',
-//         headers: { 'Content-Type': 'application/json' },
-//         body: JSON.stringify(productData)
-//     })
-//     return await response.json()
-// }
-
-// export const getAllProducts = async () => {
-//     const response = await fetch(API_URL, {method: 'GET'})
-//     return await response.json()
-// } 
+export const deleteSaleById = async (saleID: number) => {
+    const response = await fetch(API_URL+`/`+saleID, {method: 'DELETE'})
+    if (!response.ok) throw new Error('Erro ao deletar produto');   
+}
 
 // export const getProductById = async (productID: number) => {
 //     const response = await fetch(API_URL+`/`+productID)
@@ -60,9 +57,4 @@ export const getAllSales = async () => {
 //         body: JSON.stringify(updatedData)
 //     })
 //     return await response.json()
-// }
-
-// export const deleteProductById = async (productID: number) => {
-//     const response = await fetch(API_URL+`/`+productID, {method: 'DELETE'})
-//     if (!response.ok) throw new Error('Erro ao deletar produto');   
 // }

@@ -108,20 +108,30 @@ export default function SalesHistory() {
             <table className="w-full border-collapse border border-[#0B625D]">
               <thead>
                 <tr className="bg-[#8BE8DC] text-[#0B625D]">
-                  <th className="border border-[#0B625D] p-2">ID</th>
-                  <th className="border border-[#0B625D] p-2">Produto</th>
-                  <th className="border border-[#0B625D] p-2">Quantidade</th>
-                  <th className="border border-[#0B625D] p-2">Total</th>
-                  <th className="border border-[#0B625D] p-2">Data</th>
+                  <th className="border border-[#0B625D] p-2">Nº</th>
+                  <th className="border border-[#0B625D] p-2">ID Venda</th>
+                  <th className="border border-[#0B625D] p-2">Vendedor</th>
+                  <th className="border border-[#0B625D] p-2">Produtos</th>
+                  <th className="border border-[#0B625D] p-2">Qtd</th>
+                  <th className="border border-[#0B625D] p-2">Descontos</th>
+                  <th className="border border-[#0B625D] p-2">Valor Pago</th>
+                  <th className="border border-[#0B625D] p-2">Custos</th>
+                  <th className="border border-[#0B625D] p-2">Ganhos</th>
+                  <th className="border border-[#0B625D] p-2">Data/Hora</th>
                 </tr>
               </thead>
               <tbody>
-                {sales.map((sale) => (
+                {sales.map((sale, n) => (
                   <tr key={sale.id} className="text-center">
+                    <td className="border border-[#0B625D] p-2">{n+1}</td>
                     <td className="border border-[#0B625D] p-2">{sale.id}</td>
+                    <td className="border border-[#0B625D] p-2">{sale.saler_id}</td>
                     <td className="border border-[#0B625D] p-2">{sale.productName}</td>
                     <td className="border border-[#0B625D] p-2">{sale.quantity}</td>
+                    <td className="border border-[#0B625D] p-2">{null}</td>
                     <td className="border border-[#0B625D] p-2">R$ {sale.total.toFixed(2)}</td>
+                    <td className="border border-[#0B625D] p-2">{null}</td>
+                    <td className="border border-[#0B625D] p-2">{null}</td>
                     <td className="border border-[#0B625D] p-2">
                       {sale.sale_date
                         ? new Date(sale.sale_date).toLocaleString()
