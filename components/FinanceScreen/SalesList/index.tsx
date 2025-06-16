@@ -5,13 +5,6 @@ import { getAllSales } from "@/app/services/salesService";
 import { getProductById } from "@/app/services/productService";
 
 // Interfaces
-export interface Product { // estrutura esperada de um produto.
-    id: number;
-    name: string;
-    cost: number;  
-    price: number;
-}
-
 export interface SaleProduct {
   product_id: number;
   qtd: number;
@@ -60,6 +53,7 @@ useEffect(() => {
           for (const item of sale.products) {
             try {
               const product = await getProductById(item.product_id);
+              console.log("Produto ID:", item);
               productNames.push(product?.name || "Produto desconhecido");
               totalCost += item.qtd * (product?.cost || 0);
             } catch {
@@ -68,8 +62,8 @@ useEffect(() => {
             }
 
             totalQuantity += item.qtd;
-            totalDiscount += item.descount;
-            totalPaid += item.qtd * item.pUnit - item.descount;
+            totalDiscount += Number(item.descount || 0);
+            totalPaid += item.qtd * item.pUnit - Number(item.descount || 0);
           }
 
           const profit = totalPaid - totalCost;

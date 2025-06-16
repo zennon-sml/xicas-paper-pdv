@@ -34,35 +34,7 @@ export default function SaleCompletion({
       setShowModal(true);
     }
 
-    // try {
-    //   const admin_id = 1; // admin padrão
-
-    //   await Promise.all(
-    //     props.map(async (item) => {
-    //       const saleData = {
-    //         product_id: item.id,
-    //         admin_id,
-    //         quantity: item.qtd,
-    //       };
-
-    //       const response = await fetch("http://localhost:5000/api/sales", {
-    //         method: "POST",
-    //         headers: {
-    //           "Content-Type": "application/json",
-    //         },
-    //         body: JSON.stringify(saleData),
-    //       });
-
-    //       if (!response.ok) {
-    //         throw new Error(`Erro ao vender ${item.name}`);
-    //       }
-    //     })
-    //   );
-
-    //   setShowModal(true);
-    // } catch (error: any) {
-    //   alert(error.message || "Erro ao finalizar venda");
-    // }
+  
   };
 
   const closeModal = () => {

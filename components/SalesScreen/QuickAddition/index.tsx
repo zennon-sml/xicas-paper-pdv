@@ -2,6 +2,7 @@ import { IoMdSearch } from "react-icons/io";
 import { getProductByBarcode } from "@/app/services/productService";
 import { useState } from "react";
 
+
 export default function QuickAddition({addProductList}:any){
     const [query, setQuery] = useState<string>("")
 

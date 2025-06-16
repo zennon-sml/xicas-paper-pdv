@@ -1,18 +1,14 @@
 import { FaTrash } from "react-icons/fa";
 import { BiSolidPencil } from "react-icons/bi";
 
-interface IItemStock {
-    id: number;
-    name: string;
-    quantity: number;
-    cost: number;
-    price: number;
-    image?: string;
-    handleProduct: (id: number) => void;
-    deleteProduct: (id: number) => void;
+import { Product } from '@/app/interfaces/product';
+
+interface IItemStock extends Product {
+    handleProduct: (id?: number) => void;
+    deleteProduct: (id?: number) => void;
   }
 
-export default function ItemStock ({id, name, quantity, cost, price, image, handleProduct, deleteProduct}:IItemStock){
+export default function ItemStock ({id, name, qtd, cost, price, image, handleProduct, deleteProduct}:IItemStock){
     return(
         <tr key={id} className="border-y border-[#198A83] bg-white">
 
@@ -25,7 +21,7 @@ export default function ItemStock ({id, name, quantity, cost, price, image, hand
                 <p>{name}</p>
             </td>
             <td className="text-[#135550] text-center font-semibold">{id}</td>
-            <td className="text-[#135550] text-center font-semibold">{quantity}</td>
+            <td className="text-[#135550] text-center font-semibold">{qtd}</td>
             <td className="text-[#135550] text-center font-semibold">{"R$ "+cost}</td>
             <td className="text-[#135550] text-center font-bold">{"R$ "+price}</td>
             <td className="text-center text-[#135550] text-[15px]">

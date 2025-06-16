@@ -1,26 +1,14 @@
 import { useState, useEffect } from "react";
 import Fuse from 'fuse.js';
-
 import { IoMdSearch } from "react-icons/io";
 import ItemList from './ItemList/page';
 import { getAllProducts } from "@/app/services/productService";
 
-interface Item {
-  id: number;
-  type: string;
-  name: string;
-  barcode: string;
-  qtd: number;
-  cost: number;
-  description: string;
-  tags: string;
-  price: number;
-  image?: string;
-  cadCompleted: boolean;
-}
+import { Product } from "@/app/interfaces/product";
+
 
 export default function ProductList({handleSelectProduct}:any) {
-  const [products, setProducts] = useState<Item[]>([])
+  const [products, setProducts] = useState<Product[]>([])
   const [query, setQuery] = useState<string>("")
 
   // Configurando o Fuse.js

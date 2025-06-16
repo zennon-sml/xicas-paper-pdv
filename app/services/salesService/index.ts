@@ -3,7 +3,7 @@ const API_URL = 'http://localhost:5000/api/sales'
 export const createSale = async (saleData: any) => { // prepara saleData para enviar ao backend
   try {
     const productsToSend = saleData.map((product: any) => ({
-      product_id: product.id,
+      id: product.id,
       qtd: product.qtd,
       pUnit: product.pUnit,
       descount: product.desconto || 0

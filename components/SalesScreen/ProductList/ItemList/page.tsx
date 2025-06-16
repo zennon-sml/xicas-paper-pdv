@@ -1,11 +1,9 @@
 import Image from 'next/image';
-import React from 'react'
+import React from 'react';
 
-interface ItemListProps {
-  id: number;
-  name: string;
-  price: number;
-  image?: string;
+import { Product } from "@/app/interfaces/product";
+
+interface ItemListProps extends Product {
   onSelect: () => void;
 }
 

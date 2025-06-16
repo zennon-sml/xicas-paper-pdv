@@ -11,14 +11,6 @@ import CRUDButtons from '@/components/SalesScreen/CRUDButtons';
 
 import { Product, ProductSold, defaultProduct } from '@/app/interfaces/product';
 
-interface IItensList{
-  id: number;
-  name: string;
-  qtd: number;
-  pUnit: number;
-  desconto: string;
-}
-
 export default function Sales() {
   const [selectedProduct, setSelectedProduct] = useState<Product>(defaultProduct); 
   const [itens, setItens] = useState<ProductSold[]>([]);

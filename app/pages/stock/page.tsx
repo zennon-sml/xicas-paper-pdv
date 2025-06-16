@@ -4,25 +4,12 @@ import ItemStock from '@/components/StockScreen/ItemStock';
 import ModalItemScreen from '@/components/StockScreen/ModalItemScreen';
 import Fuse from 'fuse.js';
 import { getAllProducts, deleteProductById } from '@/app/services/productService';
-
 import { useState, useEffect } from 'react';
+import { Product } from '@/app/interfaces/product';
 
-interface Item {
-  id: number;
-  type: string;
-  name: string;
-  barcode: string;
-  quantity: number;
-  cost: number;
-  description: string;
-  tags: string;
-  price: number;
-  image?: string;
-  cadCompleted: boolean;
-}
 
 export default function Stock() {
-  const [products, setProducts] = useState<Item[]>([])
+  const [products, setProducts] = useState<Product[]>([])
   const [selectedButton, setSelectedButton] = useState<string>('TODOS')
   const [showModal, setShowModal] = useState<boolean>(false);
   const [productIdSelect, setProductIdSelect] = useState<number>(0);
@@ -153,8 +140,8 @@ export default function Stock() {
               {products.map((product, index) => (
                 <ItemStock 
                   key={product.id} 
-                  handleProduct={() => handleProduct(product.id)}
-                  deleteProduct={() => deleteProduct(product.id)}
+                  handleProduct={() => handleProduct(product.id ?? 0)}
+                  deleteProduct={() => deleteProduct(product.id ?? 0)}
                   {...product} 
                 />
               ))}
