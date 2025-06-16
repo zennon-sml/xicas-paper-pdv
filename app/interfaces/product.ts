@@ -1,16 +1,5 @@
-/* export interface Product {
-  _id?: string;
-  name: string;
-  description: string;
-  price: number;
-  stock: number;
-  category: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-} */
-
 export interface Product {
-  _id?: number;
+  id?: number;
   category: string;
   name: string;
   barcode: string;
@@ -24,3 +13,23 @@ export interface Product {
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+export interface ProductSold extends Product {
+  qtd: number;
+  pUnit: number;
+  desconto: string;
+}
+
+export const defaultProduct: Product = {
+  name: "",
+  price: 0,
+  image: "",
+  category: "",
+  barcode: "",
+  qtd: 0,
+  cost: 0,
+  description: "",
+  tags: "",
+  cadCompleted: false,
+  // add any other required fields here
+};

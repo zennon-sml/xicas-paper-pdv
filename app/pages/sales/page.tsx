@@ -9,11 +9,7 @@ import QuickAddition from '@/components/SalesScreen/QuickAddition';
 import SaleCompletion from '@/components/SalesScreen/SaleCompletion';
 import CRUDButtons from '@/components/SalesScreen/CRUDButtons';
 
-interface IProduct{
-  name: string;
-  price: number;
-  image?: string;
-}
+import { Product, ProductSold, defaultProduct } from '@/app/interfaces/product';
 
 interface IItensList{
   id: number;
@@ -24,16 +20,16 @@ interface IItensList{
 }
 
 export default function Sales() {
-  const [selectedProduct, setSelectedProduct] = useState<IProduct>({name:"", price:0, image:""}); 
-  const [itens, setItens] = useState<IItensList[]>([]);
+  const [selectedProduct, setSelectedProduct] = useState<Product>(defaultProduct); 
+  const [itens, setItens] = useState<ProductSold[]>([]);
 
-  const handleSelectProduct = (product:IProduct) => {
+  const handleSelectProduct = (product:Product) => {
     setSelectedProduct(product);
   };
 
-  const addProductList = (item:IItensList) => {
+  const addProductList = (item:ProductSold) => {
     setItens((prevProducts) => [...prevProducts, item]);
-    setSelectedProduct({name:"", price:0, image:""})
+    setSelectedProduct(defaultProduct); // Reset selected product after adding
   }
 
   const resetProps = () => {

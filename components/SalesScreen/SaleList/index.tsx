@@ -1,12 +1,6 @@
-interface IItensList{
-    id: number;
-    name: string;
-    qtd: number;
-    pUnit: number;
-    desconto: string;
-  }
+import { ProductSold } from "@/app/interfaces/product";
 
-export default function SaleList({saleList}:{ saleList: IItensList[] }){
+export default function SaleList({saleList}:{ saleList: ProductSold[] }){
     return(
         <div className='flex flex-col w-full bg-[#B8FFF7] border border-[#5CC5BE] rounded-md overflow-hidden flex-grow'>
             <h2 className="bg-[#28A9A1] font-bold text-white text-center">LISTA DE VENDAS</h2>

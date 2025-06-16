@@ -1,19 +1,12 @@
 import { useState, useEffect } from "react";
 import ModalEndSale from "./ModalEndSale/page";
-
-interface IItensList {
-  id: number;
-  name: string;
-  qtd: number;
-  pUnit: number;
-  desconto: string;
-}
+import { ProductSold } from "@/app/interfaces/product";
 
 export default function SaleCompletion({
   props,
   resetProps,
 }: {
-  props: IItensList[];
+  props: ProductSold[];
   resetProps: () => void;
 }) {
   const [totalValue, setTotalValue] = useState<number>(0);

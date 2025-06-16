@@ -1,79 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import SideBar from "@/components/SideBar";
-import { getAllSales } from "@/app/services/salesService";
-import { getProductById } from "@/app/services/productService";
+import SalesList from "@/components/FinanceScreen/SalesList";
 
-// Interfaces
-export interface SaleProduct {
-  product_id: number;
-  qtd: number;
-  pUnit: number;
-  descount: number;
-}
-
-export interface Sale {
-  id?: number;
-  saler_id?: number | null;
-  products: SaleProduct[];
-  sale_date?: string | Date;
-}
-
-interface SaleDisplay extends Sale {
-  productName: string;
-  quantity: number;
-  total: number;
-}
 
 export default function SalesHistory() {
-  const [selectedButton, setSelectedButton] = useState<string>("DIA");
-  const [sales, setSales] = useState<SaleDisplay[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchSales = async () => {
-      try {
-        const data = await getAllSales();
-        if (!data || data.length === 0) {
-          throw new Error("Nenhuma venda encontrada.");
-        }
-
-        const salesWithProducts: SaleDisplay[] = await Promise.all(
-          data.map(async (sale: Sale) => {
-            const firstProduct = sale.products[0];
-
-            try {
-              const product = await getProductById(firstProduct.product_id);
-              return {
-                ...sale,
-                productName: product?.name || "Produto desconhecido",
-                quantity: firstProduct.qtd,
-                total: firstProduct.pUnit * firstProduct.qtd - firstProduct.descount,
-              };
-            } catch {
-              return {
-                ...sale,
-                productName: "Erro ao buscar produto",
-                quantity: firstProduct.qtd,
-                total: firstProduct.pUnit * firstProduct.qtd - firstProduct.descount,
-              };
-            }
-          })
-        );
-
-        setSales(salesWithProducts);
-      } catch (err) {
-        setError((err as Error).message);
-        console.log("Erro na requisição:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchSales();
-  }, []);
+  const [selectedButton, setSelectedButton] = useState<string>("TODOS");
 
   return (
     <div className="flex flex-col h-screen">
@@ -83,7 +16,7 @@ export default function SalesHistory() {
       <hr className="flex fixed top-11 left-12 border-[1px] border-[#0B625D] w-[calc(100%-3rem)]" />
 
       <div className="flex mt-11 gap-7">
-        {["DIA", "SEMANA", "MÊS", "ANO"].map((button) => (
+        {["TODAS","DIA", "SEMANA", "MÊS", "ANO"].map((button) => (
           <button
             key={button}
             onClick={() => setSelectedButton(button)}
@@ -98,52 +31,7 @@ export default function SalesHistory() {
         ))}
       </div>
 
-      <div className="flex flex-col flex-grow bg-[#CBFCF6] overflow-hidden p-4">
-        {loading ? (
-          <p>Carregando vendas...</p>
-        ) : error ? (
-          <p className="text-red-500">Erro: {error}</p>
-        ) : (
-          <div className="bg-[#E4FFFC] h-full w-full rounded-md p-3 overflow-y-auto">
-            <table className="w-full border-collapse border border-[#0B625D]">
-              <thead>
-                <tr className="bg-[#8BE8DC] text-[#0B625D]">
-                  <th className="border border-[#0B625D] p-2">Nº</th>
-                  <th className="border border-[#0B625D] p-2">ID Venda</th>
-                  <th className="border border-[#0B625D] p-2">Vendedor</th>
-                  <th className="border border-[#0B625D] p-2">Produtos</th>
-                  <th className="border border-[#0B625D] p-2">Qtd</th>
-                  <th className="border border-[#0B625D] p-2">Descontos</th>
-                  <th className="border border-[#0B625D] p-2">Valor Pago</th>
-                  <th className="border border-[#0B625D] p-2">Custos</th>
-                  <th className="border border-[#0B625D] p-2">Ganhos</th>
-                  <th className="border border-[#0B625D] p-2">Data/Hora</th>
-                </tr>
-              </thead>
-              <tbody>
-                {sales.map((sale, n) => (
-                  <tr key={sale.id} className="text-center">
-                    <td className="border border-[#0B625D] p-2">{n+1}</td>
-                    <td className="border border-[#0B625D] p-2">{sale.id}</td>
-                    <td className="border border-[#0B625D] p-2">{sale.saler_id}</td>
-                    <td className="border border-[#0B625D] p-2">{sale.productName}</td>
-                    <td className="border border-[#0B625D] p-2">{sale.quantity}</td>
-                    <td className="border border-[#0B625D] p-2">{null}</td>
-                    <td className="border border-[#0B625D] p-2">R$ {sale.total.toFixed(2)}</td>
-                    <td className="border border-[#0B625D] p-2">{null}</td>
-                    <td className="border border-[#0B625D] p-2">{null}</td>
-                    <td className="border border-[#0B625D] p-2">
-                      {sale.sale_date
-                        ? new Date(sale.sale_date).toLocaleString()
-                        : "-"}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
+      <SalesList />
     </div>
   );
 }

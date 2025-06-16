@@ -1,17 +1,13 @@
 import { useState } from "react";
 import { createSale } from "@/app/services/salesService";
 
-interface IItensList {
-  id: number;
-  name: string;
-  qtd: number;
-  pUnit: number;
-  desconto: string;
-}
+import { ProductSold } from "@/app/interfaces/product";
+
+// Props para o ModalEndSale
 interface ModalEndSaleProps {
     showModal: boolean;
     totalValue: number;
-    productsList: IItensList[];
+    productsList: ProductSold[];
     closeModal: () => void;
 }
 
