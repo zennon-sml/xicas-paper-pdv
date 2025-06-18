@@ -22,9 +22,9 @@ export default function SaleList({saleList}:{ saleList: ProductSold[] }){
                                 <td className="pl-1 pr-1 text-[#135550] text-center font-bold">{i+1}</td>
                                 <td className="pl-1 pr-1 text-[#135550] text-center">{product.name}</td>
                                 <td className="pl-1 pr-1 text-[#135550] text-center">{product.qtd}</td>
-                                <td className="pl-1 pr-1 text-[#135550] text-center">{"R$ "+(product.desconto === "" ? 0 : Number(product.desconto))}</td>
+                                <td className="pl-1 pr-1 text-[#135550] text-center">{"R$ "+(product.discount === "" ? 0 : Number(product.discount))}</td>
                                 <td className="pl-1 pr-1 text-[#135550] text-center">{"R$ "+(product.price)}</td>
-                                <td className="pl-1 pr-1 text-[#135550] text-center font-bold">{"R$ "+((product.qtd*product.price)-(product.desconto === "" ? 0 : Number(product.desconto))).toFixed(2)}</td>
+                                <td className="pl-1 pr-1 text-[#135550] text-center font-bold">{"R$ "+((product.qtd*product.price)-(product.discount === "" ? 0 : Number(product.discount))).toFixed(2)}</td>
                             </tr> 
                         ))}
                     </tbody>

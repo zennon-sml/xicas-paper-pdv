@@ -10,7 +10,7 @@ export const createSale = async (saleData: ProductSold[]) => { // prepara saleDa
       qtd: product.qtd,
       price_sold: product.price,
       cost_sold: product.cost,
-      descount: product.desconto || 0
+      discount: product.discount || 0
     })); 
 
     

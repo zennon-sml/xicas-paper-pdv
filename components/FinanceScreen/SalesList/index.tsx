@@ -67,8 +67,8 @@ useEffect(() => {
             }
 
             totalQuantity += item.qtd;
-            totalDiscount += Number(item.desconto || 0);
-            totalPaid += item.qtd * item.price_sold - Number(item.desconto || 0);
+            totalDiscount += Number(item.discount || 0);
+            totalPaid += item.qtd * item.price_sold - Number(item.discount || 0);
           }
 
           const profit = totalPaid - totalCost;

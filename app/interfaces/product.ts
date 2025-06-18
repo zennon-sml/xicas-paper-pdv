@@ -18,7 +18,7 @@ export interface ProductSold extends Product {
   qtd: number;
   price_sold : number;
   cost_sold: number;
-  desconto: string;
+  discount: string;
 }
 
 export const defaultProduct: Product = {

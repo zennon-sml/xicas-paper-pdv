@@ -19,8 +19,8 @@ export default function SaleCompletion({
       const prop = props[props.length - 1];
 
       setTotalQtd((prev) => prev + prop.qtd);
-      setTotalDiscount((prev) => prev + Number(prop.desconto));
-      setTotalValue((prev) => prev + (prop.qtd * prop.price - Number(prop.desconto)));
+      setTotalDiscount((prev) => prev + Number(prop.discount));
+      setTotalValue((prev) => prev + (prop.qtd * prop.price - Number(prop.discount)));
     }
   }, [props]);
 
@@ -31,7 +31,6 @@ export default function SaleCompletion({
     }else{
       setShowModal(true);
     }
-
   
   };
 
