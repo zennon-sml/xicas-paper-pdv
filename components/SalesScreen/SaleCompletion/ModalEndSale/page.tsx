@@ -172,31 +172,6 @@ export default function ModalEndSale({showModal, totalValue, productsList, close
                             </div>
                         </div>
                         
-                        
-                        {/* <h2 className="text-lg font-bold text-[#198A83] mb-4">
-                        Confirmação
-                        </h2>
-                        <p className="text-gray-700 text-center mb-4">
-                        Deseja realmente finalizar a venda no valor de{" "}
-                        <span className="font-bold">R$ {totalValue.toFixed(2)}</span>?
-                        </p>
-                        <div className="flex gap-4">
-                        <button
-                            onClick={closeModal} // Fecha o modal
-                            className="bg-red-500 text-white py-2 px-4 rounded-md"
-                        >
-                            Cancelar
-                        </button>
-                        <button
-                            onClick={() => {
-                            closeModal();
-                            alert("Venda finalizada com sucesso!"); // Exemplo de ação final
-                            }}
-                            className="bg-green-500 text-white py-2 px-4 rounded-md"
-                        >
-                            Confirmar
-                        </button>
-                        </div> */}
 
                     </div>
                 </div>

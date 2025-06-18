@@ -4,18 +4,20 @@ import { useEffect, useState } from "react";
 import { getAllSales } from "@/app/services/salesService";
 import { getProductById } from "@/app/services/productService";
 
+import { ProductSold } from "@/app/interfaces/product";
+
 // Interfaces
-export interface SaleProduct {
-  product_id: number;
-  qtd: number;
-  pUnit: number;
-  descount: number;
-}
+// export interface SaleProduct extends ProductSold {
+//   id: number;
+//   qtd: number;
+//   pUnit: number;
+//   descount: number;
+// }
 
 export interface Sale {
   id?: number;
   saler_id?: number | null;
-  products: SaleProduct[];
+  products: ProductSold[];
   sale_date?: string | Date;
 }
 
@@ -38,6 +40,7 @@ useEffect(() => {
   const fetchSales = async () => {
     try {
       const data = await getAllSales();
+      console.log("Dados das vendas:", data);
       if (!data || data.length === 0) {
         throw new Error("Nenhuma venda encontrada.");
       }
@@ -51,19 +54,21 @@ useEffect(() => {
           let totalCost = 0;
 
           for (const item of sale.products) {
+            
+            console.log("Item da venda:", item);
+
             try {
-              const product = await getProductById(item.product_id);
-              console.log("Produto ID:", item);
+              const product = await getProductById(item.id ?? 0);
               productNames.push(product?.name || "Produto desconhecido");
-              totalCost += item.qtd * (product?.cost || 0);
+              totalCost += item.qtd * (item.cost_sold || 0);
             } catch {
               productNames.push("Erro ao buscar produto");
               totalCost += 0;
             }
 
             totalQuantity += item.qtd;
-            totalDiscount += Number(item.descount || 0);
-            totalPaid += item.qtd * item.pUnit - Number(item.descount || 0);
+            totalDiscount += Number(item.desconto || 0);
+            totalPaid += item.qtd * item.price_sold - Number(item.desconto || 0);
           }
 
           const profit = totalPaid - totalCost;

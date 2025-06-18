@@ -16,7 +16,8 @@ export interface Product {
 
 export interface ProductSold extends Product {
   qtd: number;
-  pUnit: number;
+  price_sold : number;
+  cost_sold: number;
   desconto: string;
 }
 

@@ -14,15 +14,13 @@ export default function SaleCompletion({
   const [totalDiscount, setTotalDiscount] = useState<number>(0);
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  console.log(props);
-
   useEffect(() => {
     if (props.length > 0) {
       const prop = props[props.length - 1];
 
       setTotalQtd((prev) => prev + prop.qtd);
       setTotalDiscount((prev) => prev + Number(prop.desconto));
-      setTotalValue((prev) => prev + (prop.qtd * prop.pUnit - Number(prop.desconto)));
+      setTotalValue((prev) => prev + (prop.qtd * prop.price - Number(prop.desconto)));
     }
   }, [props]);
 

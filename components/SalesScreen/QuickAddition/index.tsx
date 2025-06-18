@@ -15,7 +15,7 @@ export default function QuickAddition({addProductList}:any){
                     id:props.id ,
                     name:props.name, 
                     qtd:1, 
-                    pUnit:props.price, 
+                    price:props.price, 
                     desconto:0
                 })
     

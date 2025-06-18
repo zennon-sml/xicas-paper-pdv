@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react'
 
+import { ProductSold } from '@/app/interfaces/product';
+
 export default function ItemProperties({props, addProductList}:any){
   const [totalValue, setTotalValue] = useState<number>(0);
   const [quantity, setQuantity] = useState<number>(1);
@@ -83,7 +85,7 @@ export default function ItemProperties({props, addProductList}:any){
         </div>
         <div className='flex items-end'>
           <button 
-          onClick={() => addProductList({id:props.id ,name:props.name, qtd:quantity, pUnit:props.price, desconto:discount}, setTotalValue(0), setQuantity(1), setDiscount(""))}
+          onClick={() => addProductList({id:props.id ,name:props.name, qtd:quantity, price:props.price, cost:props.cost, desconto:discount}, setTotalValue(0), setQuantity(1), setDiscount(""))}
           disabled={!props.price || props.price === 0}
           className='bg-[#59cf5d] hover:bg-[#238526] text-white font-bold w-28 h-11 rounded-md'>
           INSERIR
