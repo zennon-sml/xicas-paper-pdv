@@ -8,10 +8,6 @@ import { Product } from '@/app/interfaces/product';
 import { FaTrash } from "react-icons/fa";
 import { BiSolidPencil } from "react-icons/bi";
 
-interface IItemStock extends Product {
-    handleProduct: (id?: number) => void;
-    deleteProduct: (id?: number) => void;
-  }
 
 export default function Stock() {
   const [products, setProducts] = useState<Product[]>([])

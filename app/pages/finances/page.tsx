@@ -6,7 +6,7 @@ import SalesList from "@/components/FinanceScreen/SalesList";
 
 
 export default function SalesHistory() {
-  const [selectedButton, setSelectedButton] = useState<string>("TODOS");
+  const [selectedButton, setSelectedButton] = useState<string>("TODAS");
 
   return (
     <div className="flex flex-col h-screen">
