@@ -3,7 +3,7 @@ export interface Product {
   category: string;
   name: string;
   barcode: string;
-  qtd: number;
+  quantity: number;
   cost: number;
   description: string;
   tags: string;
@@ -21,7 +21,7 @@ export interface ProductSold extends Product {
   discount: string;
 }
 
-export const defaultProduct: Product = {
+export const defaultProduct: ProductSold = {
   name: "",
   price: 0,
   image: "",
@@ -32,5 +32,8 @@ export const defaultProduct: Product = {
   description: "",
   tags: "",
   cadCompleted: false,
-  // add any other required fields here
+  price_sold: 0,
+  cost_sold: 0,
+  discount: "",
+  quantity: 0
 };

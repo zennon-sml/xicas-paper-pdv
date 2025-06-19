@@ -18,9 +18,9 @@ export default function SaleCompletion({
     if (props.length > 0) {
       const prop = props[props.length - 1];
 
-      setTotalQtd((prev) => prev + prop.qtd);
+      setTotalQtd((prev) => prev + prop.quantity);
       setTotalDiscount((prev) => prev + Number(prop.discount));
-      setTotalValue((prev) => prev + (prop.qtd * prop.price - Number(prop.discount)));
+      setTotalValue((prev) => prev + (prop.quantity * prop.price - Number(prop.discount)));
     }
   }, [props]);
 

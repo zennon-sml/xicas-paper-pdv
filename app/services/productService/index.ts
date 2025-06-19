@@ -1,6 +1,8 @@
 const API_URL = 'http://localhost:5000/api/products'
 
-export const createProduct = async (productData: any) => {
+import { Product } from "@/app/interfaces/product"
+
+export const createProduct = async (productData: Product) => {
     const response = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

@@ -14,7 +14,7 @@ export default function QuickAddition({addProductList}:any){
                 addProductList({
                     id:props.id ,
                     name:props.name, 
-                    qtd:1, 
+                    quantity:1, 
                     price:props.price, 
                     discount:0
                 })

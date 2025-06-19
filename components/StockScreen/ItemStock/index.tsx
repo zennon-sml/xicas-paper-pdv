@@ -8,7 +8,7 @@ interface IItemStock extends Product {
     deleteProduct: (id?: number) => void;
   }
 
-export default function ItemStock ({id, name, qtd, cost, price, image, handleProduct, deleteProduct}:IItemStock){
+export default function ItemStock ({id, name, quantity, cost, price, image, handleProduct, deleteProduct}:IItemStock){
     return(
         <tr key={id} className="border-y border-[#198A83] bg-white">
 
@@ -21,7 +21,7 @@ export default function ItemStock ({id, name, qtd, cost, price, image, handlePro
                 <p>{name}</p>
             </td>
             <td className="text-[#135550] text-center font-semibold">{id}</td>
-            <td className="text-[#135550] text-center font-semibold">{qtd}</td>
+            <td className="text-[#135550] text-center font-semibold">{quantity}</td>
             <td className="text-[#135550] text-center font-semibold">{"R$ "+cost}</td>
             <td className="text-[#135550] text-center font-bold">{"R$ "+price}</td>
             <td className="text-center text-[#135550] text-[15px]">

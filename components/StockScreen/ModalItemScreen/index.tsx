@@ -35,11 +35,14 @@ export default function ModalItemScreen({idProduct, showModal, closeModal}:Modal
     }, [showModal])
 
     const completionModal = async (value:string) => { // O que vai acontecer quando clicar em conluir
-        console.log(idProduct)
         if (value === "confirmar"){
             if (idProduct === 0){ // Produto Novo
-                await createProduct(product)
-                alert("Produto cadastrado com sucesso!"); // Exemplo de ação final
+                if (product) {
+                    await createProduct(product)
+                    alert("Produto cadastrado com sucesso! "); // Exemplo de ação final
+                } else {
+                    alert("Produto inválido. Não foi possível cadastrar.");
+                }
             }
             else{ // Atualização
                 await updateProductById(product?.id, product)
@@ -159,8 +162,8 @@ export default function ModalItemScreen({idProduct, showModal, closeModal}:Modal
                                             <label className='text-xs text-[#198A83]'>Quantidade:</label>
                                                 <input 
                                                 type="number" 
-                                                value={product?.qtd}
-                                                onChange={(e) => updateProduct("qtd", e.target.value)}
+                                                value={product?.quantity}
+                                                onChange={(e) => updateProduct("quantity", Number(e.target.value))}
                                                 className='max-w-40 h-8 p-2 bg-[#b8f5ee] text-[#198A83] text-sm rounded-md'
                                                 min={0}
                                                 />
@@ -170,7 +173,7 @@ export default function ModalItemScreen({idProduct, showModal, closeModal}:Modal
                                                 <input 
                                                 type="number" 
                                                 value={product?.cost}
-                                                onChange={(e) => updateProduct("cost", e.target.value)}
+                                                onChange={(e) => updateProduct("cost", Number(e.target.value))}
                                                 className='min-w-40 h-8 p-2 bg-[#b8f5ee] text-[#198A83] text-sm rounded-md'
                                                 min={0}
                                                 />
@@ -208,12 +211,12 @@ export default function ModalItemScreen({idProduct, showModal, closeModal}:Modal
                             </div>   
                             <div className="flex gap-1 ">
                                 <div className="flex flex-col">
-                                    <label className='text-xs text-[#198A83]'>Valor de Venda:</label>
+                                    <label className='text-xs text-[#198A83]'>Valor de Venda (Preço):</label>
                                     <input
                                     min={0}
                                     type="number"
                                     value={product?.price}
-                                    onChange={(e) => updateProduct("price", e.target.value)}
+                                    onChange={(e) => updateProduct("price", Number(e.target.value))}
                                     className='h-10 max-w-44 p-2 bg-[#61e0d8] text-[#198A83] rounded-md text-sm'
                                     />
                                 </div>
