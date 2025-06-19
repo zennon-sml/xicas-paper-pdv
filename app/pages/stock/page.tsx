@@ -1,12 +1,17 @@
 "use client"
 import SideBar from '@/components/SideBar';
-import ItemStock from '@/components/StockScreen/ItemStock';
 import ModalItemScreen from '@/components/StockScreen/ModalItemScreen';
 import Fuse from 'fuse.js';
 import { getAllProducts, deleteProductById } from '@/app/services/productService';
 import { useState, useEffect } from 'react';
 import { Product } from '@/app/interfaces/product';
+import { FaTrash } from "react-icons/fa";
+import { BiSolidPencil } from "react-icons/bi";
 
+interface IItemStock extends Product {
+    handleProduct: (id?: number) => void;
+    deleteProduct: (id?: number) => void;
+  }
 
 export default function Stock() {
   const [products, setProducts] = useState<Product[]>([])
@@ -138,12 +143,25 @@ export default function Stock() {
             </thead>
             <tbody className="bg-[#B8FFF7] text-xs h-full">
               {products.map((product, index) => (
-                <ItemStock 
-                  key={product.id} 
-                  handleProduct={() => handleProduct(product.id ?? 0)}
-                  deleteProduct={() => deleteProduct(product.id ?? 0)}
-                  {...product} 
-                />
+
+                <tr key={product.id} className="border-y border-[#198A83] bg-white">
+                  <td className="flex text-[#135550] font-bold text-center items-center h-12 w-full gap-3">
+                      <img 
+                          src={product.image || "/img/sem-foto.jpg"} 
+                          alt="" 
+                          className="mx-1 h-12 w-12 p-0.5 bg-[#ffffff] rounded-md object-contain object-center"
+                      />
+                      <p>{product.name}</p>
+                  </td>
+                  <td className="text-[#135550] text-center font-semibold">{product.id}</td>
+                  <td className="text-[#135550] text-center font-semibold">{product.quantity}</td>
+                  <td className="text-[#135550] text-center font-semibold">{"R$ "+product.cost}</td>
+                  <td className="text-[#135550] text-center font-bold">{"R$ "+product.price}</td>
+                  <td className="text-center text-[#135550] text-[15px]">
+                      <button onClick={() => handleProduct(product.id ?? 0)} className=' m-1 hover:text-amber-500'><BiSolidPencil/></button>
+                      <button onClick={() => deleteProduct(product.id ?? 0)} className=' m-1 hover:text-red-500'><FaTrash /></button>
+                  </td>
+              </tr>
               ))}
               
             </tbody>
