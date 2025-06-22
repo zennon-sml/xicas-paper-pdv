@@ -62,18 +62,74 @@ export default function ModalItemScreen({idProduct, showModal, closeModal}:Modal
         //console.log(product)
     }
 
-    const handleImageChange = (type:string, file: any) => {
+    const handleImageChange = (type: string, file: File | undefined) => {
+    // Verifica se um arquivo foi selecionado
         if (file) {
-            const reader = new FileReader()
-            // Quando a leitura da imagem estiver concluída, armazenamos o resultado
-            reader.onloadend = () => {
-                updateProduct("image", reader.result as string)
-                // console.log(reader.result) // Atualiza o estado com a URL da imagem
-            }
-            reader.readAsDataURL(file) // Converte a imagem para uma URL
+            const reader = new FileReader(); 
+            // Cria um leitor de arquivos do navegador
+
+            reader.readAsDataURL(file); 
+            // Lê o arquivo e converte em uma URL base64
+
+            reader.onload = (event) => { 
+                // Quando a leitura do arquivo terminar, executa essa função
+
+                const img = new Image(); 
+                // Cria um novo elemento de imagem na memória
+
+                img.src = event.target?.result as string; 
+                // Define o src da imagem com o base64 gerado pelo FileReader
+
+                img.onload = () => { 
+                    // Quando a imagem estiver carregada na memória, executa isso
+
+                    const canvas = document.createElement("canvas"); 
+                    // Cria um elemento canvas (não aparece na tela, usado só na memória para processar a imagem)
+
+                    const maxWidth = 400; // Largura máxima desejada
+                    const maxHeight = 400; // Altura máxima desejada
+
+                    let width = img.width; // Pega a largura original da imagem
+                    let height = img.height; // Pega a altura original da imagem
+
+                    // ⚖️ Mantém a proporção da imagem original
+                    if (width > height) { 
+                        // Se a largura for maior que a altura (imagem na horizontal)
+                        if (width > maxWidth) {
+                            height *= maxWidth / width; // Reduz altura proporcionalmente
+                            width = maxWidth; // Define a nova largura
+                        }
+                    } else { 
+                        // Caso contrário (imagem na vertical ou quadrada)
+                        if (height > maxHeight) {
+                            width *= maxHeight / height; // Reduz largura proporcionalmente
+                            height = maxHeight; // Define a nova altura
+                        }
+                    }
+
+                    // Define o tamanho final do canvas (já redimensionado)
+                    canvas.width = width;
+                    canvas.height = height;
+
+                    const ctx = canvas.getContext("2d"); 
+                    // Obtém o contexto 2D do canvas (permite desenhar nele)
+
+                    ctx?.drawImage(img, 0, 0, width, height); 
+                    // Desenha a imagem dentro do canvas, já no tamanho reduzido
+
+                    // Gera uma imagem no formato JPEG, reduzindo a qualidade (0.7 = 70%)
+                    const compressedDataUrl = canvas.toDataURL("image/jpeg", 0.7); 
+
+                    // Atualiza o estado do produto com a imagem já comprimida
+                    updateProduct("image", compressedDataUrl);
+
+                    // Loga no console o tamanho da imagem comprimida (em KB)
+                    console.log("Imagem comprimida:", compressedDataUrl.length / 1024, "KB");
+                };
+            };
         }
-        
-    }
+    };
+
     
     return(
         <div>
@@ -91,7 +147,7 @@ export default function ModalItemScreen({idProduct, showModal, closeModal}:Modal
                         <div className="flex flex-col gap-1">
                             <div className="flex gap-3">
                                 <div className="flex border border-[#81f7ef] rounded-md overflow-hidden">
-                                    <div className="flex bg-white h-36 overflow-hidden">
+                                    <div className="flex bg-white h-36 w-36 overflow-hidden">
                                         <img 
                                         alt="img-vazia" 
                                         src={product?.image}
