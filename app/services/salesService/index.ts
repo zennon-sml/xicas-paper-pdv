@@ -7,9 +7,10 @@ export const createSale = async (saleData: ProductSold[]) => { // prepara saleDa
     console.log("Dados da venda:", saleData);
     const productsToSend = saleData.map((product: ProductSold) => ({
       id: product.id,
-      qtd: product.quantity,
-      price_sold: product.price,
-      cost_sold: product.cost,
+      name_sold: product.name_sold,
+      quantity_sold: product.quantity_sold,
+      price_sold: product.price_sold,
+      cost_sold: product.cost_sold,
       discount: product.discount || 0
     })); 
 

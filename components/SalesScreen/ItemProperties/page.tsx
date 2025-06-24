@@ -85,7 +85,7 @@ export default function ItemProperties({props, addProductList}:any){
         </div>
         <div className='flex items-end'>
           <button 
-          onClick={() => addProductList({id:props.id ,name:props.name, quantity:quantity, price:props.price, cost:props.cost, discount:discount}, setTotalValue(0), setQuantity(1), setDiscount(""))}
+          onClick={() => addProductList({id:props.id ,name_sold:props.name, quantity_sold:quantity, price_sold:props.price, cost_sold:props.cost, discount:Number(discount)}, setTotalValue(0), setQuantity(1), setDiscount(""))}
           disabled={!props.price || props.price === 0}
           className='bg-[#59cf5d] hover:bg-[#238526] text-white font-bold w-28 h-11 rounded-md'>
           INSERIR

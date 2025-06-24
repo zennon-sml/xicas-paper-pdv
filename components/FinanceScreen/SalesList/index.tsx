@@ -49,22 +49,20 @@ useEffect(() => {
           let totalDiscount = 0;
           let totalCost = 0;
 
-          for (const item of sale.products) {
-            
+          for (const item of sale.products) { // Itera sobre os produtos vendidos
             console.log("Item da venda:", item);
-
             try {
               const product = await getProductById(item.id ?? 0);
-              productNames.push(product?.name || "Produto desconhecido");
-              totalCost += item.qtd * (item.cost_sold || 0);
+              productNames.push(item.name_sold || "Produto desconhecido");
+              totalCost += item.quantity_sold * (item.cost_sold || 0);
             } catch {
               productNames.push("Erro ao buscar produto");
               totalCost += 0;
             }
 
-            totalQuantity += item.qtd;
-            totalDiscount += Number(item.discount || 0);
-            totalPaid += item.qtd * item.price_sold - Number(item.discount || 0);
+            totalQuantity += item.quantity_sold;
+            totalDiscount += item.discount || 0;
+            totalPaid += item.quantity_sold * item.price_sold - (item.discount || 0);
           }
 
           const profit = totalPaid - totalCost;

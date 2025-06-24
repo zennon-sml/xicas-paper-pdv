@@ -15,25 +15,27 @@ export interface Product {
 }
 
 export interface ProductSold extends Product {
-  qtd: number;
+  name_sold: string;
+  quantity_sold: number;
   price_sold : number;
   cost_sold: number;
-  discount: string;
+  discount: number;
 }
 
 export const defaultProduct: ProductSold = {
   name: "",
+  name_sold: "",
   price: 0,
   image: "",
   category: "",
   barcode: "",
-  qtd: 0,
+  quantity_sold: 0,
   cost: 0,
   description: "",
   tags: "",
   cadCompleted: false,
   price_sold: 0,
   cost_sold: 0,
-  discount: "",
+  discount: 0,
   quantity: 0
 };

@@ -2,6 +2,8 @@ import { IoMdSearch } from "react-icons/io";
 import { getProductByBarcode } from "@/app/services/productService";
 import { useState } from "react";
 
+import { ProductSold } from "@/app/interfaces/product";
+
 
 export default function QuickAddition({addProductList}:any){
     const [query, setQuery] = useState<string>("")
@@ -13,9 +15,10 @@ export default function QuickAddition({addProductList}:any){
             if (props.id){
                 addProductList({
                     id:props.id ,
-                    name:props.name, 
-                    quantity:1, 
-                    price:props.price, 
+                    name_sold:props.name, 
+                    quantity_sold:1, 
+                    price_sold:props.price, 
+                    cost_sold:props.cost,
                     discount:0
                 })
     

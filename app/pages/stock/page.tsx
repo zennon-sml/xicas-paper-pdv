@@ -150,7 +150,7 @@ export default function Stock() {
                       <p>{product.name}</p>
                   </td>
                   <td className="text-[#135550] text-center font-semibold">{product.id}</td>
-                  <td className="text-[#135550] text-center font-semibold">{product.quantity}</td>
+                  <td className="text-[#135550] text-center font-semibold">{Number(product.quantity).toFixed(0)}</td>
                   <td className="text-[#135550] text-center font-semibold">{"R$ "+product.cost}</td>
                   <td className="text-[#135550] text-center font-bold">{"R$ "+product.price}</td>
                   <td className="text-center text-[#135550] text-[15px]">

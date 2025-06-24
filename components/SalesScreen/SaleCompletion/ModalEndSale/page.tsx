@@ -34,15 +34,14 @@ export default function ModalEndSale({showModal, totalValue, productsList, close
         if (event === "confirm"){
             try {
                 await createSale(productsList)
-                //console.log("lista de produtos", productsList);
+                console.log("lista de produtos", productsList);
                 
                 // Atualiza o estoque dos produtos vendidos
                 for (const item of productsList) {
                     const productData = await getProductById(item.id ?? 0);
-                    console.log("Produto a ser atualizado:", productData.quantity, item.quantity);
                     await updateProductById(productData.id, {
                         ...productData,
-                        ["quantity"]: productData.quantity - item.quantity, // Subtrai a quantidade vendida do estoque
+                        ["quantity"]: productData.quantity - item.quantity_sold, // Subtrai a quantidade vendida do estoque
                     });
                     //setProduct(productToUpdate);
                 }
