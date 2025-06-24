@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { createSale } from "@/app/services/salesService";
+import { updateProductById, getProductById } from "@/app/services/productService";
 
 import { ProductSold } from "@/app/interfaces/product";
 
@@ -33,7 +34,21 @@ export default function ModalEndSale({showModal, totalValue, productsList, close
         if (event === "confirm"){
             try {
                 await createSale(productsList)
-                console.log("Vendeu:", productsList);
+                //console.log("lista de produtos", productsList);
+                
+                // Atualiza o estoque dos produtos vendidos
+                for (const item of productsList) {
+                    const productData = await getProductById(item.id ?? 0);
+                    console.log("Produto a ser atualizado:", productData.quantity, item.quantity);
+                    await updateProductById(productData.id, {
+                        ...productData,
+                        ["quantity"]: productData.quantity - item.quantity, // Subtrai a quantidade vendida do estoque
+                    });
+                    //setProduct(productToUpdate);
+                }
+                
+
+
             } catch (error) {
                 console.error("Erro ao finalizar a venda:", error);
             }
