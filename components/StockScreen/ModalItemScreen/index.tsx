@@ -229,7 +229,7 @@ export default function ModalItemScreen({idProduct, showModal, closeModal}:Modal
                                                 <input 
                                                 type="number" 
                                                 value={Number(product?.cost)}
-                                                onChange={(e) => updateProduct("cost", Number(e.target.value).toFixed(2))}
+                                                onChange={(e) => updateProduct("cost", Number(e.target.value))}
                                                 className='min-w-40 h-8 p-2 bg-[#b8f5ee] text-[#198A83] text-sm rounded-md'
                                                 min={0}
                                                 />
