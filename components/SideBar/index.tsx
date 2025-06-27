@@ -2,8 +2,8 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { useState } from 'react';
-import { usePathname } from 'next/navigation'; // usado para obter o caminho atual da URL no lado do cliente
+import { useState, useEffect } from 'react';
+import { usePathname, useRouter } from 'next/navigation'; // usado para obter o caminho atual da URL no lado do cliente
 
 import { FaShoppingCart, FaDatabase, FaDollarSign } from "react-icons/fa";
 import { IoMenu } from "react-icons/io5";
@@ -15,6 +15,7 @@ export default function SideBar() {
   const [selectedButton, setSelectedButton] = useState<string>('sales') //Botão de periodo selecionado
   const [isLoading, setIsLoading] = useState(false)
   const pathname = usePathname();
+  const router = useRouter();
 
   const buttons = [
     {id: "sales", route: "/pages/sales", icon: <FaShoppingCart />},
@@ -22,13 +23,20 @@ export default function SideBar() {
     {id: "finances", route: "/pages/finances", icon: <FaDollarSign />}
   ];
 
+  useEffect(() => {
+    // Verifica o caminho atual e define o botão selecionado
+    const currentButton = buttons.find(button => button.route === pathname);
+    if (currentButton) {
+      setSelectedButton(currentButton.id);
+    }
+  }, [pathname, buttons]);
+  
 
-  const handleButtonClick = (buttonId:any) => { //Muda botão selecionado
-    setSelectedButton(buttonId)
-  }
-
-  const handleClick = () => {
-    setIsLoading(true);
+  const handleClick = (route: string) => {
+    if (route != pathname) {
+      // Define o estado de carregamento para true quando um botão é clicado
+      setIsLoading(true);
+    }
   };
 
   return (
@@ -49,9 +57,9 @@ export default function SideBar() {
       '><IoMenu /></button>
 
       {buttons.map((button) => (
-        <Link key={button.id} href={button.route} onClick={handleClick}>
+        <Link key={button.id} href={button.route}>
           <button
-            onClick={() => handleButtonClick(button.id)}
+            onClick={() => handleClick(button.route)}
             className={`flex w-12 h-12 text-[#198A83]
             text-xl items-center justify-center transition duration-300
             
