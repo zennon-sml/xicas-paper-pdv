@@ -156,11 +156,11 @@ export default function ModalEndSale({showModal, totalValue, productsList, close
                                     <input 
                                     type="text" 
                                     disabled/* readOnly */
-                                    className='w-60 h-9 p-2 bg-[#46b0a9] text-white  rounded-md text-lg'
+                                    className={`w-60 h-9 p-2 bg-[#46b0a9] text-white  rounded-md text-lg ${
+                                        moneyReceived - (totalValue - discountTotal) <= 0 ? ' text-red-600 border-2 border-red-600' : ''
+                                    }`}
                                     value={
-                                        moneyReceived-(totalValue-discountTotal) <= 0
-                                        ? ""
-                                        : (moneyReceived-(totalValue-discountTotal)).toFixed(2)
+                                        (moneyReceived-(totalValue-discountTotal)).toFixed(2)
                                     }  
                                     />
                                 </div>
