@@ -154,7 +154,7 @@ export default function ModalItemScreen({idProduct, showModal, closeModal}:Modal
                                         className='bg-[#ffffff] p-1 object-contain object-center'/>
                                     </div>
 
-                                    <div className="flex flex-col overflow-auto h-36 border border-l-[#81f7ef]">
+                                    <div className="flex flex-col overflow-auto border border-l-[#81f7ef]">
                                         <button 
                                             className=" flex w-10 h-10 bg-lime-500 items-center justify-center hover:bg-lime-700"
                                             onClick={() => document.getElementById('image-upload')?.click()}
@@ -170,14 +170,7 @@ export default function ModalItemScreen({idProduct, showModal, closeModal}:Modal
                                             style={{ display: "none" }} // Esconde o input
                                             onChange={(e) => handleImageChange("image" ,e.target.files?.[0])}
                                         />
-
-                                        {lista.map((image, i) =>
-                                            <img 
-                                                className="bg-[#ffffff] w-10 h-10 p-1 object-contain object-center" 
-                                                src={image} 
-                                                key={i} 
-                                                alt={`imagem ${i}`} />
-                                        )}
+                                        
                                     </div>
                                 </div>
                                 
@@ -225,7 +218,7 @@ export default function ModalItemScreen({idProduct, showModal, closeModal}:Modal
                                                 />
                                         </div>
                                         <div className="flex flex-col">
-                                            <label className='text-xs text-[#198A83]'>Custo Unit.:</label>
+                                            <label className='text-xs text-[#198A83]'>Custo Unit. (R$):</label>
                                                 <input 
                                                 type="number" 
                                                 value={Number(product?.cost)}
@@ -235,11 +228,11 @@ export default function ModalItemScreen({idProduct, showModal, closeModal}:Modal
                                                 />
                                         </div>
                                         <div className="flex flex-col">
-                                            <label className='text-xs text-[#198A83]'>Custo Total:</label>
+                                            <label className='text-xs text-[#198A83]'>Custo Total (R$):</label>
                                                 <input 
                                                 disabled
                                                 type="number" 
-                                                
+                                                value={(Number(product?.quantity) * Number(product?.cost)).toFixed(2)}
                                                 className='max-w-40 h-8 p-2 bg-[#46b0a9] text-white  text-sm rounded-md'
                                                 min={0}
                                                 />
