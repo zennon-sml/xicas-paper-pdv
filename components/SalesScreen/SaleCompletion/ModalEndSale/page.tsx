@@ -66,7 +66,7 @@ export default function ModalEndSale({showModal, totalValue, productsList, close
                     });
                 }
 
-                console.log("Finalizando venda com payment:", payment);
+                //console.log("Finalizando venda com payment:", payment);
                 closeModal();
                 resetProps();
             } catch (error) {

@@ -6,7 +6,7 @@ import { getProductById } from "@/app/services/productService";
 import { FaTrash } from "react-icons/fa";
 import { BiSolidPencil } from "react-icons/bi";
 
-import { ProductSold } from "@/app/interfaces/product";
+import { ProductSold, Payment } from "@/app/interfaces/product";
 
 
 export interface Sale {
@@ -14,6 +14,8 @@ export interface Sale {
   saler_id?: number | null;
   products: ProductSold[];
   sale_date?: string | Date;
+  payment_types: Payment;
+  general_discount: number;
 }
 
 interface SaleDisplay extends Sale {
@@ -50,9 +52,9 @@ useEffect(() => {
           let totalCost = 0;
 
           for (const item of sale.products) { // Itera sobre os produtos vendidos
-            console.log("Item da venda:", item);
+            //console.log("Item da venda:", item);
             try {
-              const product = await getProductById(item.id ?? 0);
+              //const product = await getProductById(item.id ?? 0);
               productNames.push(item.name_sold || "Produto desconhecido");
               totalCost += item.quantity_sold * (item.cost_sold || 0);
             } catch {
@@ -107,7 +109,7 @@ const deleteSale = async (id: number) => {
 
     return (
         <div className="flex flex-col flex-grow bg-[#CBFCF6] overflow-hidden">
-        
+
         {loading ? (
           <p className="text-center font-extrabold text-xl text-[#397F7B]">Carregando vendas...</p>
         ) : error ? (
@@ -137,7 +139,11 @@ const deleteSale = async (id: number) => {
                       <td className="text-[#135550] text-center font-semibold">{sale.id}</td>
                       <td className="text-[#135550] text-center font-semibold">{sale.saler_id}</td>
                       <td className="text-[#135550] text-center font-semibold">
-                      {sale.productNames?.join(", ")}
+                      {sale.productNames?.join(", ") + " | " + 
+                      Object.entries(sale.payment_types)
+                        .map(([key, value]) => `${key}: R$${value}`)
+                        .join(", ")
+                      }
                       </td>
                       <td className="text-[#135550] text-center font-semibold">{sale.totalQuantity}</td>
                       <td className="text-[#135550] text-center font-semibold">
@@ -145,6 +151,7 @@ const deleteSale = async (id: number) => {
                       </td>
                       <td className="text-[#135550] text-center font-semibold">
                       R$ {sale.totalPaid?.toFixed(2)}
+
                       </td>
                       <td className="text-[#135550] text-center font-semibold">
                       R$ {sale.totalCost.toFixed(2)}

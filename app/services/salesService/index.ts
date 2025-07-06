@@ -4,7 +4,8 @@ import { ProductSold, GeneralSale } from "@/app/interfaces/product";
 
 export const createSale = async (saleData: GeneralSale) => { // prepara saleData para enviar ao backend
   try {
-    console.log("Dados da venda:", saleData);
+    //console.log("SaleDAta:", saleData);
+    // Formata os produtos para envio
     const productsToSend = saleData.products.map((product: ProductSold) => ({
       id: product.id,
       name_sold: product.name_sold,
@@ -14,13 +15,20 @@ export const createSale = async (saleData: GeneralSale) => { // prepara saleData
       discount: product.discount || 0
     })); 
 
+    // Prepara todos os dados para envio
+    const bodyToSend = {
+      products: productsToSend,
+      payment_types: saleData.paymentTypes,
+      general_discount: saleData.generalDiscount
+    };
+    //console.log("bodyToSend:", bodyToSend);
     
     const response = await fetch(API_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({products: productsToSend})
+      body: JSON.stringify(bodyToSend)
     });
-    //console.log("Response: ", JSON.stringify({products: productsToSend}));
+    //console.log("Response: ", JSON.stringify({products: bodyToSend}));
 
     if (!response.ok) {
       const errorData = await response.json();
