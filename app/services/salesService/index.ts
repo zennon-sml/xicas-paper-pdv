@@ -1,11 +1,11 @@
 const API_URL = 'http://localhost:5000/api/sales'
 
-import { ProductSold } from "@/app/interfaces/product";
+import { ProductSold, GeneralSale } from "@/app/interfaces/product";
 
-export const createSale = async (saleData: ProductSold[]) => { // prepara saleData para enviar ao backend
+export const createSale = async (saleData: GeneralSale) => { // prepara saleData para enviar ao backend
   try {
     console.log("Dados da venda:", saleData);
-    const productsToSend = saleData.map((product: ProductSold) => ({
+    const productsToSend = saleData.products.map((product: ProductSold) => ({
       id: product.id,
       name_sold: product.name_sold,
       quantity_sold: product.quantity_sold,
@@ -20,7 +20,7 @@ export const createSale = async (saleData: ProductSold[]) => { // prepara saleDa
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({products: productsToSend})
     });
-    console.log("Response: ", JSON.stringify({products: productsToSend}));
+    //console.log("Response: ", JSON.stringify({products: productsToSend}));
 
     if (!response.ok) {
       const errorData = await response.json();

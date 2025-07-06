@@ -17,9 +17,23 @@ export interface Product {
 export interface ProductSold extends Product {
   name_sold: string;
   quantity_sold: number;
-  price_sold : number;
+  price_sold: number;
   cost_sold: number;
   discount: number;
+}
+
+export interface GeneralSale {
+  products: ProductSold[];
+  paymentTypes: Payment;
+  generalDiscount: number;
+}
+
+export interface Payment {
+  money: number;
+  pix: number;
+  debit: number;
+  credit: number;
+  other: number;
 }
 
 export const defaultProduct: ProductSold = {
@@ -35,6 +49,7 @@ export const defaultProduct: ProductSold = {
   tags: "",
   cadCompleted: false,
   price_sold: 0,
+  id: 0,
   cost_sold: 0,
   discount: 0,
   quantity: 0

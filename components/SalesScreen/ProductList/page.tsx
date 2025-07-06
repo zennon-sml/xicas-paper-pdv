@@ -37,7 +37,6 @@ export default function ProductList({handleSelectProduct}:any) {
           //const response = await fetch('/data/database.json').then() // Faz a requisição
           //const data = await response.json();  // Converte a resposta para JSON
           const data = await getAllProducts()
-          console.log()
   
           setProducts(data)
         } catch (error){
