@@ -109,40 +109,116 @@ const deleteSale = async (id: number) => {
 
     return (
         <div className="flex flex-col flex-grow bg-[#CBFCF6] overflow-hidden">
+          <div className='flex pt-3 pl-5 p-4 gap-2'>
+            <div className="flex flex-col">
+              <label className="text-sm text-[#198A83]">De:</label>
+              <input type="date" className="flex bg-[#8BE8DC] placeholder-[#46b0a9] text-[#0B625D] text-sm h-7 pl-2 hover:bg-[#68dbcb]"/>
+            </div>
+            <div className="flex flex-col">
+              <label className="text-sm text-[#198A83]">Até:</label>
+              <input type="date" className="flex bg-[#8BE8DC] placeholder-[#46b0a9] text-[#0B625D] text-sm h-7 pl-2 hover:bg-[#68dbcb]"/>
+            </div>
+            <div className="flex flex-col ml-6">
+              <label className="text-sm text-[#198A83]">Tipo:</label>
+              <select id='tags' name='tags' className="flex bg-[#8BE8DC] placeholder-[#46b0a9] text-[#0B625D] text-sm h-7 w-20 hover:bg-[#68dbcb]">
+                <option value="todos">Dia</option>
+                <option value="todos">Semana</option>
+                <option value="todos">Mês</option>
+                <option value="todos">Ano</option>
+                <option value="todos">Tudo</option>
+              </select>
+            </div>
+          </div>
 
-        {loading ? (
-          <p className="text-center font-extrabold text-xl text-[#397F7B]">Carregando vendas...</p>
-        ) : error ? (
-          <p className="text-red-500">Erro: {error}</p>
-        ) : (
-          <div className="flex flex-col flex-grow rounded-md overflow-auto bg-[#E4FFFC] m-2 border-x-2 border-[#8BE8DC]">
-            <table className="w-full">
-              <thead className={`bg-[#8BE8DC] sticky top-0 ${showModal ? 'opacity-0 pointer-events-none' : ''}`}>
-                <tr className="text-sm text-[#397F7B]">
-                  <th className="w-1/12">Nº</th>
-                  <th className="w-1/12">ID Venda</th>
-                  <th className="w-1/12">Vendedor</th>
-                  <th className="w-2/12">Produtos</th>
-                  <th className="w-1/12">Qtd</th>
-                  <th className="w-1/12">Descontos</th>
-                  <th className="w-1/12">Valor Pago</th>
-                  <th className="w-1/12">Custos</th>
-                  <th className="w-1/12">Ganhos</th>
-                  <th className="w-2/12">Data/Hora</th>
-                  <th className="w-1/12 text-center">Opçoes</th>
-                </tr>
-              </thead>
-              <tbody className="bg-[#B8FFF7] text-xs h-full">
-                {sales.map((sale, n) => (
+
+          <div className=" flex bg-[#E4FFFC] border border-[#60baae] gap-2 px-3 ml-2 mr-2 rounded-md">
+            
+            <div className="flex flex-col">
+              <label className="text-sm text-[#198A83]">Qtd Vendas:</label>
+              <input type="text" className="flex bg-[#8BE8DC] text-[#0B625D] text-sm h-7 max-w-24 pl-2 rounded-md"/>
+            </div>
+            <div className="flex flex-col">
+              <label className="text-sm text-[#198A83]">Descontos:</label>
+              <input type="text" className="flex bg-[#8BE8DC] text-[#0B625D] text-sm h-7 max-w-24 pl-2 rounded-md"/>
+            </div>
+            <div className="flex flex-col">
+              <label className="text-sm text-[#198A83]">Custos:</label>
+              <input type="text" className="flex bg-[#8BE8DC] text-[#0B625D] text-sm h-7 max-w-24 pl-2 rounded-md"/>
+            </div>
+
+            <div className="flex border border-black p-1 m-1 rounded-md">
+              <div className="flex flex-col">
+                <label className="text-sm text-[#198A83]">Valores Pagos:</label>
+                <input type="text" className="flex bg-[#8BE8DC] text-[#0B625D] text-sm h-7 max-w-24 pl-2 rounded-md"/>
+              </div>
+              <div className="flex flex-col gap-1">
+                <div className="flex gap-1">
+                  <label className="text-[10px] text-[#198A83]">Din:</label>
+                  <input type="text" className="flex bg-white text-[#0B625D] border-2 border-[#0B625D] text-[10px] h-4 max-w-16 pl-2 rounded-md"/>
+                </div>
+                <div className="flex gap-1">
+                  <label className="text-[10px] text-[#198A83]">Pix:</label>
+                  <input type="text" className="flex bg-white text-[#0B625D] border-2 border-[#0B625D] text-[10px] h-4 max-w-16 pl-2 rounded-md"/>
+                </div>
+                <div className="flex gap-1">
+                  <label className="text-[10px] text-[#198A83]">Deb:</label>
+                  <input type="text" className="flex bg-white text-[#0B625D] border-2 border-[#0B625D] text-[10px] h-4 max-w-16 pl-2 rounded-md"/>
+                </div>
+              </div>
+              <div className="flex flex-col gap-1">
+                <div className="flex gap-1">
+                  <label className="text-[10px] text-[#198A83]">Cred:</label>
+                  <input type="text" className="flex bg-white text-[#0B625D] border-2 border-[#0B625D] text-[10px] h-4 max-w-16 pl-2 rounded-md"/>
+                </div>
+                <div className="flex gap-1">
+                  <label className="text-[10px] text-[#198A83]">Outros:</label>
+                  <input type="text" className="flex bg-white text-[#0B625D] border-2 border-[#0B625D] text-[10px] h-4 max-w-16 pl-2 rounded-md"/>
+                </div>
+                
+              </div>
+            </div>
+            <div className="flex flex-col">
+              <label className="text-sm text-[#198A83]">Lucro Total:</label>
+              <input type="text" className="flex bg-[#8BE8DC] text-[#0B625D] text-sm h-7 max-w-24 pl-2 rounded-md"/>
+            </div>
+          
+          </div>
+
+
+          {loading ? (
+            <p className="text-center font-extrabold text-xl text-[#397F7B]">Carregando vendas...</p>
+          ) : error ? (
+            <p className="text-red-500">Erro: {error}</p>
+          ) : (
+            <div className="flex flex-col flex-grow rounded-md overflow-auto bg-[#E4FFFC] m-2 border-x-2 border-[#8BE8DC]">
+              <table className="w-full">
+                <thead className={`bg-[#8BE8DC] sticky top-0 ${showModal ? 'opacity-0 pointer-events-none' : ''}`}>
+                  <tr className="text-sm text-[#397F7B]">
+                    <th className="w-1/12">Nº</th>
+                    <th className="w-1/12">ID Venda</th>
+                    <th className="w-1/12">Vendedor</th>
+                    <th className="w-2/12">Produtos</th>
+                    <th className="w-1/12">Qtd</th>
+                    <th className="w-1/12">Descontos</th>
+                    <th className="w-1/12">Valor Pago</th>
+                    <th className="w-1/12">Custos</th>
+                    <th className="w-1/12">Ganhos</th>
+                    <th className="w-2/12">Data/Hora</th>
+                    <th className="w-1/12 text-center">Opçoes</th>
+                  </tr>
+                </thead>
+                <tbody className="bg-[#B8FFF7] text-xs h-full">
+                  {sales.map((sale, n) => (
                     <tr key={sale.id} className="border-y border-[#198A83] bg-white">
                       <td className="text-[#135550] font-bold text-center">{n + 1}</td>
                       <td className="text-[#135550] text-center font-semibold">{sale.id}</td>
                       <td className="text-[#135550] text-center font-semibold">{sale.saler_id}</td>
                       <td className="text-[#135550] text-center font-semibold">
-                      {sale.productNames?.join(", ") + " | " + 
-                      Object.entries(sale.payment_types)
-                        .map(([key, value]) => `${key}: R$${value}`)
-                        .join(", ")
+                      {sale.productNames?.join(", ")}
+                      {
+                        // Object.entries(sale.payment_types)
+                        //   .map(([key, value]) => `${key}: R$${value}`)
+                        //   .join(", ")
                       }
                       </td>
                       <td className="text-[#135550] text-center font-semibold">{sale.totalQuantity}</td>
