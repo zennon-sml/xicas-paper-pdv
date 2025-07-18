@@ -34,14 +34,40 @@ export default function SalesList() {
     const [showModal, setShowModal] = useState<boolean>(false);
     const [updateTrigger, setUpdateTrigger] = useState<boolean>(false);
 
+    const [qtdProducts, setQtdProducts] = useState<number>(0);
+    const [totalDiscounts, setTotalDiscounts] = useState<number>(0);
+    const [totalCost, setTotalCost] = useState<number>(0);  
+    const [totalPaid, setTotalPaid] = useState<number>(0);
+    const [totalMoney, setTotalMoney] = useState<number>(0);
+    const [totalPix, setTotalPix] = useState<number>(0);
+    const [totalDebit, setTotalDebit] = useState<number>(0);
+    const [totalCredit, setTotalCredit] = useState<number>(0);
+    const [totalOther, setTotalOther] = useState<number>(0);
+    const [totalProfit, setTotalProfit] = useState<number>(0);
+
+      // const addProductList = (item:ProductSold) => {
+      //   setItens((prevProducts) => [...prevProducts, item]);
+      //   setSelectedProduct(defaultProduct); // Reset selected product after adding
+      // }
+
 useEffect(() => {
   const fetchSales = async () => {
     try {
       const data = await getAllSales();
       console.log("Dados das vendas:", data);
+      setQtdProducts(data.length)
       if (!data || data.length === 0) {
         throw new Error("Nenhuma venda encontrada.");
       }
+
+      let totalDiscountsGlobal = 0;
+      let totalCostGlobal = 0;
+      let totalPaidGlobal = 0;
+      let totalMoney = 0;
+      let totalPix = 0;
+      let totalDebit = 0;
+      let totalCredit = 0;
+      let totalOther = 0;
 
       const formattedSales: SaleDisplay[] = await Promise.all(
         data.map(async (sale: Sale) => {
@@ -51,8 +77,19 @@ useEffect(() => {
           let totalDiscount = 0;
           let totalCost = 0;
 
+          totalMoney += sale.payment_types.money || 0;
+          totalPix += sale.payment_types.pix || 0;
+          totalDebit += sale.payment_types.debit || 0;
+          totalCredit += sale.payment_types.credit || 0;
+          totalOther += sale.payment_types.other || 0;
+          setTotalMoney(totalMoney);
+          setTotalPix(totalPix);
+          setTotalDebit(totalDebit);
+          setTotalCredit(totalCredit);
+          setTotalOther(totalOther);
+
           for (const item of sale.products) { // Itera sobre os produtos vendidos
-            //console.log("Item da venda:", item);
+            console.log("Item da venda:", item);
             try {
               //const product = await getProductById(item.id ?? 0);
               productNames.push(item.name_sold || "Produto desconhecido");
@@ -65,10 +102,18 @@ useEffect(() => {
             totalQuantity += item.quantity_sold;
             totalDiscount += item.discount || 0;
             totalPaid += item.quantity_sold * item.price_sold - (item.discount || 0);
+            
+
+            // Acumula os totais globais
+            totalPaidGlobal += totalPaid;
+            totalCostGlobal += totalCost;
+            totalDiscountsGlobal += item.discount || 0;
           }
+          setTotalDiscounts(totalDiscountsGlobal);
+          setTotalCost(totalCostGlobal);
+          setTotalPaid(totalPaidGlobal);
 
           const profit = totalPaid - totalCost;
-
           return {
             ...sale,
             productNames,
@@ -131,55 +176,55 @@ const deleteSale = async (id: number) => {
           </div>
 
 
-          <div className=" flex bg-[#E4FFFC] border border-[#60baae] gap-2 px-3 ml-2 mr-2 rounded-md">
+          <div className=" flex bg-[#E4FFFC] border border-[#60baae] items-center gap-2 px-3 ml-2 mr-2 rounded-md">
             
             <div className="flex flex-col">
               <label className="text-sm text-[#198A83]">Qtd Vendas:</label>
-              <input type="text" className="flex bg-[#8BE8DC] text-[#0B625D] text-sm h-7 max-w-24 pl-2 rounded-md"/>
+              <input type="text" disabled value={qtdProducts} className="flex bg-[#8BE8DC] text-[#0B625D] text-sm h-7 max-w-24 pl-2 rounded-md"/>
             </div>
             <div className="flex flex-col">
               <label className="text-sm text-[#198A83]">Descontos:</label>
-              <input type="text" className="flex bg-[#8BE8DC] text-[#0B625D] text-sm h-7 max-w-24 pl-2 rounded-md"/>
+              <input type="text" disabled value={"R$ "+totalDiscounts.toFixed(2)} className="flex bg-[#8BE8DC] text-[#0B625D] text-sm h-7 max-w-24 pl-2 rounded-md"/>
             </div>
             <div className="flex flex-col">
               <label className="text-sm text-[#198A83]">Custos:</label>
-              <input type="text" className="flex bg-[#8BE8DC] text-[#0B625D] text-sm h-7 max-w-24 pl-2 rounded-md"/>
+              <input type="text" disabled value={"R$ "+totalCost.toFixed(2)} className="flex bg-[#8BE8DC] text-[#0B625D] text-sm h-7 max-w-24 pl-2 rounded-md"/>
             </div>
 
-            <div className="flex border border-black p-1 m-1 rounded-md">
+            <div className="flex border border-black p-1 m-1 gap-2 rounded-md items-center">
               <div className="flex flex-col">
                 <label className="text-sm text-[#198A83]">Valores Pagos:</label>
-                <input type="text" className="flex bg-[#8BE8DC] text-[#0B625D] text-sm h-7 max-w-24 pl-2 rounded-md"/>
+                <input type="text" disabled value={"R$ "+totalPaid.toFixed(2)} className="flex bg-[#8BE8DC] text-[#0B625D] text-sm h-7 max-w-24 pl-2 rounded-md"/>
               </div>
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-1 items-end">
                 <div className="flex gap-1">
                   <label className="text-[10px] text-[#198A83]">Din:</label>
-                  <input type="text" className="flex bg-white text-[#0B625D] border-2 border-[#0B625D] text-[10px] h-4 max-w-16 pl-2 rounded-md"/>
+                  <input type="text" disabled value={"R$ "+totalMoney.toFixed(2)} className="flex bg-white text-[#0B625D] border-2 border-[#0B625D] text-[10px] h-4 max-w-16 pl-2 rounded-md"/>
                 </div>
                 <div className="flex gap-1">
                   <label className="text-[10px] text-[#198A83]">Pix:</label>
-                  <input type="text" className="flex bg-white text-[#0B625D] border-2 border-[#0B625D] text-[10px] h-4 max-w-16 pl-2 rounded-md"/>
+                  <input type="text" disabled value={"R$ "+totalPix.toFixed(2)} className="flex bg-white text-[#0B625D] border-2 border-[#0B625D] text-[10px] h-4 max-w-16 pl-2 rounded-md"/>
                 </div>
                 <div className="flex gap-1">
                   <label className="text-[10px] text-[#198A83]">Deb:</label>
-                  <input type="text" className="flex bg-white text-[#0B625D] border-2 border-[#0B625D] text-[10px] h-4 max-w-16 pl-2 rounded-md"/>
+                  <input type="text" disabled value={"R$ "+totalDebit.toFixed(2)} className="flex bg-white text-[#0B625D] border-2 border-[#0B625D] text-[10px] h-4 max-w-16 pl-2 rounded-md"/>
                 </div>
               </div>
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-1 items-end">
                 <div className="flex gap-1">
                   <label className="text-[10px] text-[#198A83]">Cred:</label>
-                  <input type="text" className="flex bg-white text-[#0B625D] border-2 border-[#0B625D] text-[10px] h-4 max-w-16 pl-2 rounded-md"/>
+                  <input type="text" disabled value={"R$ "+totalCredit.toFixed(2)} className="flex bg-white text-[#0B625D] border-2 border-[#0B625D] text-[10px] h-4 max-w-16 pl-2 rounded-md"/>
                 </div>
                 <div className="flex gap-1">
                   <label className="text-[10px] text-[#198A83]">Outros:</label>
-                  <input type="text" className="flex bg-white text-[#0B625D] border-2 border-[#0B625D] text-[10px] h-4 max-w-16 pl-2 rounded-md"/>
+                  <input type="text" disabled value={"R$ "+totalOther.toFixed(2)} className="flex bg-white text-[#0B625D] border-2 border-[#0B625D] text-[10px] h-4 max-w-16 pl-2 rounded-md"/>
                 </div>
                 
               </div>
             </div>
             <div className="flex flex-col">
               <label className="text-sm text-[#198A83]">Lucro Total:</label>
-              <input type="text" className="flex bg-[#8BE8DC] text-[#0B625D] text-sm h-7 max-w-24 pl-2 rounded-md"/>
+              <input type="text" disabled value={"R$ "+(totalPaid-totalCost).toFixed(2)} className="flex bg-[#8BE8DC] text-[#0B625D] text-sm h-7 max-w-24 pl-2 rounded-md"/>
             </div>
           
           </div>
