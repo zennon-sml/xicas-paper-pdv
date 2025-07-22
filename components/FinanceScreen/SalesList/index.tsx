@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { getAllSales, deleteSaleById } from "@/app/services/salesService";
-import { getProductById } from "@/app/services/productService";
 import { FaTrash } from "react-icons/fa";
 import { BiSolidPencil } from "react-icons/bi";
 
@@ -191,7 +190,7 @@ const deleteSale = async (id: number) => {
               <input type="text" disabled value={"R$ "+totalCost.toFixed(2)} className="flex bg-[#8BE8DC] text-[#0B625D] text-sm h-7 max-w-24 pl-2 rounded-md"/>
             </div>
 
-            <div className="flex border border-black p-1 m-1 gap-2 rounded-md items-center">
+            <div className="flex bg-[#ffffff] border-2 border-[#60baae] p-1 m-1 gap-2 rounded-md items-center">
               <div className="flex flex-col">
                 <label className="text-sm text-[#198A83]">Valores Pagos:</label>
                 <input type="text" disabled value={"R$ "+totalPaid.toFixed(2)} className="flex bg-[#8BE8DC] text-[#0B625D] text-sm h-7 max-w-24 pl-2 rounded-md"/>
@@ -199,25 +198,25 @@ const deleteSale = async (id: number) => {
               <div className="flex flex-col gap-1 items-end">
                 <div className="flex gap-1">
                   <label className="text-[10px] text-[#198A83]">Din:</label>
-                  <input type="text" disabled value={"R$ "+totalMoney.toFixed(2)} className="flex bg-white text-[#0B625D] border-2 border-[#0B625D] text-[10px] h-4 max-w-16 pl-2 rounded-md"/>
+                  <input type="text" disabled value={"R$ "+totalMoney.toFixed(2)} className="flex bg-white text-[#0B625D] border border-[#0B625D] text-[10px] h-4 max-w-16 pl-2 rounded-md"/>
                 </div>
                 <div className="flex gap-1">
                   <label className="text-[10px] text-[#198A83]">Pix:</label>
-                  <input type="text" disabled value={"R$ "+totalPix.toFixed(2)} className="flex bg-white text-[#0B625D] border-2 border-[#0B625D] text-[10px] h-4 max-w-16 pl-2 rounded-md"/>
+                  <input type="text" disabled value={"R$ "+totalPix.toFixed(2)} className="flex bg-white text-[#0B625D] border border-[#0B625D] text-[10px] h-4 max-w-16 pl-2 rounded-md"/>
                 </div>
                 <div className="flex gap-1">
                   <label className="text-[10px] text-[#198A83]">Deb:</label>
-                  <input type="text" disabled value={"R$ "+totalDebit.toFixed(2)} className="flex bg-white text-[#0B625D] border-2 border-[#0B625D] text-[10px] h-4 max-w-16 pl-2 rounded-md"/>
+                  <input type="text" disabled value={"R$ "+totalDebit.toFixed(2)} className="flex bg-white text-[#0B625D] border border-[#0B625D] text-[10px] h-4 max-w-16 pl-2 rounded-md"/>
                 </div>
               </div>
               <div className="flex flex-col gap-1 items-end">
                 <div className="flex gap-1">
                   <label className="text-[10px] text-[#198A83]">Cred:</label>
-                  <input type="text" disabled value={"R$ "+totalCredit.toFixed(2)} className="flex bg-white text-[#0B625D] border-2 border-[#0B625D] text-[10px] h-4 max-w-16 pl-2 rounded-md"/>
+                  <input type="text" disabled value={"R$ "+totalCredit.toFixed(2)} className="flex bg-white text-[#0B625D] border border-[#0B625D] text-[10px] h-4 max-w-16 pl-2 rounded-md"/>
                 </div>
                 <div className="flex gap-1">
                   <label className="text-[10px] text-[#198A83]">Outros:</label>
-                  <input type="text" disabled value={"R$ "+totalOther.toFixed(2)} className="flex bg-white text-[#0B625D] border-2 border-[#0B625D] text-[10px] h-4 max-w-16 pl-2 rounded-md"/>
+                  <input type="text" disabled value={"R$ "+totalOther.toFixed(2)} className="flex bg-white text-[#0B625D] border border-[#0B625D] text-[10px] h-4 max-w-16 pl-2 rounded-md"/>
                 </div>
                 
               </div>
