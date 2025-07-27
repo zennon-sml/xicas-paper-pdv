@@ -42,7 +42,9 @@ export default function SalesList() {
     const [totalDebit, setTotalDebit] = useState<number>(0);
     const [totalCredit, setTotalCredit] = useState<number>(0);
     const [totalOther, setTotalOther] = useState<number>(0);
-    const [totalProfit, setTotalProfit] = useState<number>(0);
+    
+    const [startDate, setStartDate] = useState<string>("");
+    const [endDate, setEndDate] = useState<string>("");
 
       // const addProductList = (item:ProductSold) => {
       //   setItens((prevProducts) => [...prevProducts, item]);
@@ -53,7 +55,19 @@ useEffect(() => {
   const fetchSales = async () => {
     try {
       const data = await getAllSales();
-      console.log("Dados das vendas:", data);
+      
+      const filteredData = data.filter((sale: Sale) => {
+        const saleDate = new Date(sale.sale_date || "");
+        const start = startDate ? new Date(startDate) : null;
+        const end = endDate ? new Date(endDate) : null;
+
+        if (start && saleDate < start) return false; // Sale date is before start date
+        if (end && saleDate > new Date(end.getTime() + 86400000 - 1)) return false; // inclui o dia "Até"
+
+        return true; // Sale date is within the range
+      });
+      
+      //console.log("Dados das vendas:", data);
       setQtdProducts(data.length)
       if (!data || data.length === 0) {
         throw new Error("Nenhuma venda encontrada.");
@@ -69,7 +83,7 @@ useEffect(() => {
       let totalOther = 0;
 
       const formattedSales: SaleDisplay[] = await Promise.all(
-        data.map(async (sale: Sale) => {
+        filteredData.map(async (sale: Sale) => {
           const productNames: string[] = [];
           let totalQuantity = 0;
           let totalPaid = 0;
@@ -156,11 +170,11 @@ const deleteSale = async (id: number) => {
           <div className='flex pt-3 pl-5 p-4 gap-2'>
             <div className="flex flex-col">
               <label className="text-sm text-[#198A83]">De:</label>
-              <input type="date" className="flex bg-[#8BE8DC] placeholder-[#46b0a9] text-[#0B625D] text-sm h-7 pl-2 hover:bg-[#68dbcb]"/>
+              <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="flex bg-[#8BE8DC] placeholder-[#46b0a9] text-[#0B625D] text-sm h-7 pl-2 hover:bg-[#68dbcb]"/>
             </div>
             <div className="flex flex-col">
               <label className="text-sm text-[#198A83]">Até:</label>
-              <input type="date" className="flex bg-[#8BE8DC] placeholder-[#46b0a9] text-[#0B625D] text-sm h-7 pl-2 hover:bg-[#68dbcb]"/>
+              <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="flex bg-[#8BE8DC] placeholder-[#46b0a9] text-[#0B625D] text-sm h-7 pl-2 hover:bg-[#68dbcb]"/>
             </div>
             <div className="flex flex-col ml-6">
               <label className="text-sm text-[#198A83]">Tipo:</label>
@@ -171,6 +185,11 @@ const deleteSale = async (id: number) => {
                 <option value="todos">Ano</option>
                 <option value="todos">Tudo</option>
               </select>
+            </div>
+            <div className="flex items-end ml-10">
+              <button onClick={() => setUpdateTrigger((prev) => !prev)} className="flex bg-[#18f535] text-[#0b620f] items-center text-sm h-7 px-3 rounded-md hover:bg-[#30af40] transition-colors duration-300 hover:text-white">
+                Atualizar
+              </button>
             </div>
           </div>
 
